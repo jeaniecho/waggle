@@ -15,14 +15,20 @@ final class DogOverlayWindowController: NSWindowController {
         return CGPoint(x: window.frame.midX, y: window.frame.midY)
     }
 
-    init(dogViewModel: DogViewModel, positionStore: OverlayPositionStore) {
+    init(
+        dogViewModel: DogViewModel,
+        permissionManager: AccessibilityPermissionManager,
+        positionStore: OverlayPositionStore
+    ) {
         self.dogViewModel = dogViewModel
         self.positionStore = positionStore
 
         let contentSize = DogSpriteView.size
         let window = DogOverlayWindow(contentSize: contentSize)
 
-        let hostingView = NSHostingView(rootView: DogOverlayView(dogViewModel: dogViewModel))
+        let hostingView = NSHostingView(
+            rootView: DogOverlayView(dogViewModel: dogViewModel, permission: permissionManager)
+        )
         hostingView.frame = NSRect(origin: .zero, size: contentSize)
         window.contentView = hostingView
 

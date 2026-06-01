@@ -2,8 +2,14 @@ import SwiftUI
 
 /// SwiftUI root hosted inside the overlay window. Keeps the window's content a
 /// thin wrapper around the dog so the window can size itself to the dog.
+///
+/// A right-click context menu exposes the Accessibility permission status and a
+/// way to open System Settings. (A fuller menu-bar control arrives in Task
+/// 008; the dog's drag is left-button only, so a right-click menu does not
+/// interfere with it.)
 struct DogOverlayView: View {
     @ObservedObject var dogViewModel: DogViewModel
+    @ObservedObject var permission: AccessibilityPermissionManager
 
     var body: some View {
         DogSpriteView()
@@ -11,5 +17,15 @@ struct DogOverlayView: View {
             // frame is still hit-testable so the dog can be dragged anywhere.
             .background(Color.clear)
             .contentShape(Rectangle())
+            .contextMenu {
+                if permission.isTrusted {
+                    Text("Keyboard reactions: Enabled")
+                } else {
+                    Text("Keyboard reactions need Accessibility access")
+                    Button("Open Accessibility Settings…") {
+                        permission.openSystemSettings()
+                    }
+                }
+            }
     }
 }

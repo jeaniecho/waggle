@@ -8,19 +8,23 @@ import AppKit
 final class AppEnvironment {
     let settingsStore: SettingsStore
     let dogViewModel: DogViewModel
+    let permissionManager: AccessibilityPermissionManager
     private let overlayController: DogOverlayWindowController
     private let inputMonitor: GlobalInputMonitor
 
     init() {
         let settingsStore = SettingsStore()
         let dogViewModel = DogViewModel()
+        let permissionManager = AccessibilityPermissionManager()
         let overlayController = DogOverlayWindowController(
             dogViewModel: dogViewModel,
+            permissionManager: permissionManager,
             positionStore: OverlayPositionStore(defaults: settingsStore.defaults)
         )
 
         self.settingsStore = settingsStore
         self.dogViewModel = dogViewModel
+        self.permissionManager = permissionManager
         self.overlayController = overlayController
         self.inputMonitor = GlobalInputMonitor(
             dogViewModel: dogViewModel,
@@ -30,6 +34,7 @@ final class AppEnvironment {
 
     /// Show the transparent dog overlay and start reacting to the cursor.
     func showOverlay() {
+        permissionManager.refresh()
         overlayController.showOverlay()
         inputMonitor.start()
     }
