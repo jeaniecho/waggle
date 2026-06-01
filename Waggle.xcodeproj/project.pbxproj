@@ -1,0 +1,473 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		111C4D77B2B510E64064927D /* MenuBarAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317E9B9D5179F348C3D40B41 /* MenuBarAction.swift */; };
+		1BFA72C31B394A37DED6DF1B /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2375F67FDBB2C518D4447E81 /* Debouncer.swift */; };
+		1E223DF66CBFAAC71C345E1F /* TimeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188E2D0A6DA1EBCC166E9EF4 /* TimeProvider.swift */; };
+		27B8F9E8E9CC8EE94F9152C4 /* WaggleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A630E9DC7A0CD59AA1C7B3B3 /* WaggleApp.swift */; };
+		2A346880F19D8E12424211F7 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9057DC0DDA539C621CE2CCBF /* Logger.swift */; };
+		5070B264DDAB83A5471ACC0C /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309B7E330CF7F83EB728FE8C /* AppEnvironment.swift */; };
+		71C63C5CC2B723E52193C55A /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E121029A55867416BE5A8682 /* SettingsStore.swift */; };
+		75371F0987435F975694AB63 /* GlobalInputMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6920D1BB340C3F12D9C53E1F /* GlobalInputMonitor.swift */; };
+		77DC89753FF6F5992F300338 /* MenuBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E9B66831090F7C5DED04C1 /* MenuBarController.swift */; };
+		834F2DC7B74AF4781271356D /* CursorTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8020286ABADA5A6D7D4AFFA3 /* CursorTracker.swift */; };
+		87B37D224F7FF787CFD1859E /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B7BDA36826104DAA285823 /* UserDefaultsKeys.swift */; };
+		9B0424B8DB73306E66DD5526 /* DogOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFD5FA6311C73A8D259DAF3 /* DogOverlayView.swift */; };
+		9D23A09CC855F3B34FB1495A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30ABFBDEBE103C835180B00 /* AppDelegate.swift */; };
+		A21AAF9D21A45995B5C67253 /* DogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0791ABB6ABA89D6526A5A656 /* DogViewModel.swift */; };
+		A2334C851BACB481B2DB0D07 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EDD36D29AD22456B3B5FA6 /* AppSettings.swift */; };
+		A96FD3887C2142B4D54D7324 /* PomodoroManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE67B664936C8E3FD35497B /* PomodoroManager.swift */; };
+		AB883FDFC498F87470C1D213 /* DogState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D38D2BF6335CF39EA09F40E /* DogState.swift */; };
+		AB979832BD22BDB58F87D94D /* OverlayPositionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B524278CD8BA04A93FCBD4 /* OverlayPositionStore.swift */; };
+		B2294BADFA518A1BC98496F2 /* InputEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F019903288FB8FAB3385FE /* InputEvent.swift */; };
+		B78C5376E42B9085D69CAB93 /* StretchReminderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D0FBD74374D5B7018E608E /* StretchReminderManager.swift */; };
+		B949A399A81BBF405187BBB9 /* TimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB25B7B0F82EACD27474325 /* TimerState.swift */; };
+		CB9B76A3FB8C677A552BF426 /* DogDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050720011042C60C57FAF19 /* DogDirection.swift */; };
+		DC1FA989211FEE79A51729B7 /* DogSpriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751346DE08E562EBB3148CC2 /* DogSpriteView.swift */; };
+		E0E9B6FD579E923B377DFF2E /* DogOverlayWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4C72A77718DA771A23EB3A /* DogOverlayWindow.swift */; };
+		E8B9D195615E295DD561BABD /* DogAnimationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D38581ADDF5A65C6D98219 /* DogAnimationState.swift */; };
+		EAAC99306A2B654717227B7C /* DogOverlayWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53454C9AFB2400C1004361A7 /* DogOverlayWindowController.swift */; };
+		EC93A5080DB9E96267EA0BCB /* AccessibilityPermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D98C25E11767E99118185E /* AccessibilityPermissionManager.swift */; };
+		EE5EE6A0BA2E4D1B1A9BF85D /* PomodoroState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE57E0EA2B5C2CEC41781FB /* PomodoroState.swift */; };
+		F9C09B46A8397D5F36A00A9A /* TypingTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F512B388760CACB38CFD31F /* TypingTracker.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		02F019903288FB8FAB3385FE /* InputEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputEvent.swift; sourceTree = "<group>"; };
+		0791ABB6ABA89D6526A5A656 /* DogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogViewModel.swift; sourceTree = "<group>"; };
+		1050720011042C60C57FAF19 /* DogDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogDirection.swift; sourceTree = "<group>"; };
+		188E2D0A6DA1EBCC166E9EF4 /* TimeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeProvider.swift; sourceTree = "<group>"; };
+		2375F67FDBB2C518D4447E81 /* Debouncer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debouncer.swift; sourceTree = "<group>"; };
+		29EDD36D29AD22456B3B5FA6 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		309B7E330CF7F83EB728FE8C /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
+		317E9B9D5179F348C3D40B41 /* MenuBarAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarAction.swift; sourceTree = "<group>"; };
+		33D38581ADDF5A65C6D98219 /* DogAnimationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogAnimationState.swift; sourceTree = "<group>"; };
+		3CE57E0EA2B5C2CEC41781FB /* PomodoroState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroState.swift; sourceTree = "<group>"; };
+		3EB25B7B0F82EACD27474325 /* TimerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerState.swift; sourceTree = "<group>"; };
+		47B7BDA36826104DAA285823 /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
+		4B4C72A77718DA771A23EB3A /* DogOverlayWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogOverlayWindow.swift; sourceTree = "<group>"; };
+		4F512B388760CACB38CFD31F /* TypingTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingTracker.swift; sourceTree = "<group>"; };
+		53454C9AFB2400C1004361A7 /* DogOverlayWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogOverlayWindowController.swift; sourceTree = "<group>"; };
+		5D38D2BF6335CF39EA09F40E /* DogState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogState.swift; sourceTree = "<group>"; };
+		6920D1BB340C3F12D9C53E1F /* GlobalInputMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalInputMonitor.swift; sourceTree = "<group>"; };
+		751346DE08E562EBB3148CC2 /* DogSpriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogSpriteView.swift; sourceTree = "<group>"; };
+		79D0FBD74374D5B7018E608E /* StretchReminderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchReminderManager.swift; sourceTree = "<group>"; };
+		8020286ABADA5A6D7D4AFFA3 /* CursorTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CursorTracker.swift; sourceTree = "<group>"; };
+		89D98C25E11767E99118185E /* AccessibilityPermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityPermissionManager.swift; sourceTree = "<group>"; };
+		9057DC0DDA539C621CE2CCBF /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		98B524278CD8BA04A93FCBD4 /* OverlayPositionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayPositionStore.swift; sourceTree = "<group>"; };
+		9AFD5FA6311C73A8D259DAF3 /* DogOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogOverlayView.swift; sourceTree = "<group>"; };
+		A630E9DC7A0CD59AA1C7B3B3 /* WaggleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaggleApp.swift; sourceTree = "<group>"; };
+		ADE67B664936C8E3FD35497B /* PomodoroManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroManager.swift; sourceTree = "<group>"; };
+		C4FE3AFA9AD9D7FBD5911A55 /* Waggle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Waggle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E121029A55867416BE5A8682 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
+		E30ABFBDEBE103C835180B00 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E7E9B66831090F7C5DED04C1 /* MenuBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0A9E8054C0544B1767C0B96F /* Waggle */ = {
+			isa = PBXGroup;
+			children = (
+				485F42F69745117EF53E1B59 /* App */,
+				F89DC0E564E66260753A5DDB /* Dog */,
+				47681050B666D3DD48442940 /* Input */,
+				74A98C4D7EFE54FE151D64BC /* MenuBar */,
+				1C9E13669914BA418276B80B /* Overlay */,
+				5AE9C658A8672CAD96C28639 /* Productivity */,
+				220F1DDAC8A1F049E62784FA /* Settings */,
+				5D875FAC717D34E391E1871F /* Utilities */,
+			);
+			path = Waggle;
+			sourceTree = "<group>";
+		};
+		1B9C38B6A98C2EDC60EBCF71 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C4FE3AFA9AD9D7FBD5911A55 /* Waggle.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1C9E13669914BA418276B80B /* Overlay */ = {
+			isa = PBXGroup;
+			children = (
+				9AFD5FA6311C73A8D259DAF3 /* DogOverlayView.swift */,
+				4B4C72A77718DA771A23EB3A /* DogOverlayWindow.swift */,
+				53454C9AFB2400C1004361A7 /* DogOverlayWindowController.swift */,
+				98B524278CD8BA04A93FCBD4 /* OverlayPositionStore.swift */,
+			);
+			path = Overlay;
+			sourceTree = "<group>";
+		};
+		220F1DDAC8A1F049E62784FA /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				29EDD36D29AD22456B3B5FA6 /* AppSettings.swift */,
+				E121029A55867416BE5A8682 /* SettingsStore.swift */,
+				47B7BDA36826104DAA285823 /* UserDefaultsKeys.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		47681050B666D3DD48442940 /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				89D98C25E11767E99118185E /* AccessibilityPermissionManager.swift */,
+				8020286ABADA5A6D7D4AFFA3 /* CursorTracker.swift */,
+				6920D1BB340C3F12D9C53E1F /* GlobalInputMonitor.swift */,
+				02F019903288FB8FAB3385FE /* InputEvent.swift */,
+				4F512B388760CACB38CFD31F /* TypingTracker.swift */,
+			);
+			path = Input;
+			sourceTree = "<group>";
+		};
+		485F42F69745117EF53E1B59 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				E30ABFBDEBE103C835180B00 /* AppDelegate.swift */,
+				309B7E330CF7F83EB728FE8C /* AppEnvironment.swift */,
+				A630E9DC7A0CD59AA1C7B3B3 /* WaggleApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		5AE9C658A8672CAD96C28639 /* Productivity */ = {
+			isa = PBXGroup;
+			children = (
+				ADE67B664936C8E3FD35497B /* PomodoroManager.swift */,
+				3CE57E0EA2B5C2CEC41781FB /* PomodoroState.swift */,
+				79D0FBD74374D5B7018E608E /* StretchReminderManager.swift */,
+				3EB25B7B0F82EACD27474325 /* TimerState.swift */,
+			);
+			path = Productivity;
+			sourceTree = "<group>";
+		};
+		5D875FAC717D34E391E1871F /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				2375F67FDBB2C518D4447E81 /* Debouncer.swift */,
+				9057DC0DDA539C621CE2CCBF /* Logger.swift */,
+				188E2D0A6DA1EBCC166E9EF4 /* TimeProvider.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		74A98C4D7EFE54FE151D64BC /* MenuBar */ = {
+			isa = PBXGroup;
+			children = (
+				317E9B9D5179F348C3D40B41 /* MenuBarAction.swift */,
+				E7E9B66831090F7C5DED04C1 /* MenuBarController.swift */,
+			);
+			path = MenuBar;
+			sourceTree = "<group>";
+		};
+		96E1934883BF46B5A8F16911 = {
+			isa = PBXGroup;
+			children = (
+				0A9E8054C0544B1767C0B96F /* Waggle */,
+				1B9C38B6A98C2EDC60EBCF71 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F89DC0E564E66260753A5DDB /* Dog */ = {
+			isa = PBXGroup;
+			children = (
+				33D38581ADDF5A65C6D98219 /* DogAnimationState.swift */,
+				1050720011042C60C57FAF19 /* DogDirection.swift */,
+				751346DE08E562EBB3148CC2 /* DogSpriteView.swift */,
+				5D38D2BF6335CF39EA09F40E /* DogState.swift */,
+				0791ABB6ABA89D6526A5A656 /* DogViewModel.swift */,
+			);
+			path = Dog;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		471C21FA1D3E8F787B09F4DA /* Waggle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DC8ACA07965E0105BB554FBF /* Build configuration list for PBXNativeTarget "Waggle" */;
+			buildPhases = (
+				1EB7270B89504646B2909231 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Waggle;
+			packageProductDependencies = (
+			);
+			productName = Waggle;
+			productReference = C4FE3AFA9AD9D7FBD5911A55 /* Waggle.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		01A391C017F7808648C002CB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					471C21FA1D3E8F787B09F4DA = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 599D4C87839DEAD73D7B565E /* Build configuration list for PBXProject "Waggle" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 96E1934883BF46B5A8F16911;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 1B9C38B6A98C2EDC60EBCF71 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				471C21FA1D3E8F787B09F4DA /* Waggle */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1EB7270B89504646B2909231 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC93A5080DB9E96267EA0BCB /* AccessibilityPermissionManager.swift in Sources */,
+				9D23A09CC855F3B34FB1495A /* AppDelegate.swift in Sources */,
+				5070B264DDAB83A5471ACC0C /* AppEnvironment.swift in Sources */,
+				A2334C851BACB481B2DB0D07 /* AppSettings.swift in Sources */,
+				834F2DC7B74AF4781271356D /* CursorTracker.swift in Sources */,
+				1BFA72C31B394A37DED6DF1B /* Debouncer.swift in Sources */,
+				E8B9D195615E295DD561BABD /* DogAnimationState.swift in Sources */,
+				CB9B76A3FB8C677A552BF426 /* DogDirection.swift in Sources */,
+				9B0424B8DB73306E66DD5526 /* DogOverlayView.swift in Sources */,
+				E0E9B6FD579E923B377DFF2E /* DogOverlayWindow.swift in Sources */,
+				EAAC99306A2B654717227B7C /* DogOverlayWindowController.swift in Sources */,
+				DC1FA989211FEE79A51729B7 /* DogSpriteView.swift in Sources */,
+				AB883FDFC498F87470C1D213 /* DogState.swift in Sources */,
+				A21AAF9D21A45995B5C67253 /* DogViewModel.swift in Sources */,
+				75371F0987435F975694AB63 /* GlobalInputMonitor.swift in Sources */,
+				B2294BADFA518A1BC98496F2 /* InputEvent.swift in Sources */,
+				2A346880F19D8E12424211F7 /* Logger.swift in Sources */,
+				111C4D77B2B510E64064927D /* MenuBarAction.swift in Sources */,
+				77DC89753FF6F5992F300338 /* MenuBarController.swift in Sources */,
+				AB979832BD22BDB58F87D94D /* OverlayPositionStore.swift in Sources */,
+				A96FD3887C2142B4D54D7324 /* PomodoroManager.swift in Sources */,
+				EE5EE6A0BA2E4D1B1A9BF85D /* PomodoroState.swift in Sources */,
+				71C63C5CC2B723E52193C55A /* SettingsStore.swift in Sources */,
+				B78C5376E42B9085D69CAB93 /* StretchReminderManager.swift in Sources */,
+				1E223DF66CBFAAC71C345E1F /* TimeProvider.swift in Sources */,
+				B949A399A81BBF405187BBB9 /* TimerState.swift in Sources */,
+				F9C09B46A8397D5F36A00A9A /* TypingTracker.swift in Sources */,
+				87B37D224F7FF787CFD1859E /* UserDefaultsKeys.swift in Sources */,
+				27B8F9E8E9CC8EE94F9152C4 /* WaggleApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0C80EF4FC952E8327684C231 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSUIElement = NO;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.curelation.Waggle;
+				PRODUCT_NAME = Waggle;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		5870EB002812A3ED0F4ECFC1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		BAA3BA1E22EAF6B8267A3053 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSUIElement = NO;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.curelation.Waggle;
+				PRODUCT_NAME = Waggle;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		CA7C531CE403736BA35DBBD1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		599D4C87839DEAD73D7B565E /* Build configuration list for PBXProject "Waggle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CA7C531CE403736BA35DBBD1 /* Debug */,
+				5870EB002812A3ED0F4ECFC1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DC8ACA07965E0105BB554FBF /* Build configuration list for PBXNativeTarget "Waggle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0C80EF4FC952E8327684C231 /* Debug */,
+				BAA3BA1E22EAF6B8267A3053 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 01A391C017F7808648C002CB /* Project object */;
+}

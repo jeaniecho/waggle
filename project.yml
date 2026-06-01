@@ -1,0 +1,41 @@
+# XcodeGen project definition for Waggle.
+# Regenerate the Xcode project with: xcodegen generate
+#
+# Info.plist is synthesized by Xcode (GENERATE_INFOPLIST_FILE = YES); Info
+# keys are set via INFOPLIST_KEY_* below so there is no checked-in plist to
+# drift out of sync.
+
+name: Waggle
+
+options:
+  bundleIdPrefix: co.curelation
+  deploymentTarget:
+    macOS: "12.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    ENABLE_HARDENED_RUNTIME: YES
+    CODE_SIGN_STYLE: Automatic
+
+targets:
+  Waggle:
+    type: application
+    platform: macOS
+    sources:
+      - path: Waggle
+    settings:
+      base:
+        PRODUCT_NAME: Waggle
+        PRODUCT_BUNDLE_IDENTIFIER: co.curelation.Waggle
+        GENERATE_INFOPLIST_FILE: YES
+        # Overlay app: keep a standard app menu (so Cmd-Q quits cleanly) but
+        # do not open a document window at launch. A future menu-bar task may
+        # switch this to an accessory (LSUIElement) app.
+        INFOPLIST_KEY_LSUIElement: NO
+        INFOPLIST_KEY_NSHumanReadableCopyright: ""
+        INFOPLIST_KEY_NSPrincipalClass: NSApplication

@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+
+# Xcode / build artifacts
+DerivedData/
+build/
+*.xcuserstate
+xcuserdata/
+
+# Xcode project is generated from project.yml via XcodeGen, but is committed
+# for convenience. Per-user state inside it is ignored above.
