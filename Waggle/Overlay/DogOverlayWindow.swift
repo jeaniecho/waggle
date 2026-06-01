@@ -4,9 +4,18 @@ import AppKit
 ///
 /// An `NSPanel` (rather than `NSWindow`) lets us use the `.nonactivatingPanel`
 /// style so clicking the dog to drag it does not steal focus from the user's
-/// frontmost app. Dragging is provided by `isMovableByWindowBackground`, set by
-/// the controller.
+/// frontmost app.
+///
+/// Dragging is driven manually from `mouseDown` via AppKit's native
+/// `performDrag(with:)` (rather than `isMovableByWindowBackground`) so we can
+/// bracket the drag with `dragDidBegin`/`dragDidEnd` callbacks and let the
+/// controller drive the dog's `dragging` state.
 final class DogOverlayWindow: NSPanel {
+    /// Called when the user starts pressing on the dog (drag grab begins).
+    var dragDidBegin: (() -> Void)?
+    /// Called when the press is released (drag ends).
+    var dragDidEnd: (() -> Void)?
+
     init(contentSize: CGSize) {
         super.init(
             contentRect: NSRect(origin: .zero, size: contentSize),
@@ -19,7 +28,6 @@ final class DogOverlayWindow: NSPanel {
         backgroundColor = .clear
         hasShadow = false
         level = .floating
-        isMovableByWindowBackground = true
 
         // Float above normal windows on every Space, including over full-screen
         // apps, without becoming a managed Space of its own.
@@ -34,4 +42,14 @@ final class DogOverlayWindow: NSPanel {
     // A borderless panel returns false by default; allow key so it can receive
     // mouse-drag events reliably while still not activating the app.
     override var canBecomeKey: Bool { true }
+
+    /// Perform a native window drag, bracketed by begin/end callbacks.
+    /// `performDrag(with:)` runs AppKit's drag-tracking loop and returns once
+    /// the user releases the mouse, giving smooth movement with no coordinate
+    /// feedback issues.
+    override func mouseDown(with event: NSEvent) {
+        dragDidBegin?()
+        performDrag(with: event)
+        dragDidEnd?()
+    }
 }

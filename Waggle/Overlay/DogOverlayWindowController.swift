@@ -2,12 +2,15 @@ import AppKit
 import SwiftUI
 
 /// Creates the overlay window, hosts the SwiftUI dog inside it, restores the
-/// saved position on launch, and persists the position whenever the user
-/// finishes dragging the dog.
+/// saved position on launch, drives the dog's `dragging` state during a drag,
+/// and persists the position when the drag ends.
 @MainActor
-final class DogOverlayWindowController: NSWindowController, NSWindowDelegate {
+final class DogOverlayWindowController: NSWindowController {
     private let dogViewModel: DogViewModel
     private let positionStore: OverlayPositionStore
+
+    /// The dog state to restore when a drag finishes.
+    private var stateBeforeDrag: DogState?
 
     init(dogViewModel: DogViewModel, positionStore: OverlayPositionStore) {
         self.dogViewModel = dogViewModel
@@ -21,7 +24,9 @@ final class DogOverlayWindowController: NSWindowController, NSWindowDelegate {
         window.contentView = hostingView
 
         super.init(window: window)
-        window.delegate = self
+
+        window.dragDidBegin = { [weak self] in self?.handleDragBegan() }
+        window.dragDidEnd = { [weak self] in self?.handleDragEnded() }
     }
 
     @available(*, unavailable)
@@ -55,12 +60,20 @@ final class DogOverlayWindowController: NSWindowController, NSWindowDelegate {
         window.setFrameOrigin(origin)
     }
 
-    // MARK: - NSWindowDelegate
+    // MARK: - Dragging
 
-    /// Persist the new position after each move (drag). Cheap enough to write
-    /// directly; debouncing can be added if it ever proves chatty.
-    func windowDidMove(_ notification: Notification) {
-        guard let window else { return }
-        positionStore.saveOrigin(window.frame.origin)
+    /// Remember the current state and switch the dog into the dragging state.
+    private func handleDragBegan() {
+        stateBeforeDrag = dogViewModel.state
+        dogViewModel.setState(.dragging)
+    }
+
+    /// Persist the final position and restore the pre-drag state.
+    private func handleDragEnded() {
+        if let window {
+            positionStore.saveOrigin(window.frame.origin)
+        }
+        dogViewModel.setState(stateBeforeDrag ?? .idle)
+        stateBeforeDrag = nil
     }
 }
