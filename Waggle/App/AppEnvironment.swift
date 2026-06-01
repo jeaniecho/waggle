@@ -9,21 +9,28 @@ final class AppEnvironment {
     let settingsStore: SettingsStore
     let dogViewModel: DogViewModel
     private let overlayController: DogOverlayWindowController
+    private let inputMonitor: GlobalInputMonitor
 
     init() {
         let settingsStore = SettingsStore()
         let dogViewModel = DogViewModel()
-
-        self.settingsStore = settingsStore
-        self.dogViewModel = dogViewModel
-        self.overlayController = DogOverlayWindowController(
+        let overlayController = DogOverlayWindowController(
             dogViewModel: dogViewModel,
             positionStore: OverlayPositionStore(defaults: settingsStore.defaults)
         )
+
+        self.settingsStore = settingsStore
+        self.dogViewModel = dogViewModel
+        self.overlayController = overlayController
+        self.inputMonitor = GlobalInputMonitor(
+            dogViewModel: dogViewModel,
+            dogCenter: { [weak overlayController] in overlayController?.dogCenter }
+        )
     }
 
-    /// Show the transparent dog overlay.
+    /// Show the transparent dog overlay and start reacting to the cursor.
     func showOverlay() {
         overlayController.showOverlay()
+        inputMonitor.start()
     }
 }

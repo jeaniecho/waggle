@@ -9,8 +9,11 @@ final class DogOverlayWindowController: NSWindowController {
     private let dogViewModel: DogViewModel
     private let positionStore: OverlayPositionStore
 
-    /// The dog state to restore when a drag finishes.
-    private var stateBeforeDrag: DogState?
+    /// Current dog center in screen coordinates, for cursor-proximity checks.
+    var dogCenter: CGPoint? {
+        guard let window else { return nil }
+        return CGPoint(x: window.frame.midX, y: window.frame.midY)
+    }
 
     init(dogViewModel: DogViewModel, positionStore: OverlayPositionStore) {
         self.dogViewModel = dogViewModel
@@ -62,18 +65,17 @@ final class DogOverlayWindowController: NSWindowController {
 
     // MARK: - Dragging
 
-    /// Remember the current state and switch the dog into the dragging state.
+    /// Switch the dog into the dragging state (highest priority).
     private func handleDragBegan() {
-        stateBeforeDrag = dogViewModel.state
-        dogViewModel.setState(.dragging)
+        dogViewModel.setDragging(true)
     }
 
-    /// Persist the final position and restore the pre-drag state.
+    /// Persist the final position; the view model resolves back to the
+    /// cursor/idle state once dragging clears.
     private func handleDragEnded() {
         if let window {
             positionStore.saveOrigin(window.frame.origin)
         }
-        dogViewModel.setState(stateBeforeDrag ?? .idle)
-        stateBeforeDrag = nil
+        dogViewModel.setDragging(false)
     }
 }
