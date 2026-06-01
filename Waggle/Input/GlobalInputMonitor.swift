@@ -1,22 +1,32 @@
 import AppKit
+import Combine
 
 /// Owns the input trackers and translates raw input into dog-relative signals
-/// on the `DogViewModel`. For Task 003 it handles cursor proximity/direction;
-/// typing is added in a later task.
+/// on the `DogViewModel`: cursor proximity/direction (always) and generic
+/// typing activity (only while Accessibility permission is granted).
 @MainActor
 final class GlobalInputMonitor {
     private let cursorTracker = CursorTracker()
+    private let typingTracker = TypingTracker()
     private let dogViewModel: DogViewModel
+    private let permission: AccessibilityPermissionManager
     /// Current dog center in screen coordinates, or `nil` if the overlay is gone.
     private let dogCenter: () -> CGPoint?
+
+    private var permissionCancellable: AnyCancellable?
 
     /// Within this distance the dog watches the cursor.
     private let nearRadius: CGFloat = 240
     /// Within this (smaller) distance the dog gets excited.
     private let excitedRadius: CGFloat = 90
 
-    init(dogViewModel: DogViewModel, dogCenter: @escaping () -> CGPoint?) {
+    init(
+        dogViewModel: DogViewModel,
+        permission: AccessibilityPermissionManager,
+        dogCenter: @escaping () -> CGPoint?
+    ) {
         self.dogViewModel = dogViewModel
+        self.permission = permission
         self.dogCenter = dogCenter
     }
 
@@ -25,10 +35,28 @@ final class GlobalInputMonitor {
             self?.handleCursor(at: location)
         }
         cursorTracker.start()
+
+        typingTracker.onTypingChanged = { [weak self] typing in
+            self?.dogViewModel.setTyping(typing)
+        }
+        // Start/stop keyboard monitoring as Accessibility permission changes.
+        // Sinking on @Published delivers the current value immediately, so this
+        // also handles the already-trusted case.
+        permissionCancellable = permission.$isTrusted
+            .removeDuplicates()
+            .sink { [weak self] trusted in
+                if trusted {
+                    self?.typingTracker.start()
+                } else {
+                    self?.typingTracker.stop()
+                }
+            }
     }
 
     func stop() {
         cursorTracker.stop()
+        typingTracker.stop()
+        permissionCancellable = nil
     }
 
     private func handleCursor(at location: CGPoint) {

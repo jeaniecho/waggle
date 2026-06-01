@@ -28,6 +28,7 @@ final class AppEnvironment {
         self.overlayController = overlayController
         self.inputMonitor = GlobalInputMonitor(
             dogViewModel: dogViewModel,
+            permission: permissionManager,
             dogCenter: { [weak overlayController] in overlayController?.dogCenter }
         )
     }
