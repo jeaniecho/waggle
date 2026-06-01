@@ -10,6 +10,7 @@ import SwiftUI
 struct DogOverlayView: View {
     @ObservedObject var dogViewModel: DogViewModel
     @ObservedObject var permission: AccessibilityPermissionManager
+    @ObservedObject var stretch: StretchReminderManager
 
     var body: some View {
         DogSpriteView()
@@ -18,6 +19,13 @@ struct DogOverlayView: View {
             .background(Color.clear)
             .contentShape(Rectangle())
             .contextMenu {
+                if stretch.isStretchDue {
+                    Text("Time to stretch! 🐕")
+                }
+                Button("Reset stretch timer") {
+                    stretch.reset()
+                }
+                Divider()
                 if permission.isTrusted {
                     Text("Keyboard reactions: Enabled")
                 } else {

@@ -16,6 +16,7 @@ final class DogViewModel: ObservableObject {
     // MARK: - Input signals
 
     private var isDragging = false
+    private var isStretching = false
     private var isTyping = false
     /// Direction to the cursor while it is nearby; `nil` when the cursor is far.
     private var cursorDirection: DogDirection?
@@ -28,6 +29,13 @@ final class DogViewModel: ObservableObject {
     func setDragging(_ dragging: Bool) {
         guard isDragging != dragging else { return }
         isDragging = dragging
+        recompute()
+    }
+
+    /// Set by the stretch reminder while a stretch nudge is active.
+    func setStretching(_ stretching: Bool) {
+        guard isStretching != stretching else { return }
+        isStretching = stretching
         recompute()
     }
 
@@ -59,6 +67,7 @@ final class DogViewModel: ObservableObject {
     /// Resolve the visible state from current signals, highest priority first.
     private func resolveState() -> DogState {
         if isDragging { return .dragging }
+        if isStretching { return .stretching }
         if isTyping { return .typing }
         if let direction = cursorDirection {
             return cursorIsExcited ? .excited : .watchingCursor(direction: direction)

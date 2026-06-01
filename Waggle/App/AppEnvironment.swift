@@ -9,6 +9,7 @@ final class AppEnvironment {
     let settingsStore: SettingsStore
     let dogViewModel: DogViewModel
     let permissionManager: AccessibilityPermissionManager
+    let stretchManager: StretchReminderManager
     private let overlayController: DogOverlayWindowController
     private let inputMonitor: GlobalInputMonitor
 
@@ -16,15 +17,21 @@ final class AppEnvironment {
         let settingsStore = SettingsStore()
         let dogViewModel = DogViewModel()
         let permissionManager = AccessibilityPermissionManager()
+        let stretchManager = StretchReminderManager(
+            settingsStore: settingsStore,
+            dogViewModel: dogViewModel
+        )
         let overlayController = DogOverlayWindowController(
             dogViewModel: dogViewModel,
             permissionManager: permissionManager,
+            stretchManager: stretchManager,
             positionStore: OverlayPositionStore(defaults: settingsStore.defaults)
         )
 
         self.settingsStore = settingsStore
         self.dogViewModel = dogViewModel
         self.permissionManager = permissionManager
+        self.stretchManager = stretchManager
         self.overlayController = overlayController
         self.inputMonitor = GlobalInputMonitor(
             dogViewModel: dogViewModel,
@@ -33,10 +40,12 @@ final class AppEnvironment {
         )
     }
 
-    /// Show the transparent dog overlay and start reacting to the cursor.
+    /// Show the transparent dog overlay, start reacting to input, and begin the
+    /// stretch reminder countdown.
     func showOverlay() {
         permissionManager.refresh()
         overlayController.showOverlay()
         inputMonitor.start()
+        stretchManager.start()
     }
 }

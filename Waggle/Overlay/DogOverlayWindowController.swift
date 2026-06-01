@@ -18,6 +18,7 @@ final class DogOverlayWindowController: NSWindowController {
     init(
         dogViewModel: DogViewModel,
         permissionManager: AccessibilityPermissionManager,
+        stretchManager: StretchReminderManager,
         positionStore: OverlayPositionStore
     ) {
         self.dogViewModel = dogViewModel
@@ -27,7 +28,11 @@ final class DogOverlayWindowController: NSWindowController {
         let window = DogOverlayWindow(contentSize: contentSize)
 
         let hostingView = NSHostingView(
-            rootView: DogOverlayView(dogViewModel: dogViewModel, permission: permissionManager)
+            rootView: DogOverlayView(
+                dogViewModel: dogViewModel,
+                permission: permissionManager,
+                stretch: stretchManager
+            )
         )
         hostingView.frame = NSRect(origin: .zero, size: contentSize)
         window.contentView = hostingView
