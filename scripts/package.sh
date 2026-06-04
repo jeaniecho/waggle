@@ -54,6 +54,8 @@ xcodebuild -project "$PROJECT" -scheme "$SCHEME" -configuration "$CONFIG" \
   PROVISIONING_PROFILE_SPECIFIER="" \
   ENABLE_HARDENED_RUNTIME=YES \
   OTHER_CODE_SIGN_FLAGS="--timestamp" \
+  CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO \
+  ENABLE_DEBUG_DYLIB=NO \
   build
 
 APP="$DERIVED/Build/Products/$CONFIG/$APP_NAME.app"
