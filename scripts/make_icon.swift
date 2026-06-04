@@ -29,8 +29,8 @@ let bg = NSRect(x: 70, y: 70, width: S - 140, height: S - 140)
 ctx.saveGState()
 NSBezierPath(roundedRect: bg, xRadius: 200, yRadius: 200).addClip()
 NSGradient(
-    starting: NSColor(srgbRed: 1.00, green: 0.90, blue: 0.68, alpha: 1),
-    ending:   NSColor(srgbRed: 0.96, green: 0.72, blue: 0.38, alpha: 1)
+    starting: NSColor(srgbRed: 0.26, green: 0.27, blue: 0.32, alpha: 1), // top, lighter charcoal
+    ending:   NSColor(srgbRed: 0.13, green: 0.14, blue: 0.17, alpha: 1)  // bottom, darker
 )!.draw(in: bg, angle: -90)
 ctx.restoreGState()
 
