@@ -177,7 +177,7 @@ private struct PlaceholderDog: View {
         // A straight towel band laid across the head.
         RoundedRectangle(cornerRadius: 4)
             .fill(towelColor)
-            .frame(width: 46, height: 14)
+            .frame(width: 31, height: 14)
             .offset(y: -30)
     }
 
@@ -194,13 +194,14 @@ private struct PlaceholderDog: View {
         }
     }
 
-    /// A single steam puff that rises from the head and fades as it goes.
+    /// A single steam puff that rises from the head and fades to nothing before
+    /// it reaches the top of the canvas (so it never looks clipped).
     private func steamPuff(t: Double, offset: Double, x: Double) -> some View {
         let period = 1.8
         let local = ((t + offset).truncatingRemainder(dividingBy: period)) / period // 0…1
-        let y = -36.0 - local * 24.0
-        let opacity = sin(local * .pi) * 0.45
-        let size = 7.0 + local * 5.0
+        let y = -36.0 - local * 16.0          // rise kept short so the puff stays in bounds
+        let opacity = sin(local * .pi) * 0.45 // fades in then fully out by the top
+        let size = 7.0 + local * 4.0
         let wiggle = sin(local * .pi * 2) * 3
         return Circle()
             .fill(Color.white.opacity(opacity))
