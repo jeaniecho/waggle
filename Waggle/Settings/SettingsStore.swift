@@ -86,6 +86,11 @@ final class SettingsStore {
         set { defaults.set(newValue, forKey: UserDefaultsKeys.notificationsEnabled) }
     }
 
+    var didOnboard: Bool {
+        get { defaults.bool(forKey: UserDefaultsKeys.didOnboard) }
+        set { defaults.set(newValue, forKey: UserDefaultsKeys.didOnboard) }
+    }
+
     // MARK: - Appearance
 
     var dogCoatID: String {

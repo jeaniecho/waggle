@@ -1,5 +1,6 @@
 import AppKit
 import Combine
+import SwiftUI
 
 /// Composition root: constructs and retains the shared objects the app needs
 /// and wires them to the overlay window. Later tasks add input and
@@ -19,6 +20,7 @@ final class AppEnvironment: ObservableObject {
     private var menuBarController: MenuBarController?
     private var breakCancellable: AnyCancellable?
     private var stretchNotifyCancellable: AnyCancellable?
+    private var onboardingWindow: NSWindow?
 
     init() {
         let settingsStore = SettingsStore()
@@ -76,6 +78,35 @@ final class AppEnvironment: ObservableObject {
         observeRoaming()
         notificationManager.requestAuthorization()
         observeNotifications()
+        showOnboardingIfNeeded()
+    }
+
+    // MARK: - Onboarding
+
+    private func showOnboardingIfNeeded() {
+        guard !settingsStore.didOnboard else { return }
+        let hosting = NSHostingView(rootView: OnboardingView(
+            onEnableTyping: { [weak self] in self?.permissionManager.promptForAccessibility() },
+            onDone: { [weak self] in self?.finishOnboarding() }
+        ))
+        let window = NSWindow(
+            contentRect: NSRect(origin: .zero, size: hosting.fittingSize),
+            styleMask: [.titled, .closable],
+            backing: .buffered, defer: false
+        )
+        window.title = "Welcome to Waggle"
+        window.contentView = hosting
+        window.isReleasedWhenClosed = false
+        window.center()
+        NSApp.activate(ignoringOtherApps: true)
+        window.makeKeyAndOrderFront(nil)
+        onboardingWindow = window
+    }
+
+    private func finishOnboarding() {
+        settingsStore.didOnboard = true
+        onboardingWindow?.close()
+        onboardingWindow = nil
     }
 
     /// Post system notifications on stretch + Pomodoro transitions (when enabled
