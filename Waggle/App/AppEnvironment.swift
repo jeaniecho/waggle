@@ -1,4 +1,5 @@
 import AppKit
+import Combine
 
 /// Composition root: constructs and retains the shared objects the app needs
 /// and wires them to the overlay window. Later tasks add input and
@@ -14,6 +15,7 @@ final class AppEnvironment {
     private let overlayController: DogOverlayWindowController
     private let inputMonitor: GlobalInputMonitor
     private var menuBarController: MenuBarController?
+    private var breakCancellable: AnyCancellable?
 
     init() {
         let settingsStore = SettingsStore()
@@ -56,6 +58,25 @@ final class AppEnvironment {
         inputMonitor.start()
         stretchManager.start()
         installMenuBar()
+        observeBreak()
+    }
+
+    /// Run the dog across the screen during Pomodoro breaks; return it home when
+    /// the break ends.
+    private func observeBreak() {
+        breakCancellable = pomodoroManager.$state
+            .map { state -> Bool in
+                if case .breakTime = state { return true }
+                return false
+            }
+            .removeDuplicates()
+            .sink { [weak self] isBreak in
+                if isBreak {
+                    self?.overlayController.startRoaming()
+                } else {
+                    self?.overlayController.stopRoaming()
+                }
+            }
     }
 
     private func installMenuBar() {

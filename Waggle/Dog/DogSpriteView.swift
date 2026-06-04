@@ -9,7 +9,8 @@ import SwiftUI
 /// PNGs later needs no code changes.
 struct DogSpriteView: View {
     /// Logical canvas size of the dog. The overlay window sizes itself to this.
-    static let size = CGSize(width: 96, height: 96)
+    /// Extra height above the dog leaves room for the sauna steam during focus.
+    static let size = CGSize(width: 96, height: 120)
 
     var animationState: DogAnimationState = .idle
     /// Increments once per keystroke; the placeholder flaps an ear on each change.
@@ -24,7 +25,7 @@ struct DogSpriteView: View {
     private var content: some View {
         let frames = Self.loadFrames(for: animationState)
         if frames.isEmpty {
-            PlaceholderDog(keyPulse: keyPulse)
+            PlaceholderDog(keyPulse: keyPulse, animationState: animationState)
         } else if frames.count == 1 {
             sprite(frames[0])
         } else {
@@ -57,9 +58,16 @@ struct DogSpriteView: View {
 
 /// Placeholder pixel-style dog drawn with SwiftUI shapes, used until real sprite
 /// frames are added.
+///
+/// Pomodoro flavour:
+/// - focus (`.sleep`): a sauna towel on the head + rising steam, eyes relaxed.
+/// - break (`.celebrate`): tongue out, happy eyes (the window also runs across
+///   the screen — see DogOverlayWindowController).
 private struct PlaceholderDog: View {
     /// Increments once per keystroke; each change flaps one ear.
     let keyPulse: Int
+    /// Current visual state, used for the Pomodoro flavour.
+    let animationState: DogAnimationState
 
     /// Peak ear flap angle, in degrees.
     private let earSwing: Double = 45
@@ -68,6 +76,11 @@ private struct PlaceholderDog: View {
     @State private var rightAngle: Double = 0
     /// Which ear flaps on the next keystroke (ears alternate).
     @State private var flapLeftNext = true
+
+    private var isFocusing: Bool { animationState == .sleep }
+    private var isBreak: Bool { animationState == .celebrate }
+
+    private let towelColor = Color(white: 0.97)
 
     var body: some View {
         ZStack {
@@ -102,13 +115,30 @@ private struct PlaceholderDog: View {
                 .fill(Color.black)
                 .frame(width: 7, height: 7)
                 .offset(y: -4)
+
+            // Tongue (break: panting happily)
+            if isBreak {
+                RoundedRectangle(cornerRadius: 3)
+                    .fill(Color(red: 0.93, green: 0.36, blue: 0.45))
+                    .frame(width: 8, height: 13)
+                    .offset(y: 5)
+            }
+
+            // Sauna towel + steam (focus)
+            if isFocusing {
+                saunaTowel
+                steam
+            }
         }
         .onChange(of: keyPulse) { _ in flap() }
     }
 
-    /// One keystroke → one ear flap, alternating ears. The ear quickly swings out
-    /// and eases back to rest, so the waggle rate follows the typing rate.
+    // MARK: - Ear flap (typing)
+
+    /// One keystroke → one ear flap, alternating ears. Skipped during Pomodoro
+    /// focus/break so the towel-resting and running looks stay clean.
     private func flap() {
+        guard !isFocusing, !isBreak else { return }
         let isLeft = flapLeftNext
         flapLeftNext.toggle()
 
@@ -131,10 +161,67 @@ private struct PlaceholderDog: View {
             .rotationEffect(.degrees(angle), anchor: .top)
     }
 
+    @ViewBuilder
     private var eye: some View {
-        Circle()
-            .fill(Color.black)
-            .frame(width: 6, height: 6)
+        if isFocusing {
+            // relaxed, closed eyes
+            Capsule().fill(Color.black).frame(width: 7, height: 2)
+        } else {
+            Circle().fill(Color.black).frame(width: 6, height: 6)
+        }
+    }
+
+    // MARK: - Sauna towel (focus)
+
+    private var saunaTowel: some View {
+        ZStack {
+            // Two folded "horns" (the 양머리 fold), splayed apart
+            HStack(spacing: 3) {
+                towelHorn.rotationEffect(.degrees(-13), anchor: .bottom)
+                towelHorn.rotationEffect(.degrees(13), anchor: .bottom)
+            }
+            .offset(y: -41)
+
+            // Band across the forehead
+            RoundedRectangle(cornerRadius: 5)
+                .fill(towelColor)
+                .frame(width: 46, height: 13)
+                .offset(y: -31)
+        }
+    }
+
+    private var towelHorn: some View {
+        RoundedRectangle(cornerRadius: 5)
+            .fill(towelColor)
+            .frame(width: 11, height: 20)
+    }
+
+    // MARK: - Steam (focus)
+
+    private var steam: some View {
+        TimelineView(.animation) { context in
+            let t = context.date.timeIntervalSinceReferenceDate
+            ZStack {
+                steamPuff(t: t, offset: 0.0, x: -7)
+                steamPuff(t: t, offset: 0.6, x: 6)
+                steamPuff(t: t, offset: 1.2, x: -1)
+            }
+        }
+    }
+
+    /// A single steam puff that rises from the head and fades as it goes.
+    private func steamPuff(t: Double, offset: Double, x: Double) -> some View {
+        let period = 1.8
+        let local = ((t + offset).truncatingRemainder(dividingBy: period)) / period // 0…1
+        let y = -36.0 - local * 24.0
+        let opacity = sin(local * .pi) * 0.45
+        let size = 7.0 + local * 5.0
+        let wiggle = sin(local * .pi * 2) * 3
+        return Circle()
+            .fill(Color.white.opacity(opacity))
+            .frame(width: size, height: size)
+            .blur(radius: 1.5)
+            .offset(x: x + wiggle, y: y)
     }
 }
 
