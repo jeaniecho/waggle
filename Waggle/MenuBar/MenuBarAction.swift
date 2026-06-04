@@ -9,5 +9,6 @@ enum MenuBarAction: Equatable {
     case showWaggle
     case hideWaggle
     case openAccessibilitySettings
+    case setDogCoat(String)
     case quit
 }

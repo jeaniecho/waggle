@@ -12,4 +12,6 @@ enum UserDefaultsKeys {
 
     static let pomodoroFocusMinutes = "pomodoro.focusMinutes"
     static let pomodoroBreakMinutes = "pomodoro.breakMinutes"
+
+    static let dogCoat = "dog.coat"
 }

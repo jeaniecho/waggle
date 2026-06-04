@@ -43,4 +43,11 @@ final class SettingsStore {
         }
         set { defaults.set(newValue, forKey: UserDefaultsKeys.pomodoroBreakMinutes) }
     }
+
+    // MARK: - Appearance
+
+    var dogCoatID: String {
+        get { defaults.string(forKey: UserDefaultsKeys.dogCoat) ?? AppSettings.defaults.dogCoatID }
+        set { defaults.set(newValue, forKey: UserDefaultsKeys.dogCoat) }
+    }
 }

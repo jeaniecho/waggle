@@ -18,6 +18,8 @@ final class DogViewModel: ObservableObject {
     /// Increments when a "?" is typed, so the dog can tilt its head. Only the
     /// fact that "?" was pressed is kept — never the surrounding text.
     @Published private(set) var headTiltCount: Int = 0
+    /// The dog's coat colour (set from settings / the menu bar).
+    @Published var coat: DogCoat = .default
 
     // MARK: - Input signals
 

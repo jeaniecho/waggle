@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		111C4D77B2B510E64064927D /* MenuBarAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317E9B9D5179F348C3D40B41 /* MenuBarAction.swift */; };
+		125A4B2D5B4708951905DB20 /* DogCoat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9CEE664521FB8AF7D97896 /* DogCoat.swift */; };
 		1BFA72C31B394A37DED6DF1B /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2375F67FDBB2C518D4447E81 /* Debouncer.swift */; };
 		1E223DF66CBFAAC71C345E1F /* TimeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188E2D0A6DA1EBCC166E9EF4 /* TimeProvider.swift */; };
 		27B8F9E8E9CC8EE94F9152C4 /* WaggleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A630E9DC7A0CD59AA1C7B3B3 /* WaggleApp.swift */; };
@@ -73,6 +74,7 @@
 		E121029A55867416BE5A8682 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		E30ABFBDEBE103C835180B00 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E7E9B66831090F7C5DED04C1 /* MenuBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarController.swift; sourceTree = "<group>"; };
+		EB9CEE664521FB8AF7D97896 /* DogCoat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogCoat.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -193,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				33D38581ADDF5A65C6D98219 /* DogAnimationState.swift */,
+				EB9CEE664521FB8AF7D97896 /* DogCoat.swift */,
 				1050720011042C60C57FAF19 /* DogDirection.swift */,
 				6F2C22C1184CCE8045E7DAC3 /* DogSprite.swift */,
 				751346DE08E562EBB3148CC2 /* DogSpriteView.swift */,
@@ -280,6 +283,7 @@
 				834F2DC7B74AF4781271356D /* CursorTracker.swift in Sources */,
 				1BFA72C31B394A37DED6DF1B /* Debouncer.swift in Sources */,
 				E8B9D195615E295DD561BABD /* DogAnimationState.swift in Sources */,
+				125A4B2D5B4708951905DB20 /* DogCoat.swift in Sources */,
 				CB9B76A3FB8C677A552BF426 /* DogDirection.swift in Sources */,
 				9B0424B8DB73306E66DD5526 /* DogOverlayView.swift in Sources */,
 				E0E9B6FD579E923B377DFF2E /* DogOverlayWindow.swift in Sources */,

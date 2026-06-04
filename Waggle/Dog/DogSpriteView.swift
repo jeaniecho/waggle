@@ -17,6 +17,8 @@ struct DogSpriteView: View {
     var keyPulse: Int = 0
     /// Increments when "?" is typed; the placeholder tilts its head.
     var tiltPulse: Int = 0
+    /// The dog's coat colour.
+    var coat: DogCoat = .default
 
     var body: some View {
         content
@@ -27,7 +29,12 @@ struct DogSpriteView: View {
     private var content: some View {
         let frames = Self.loadFrames(for: animationState)
         if frames.isEmpty {
-            PlaceholderDog(keyPulse: keyPulse, animationState: animationState, tiltPulse: tiltPulse)
+            PlaceholderDog(
+                keyPulse: keyPulse,
+                animationState: animationState,
+                tiltPulse: tiltPulse,
+                coat: coat
+            )
         } else if frames.count == 1 {
             sprite(frames[0])
         } else {
@@ -72,6 +79,8 @@ private struct PlaceholderDog: View {
     let animationState: DogAnimationState
     /// Increments when a "?" is typed; each change makes the dog tilt its head.
     let tiltPulse: Int
+    /// Coat colour shades for body / head / ears / tail.
+    let coat: DogCoat
 
     /// Peak ear flap angle, in degrees.
     private let earSwing: Double = 45
@@ -91,7 +100,6 @@ private struct PlaceholderDog: View {
     private var isWagging: Bool { animationState == .tailWag || animationState == .celebrate }
 
     private let towelColor = Color(white: 0.97)
-    private let tailColor = Color(red: 0.62, green: 0.44, blue: 0.27)
 
     var body: some View {
         ZStack {
@@ -100,13 +108,13 @@ private struct PlaceholderDog: View {
 
             // Body
             RoundedRectangle(cornerRadius: 8)
-                .fill(Color(red: 0.78, green: 0.58, blue: 0.36))
+                .fill(coat.body)
                 .frame(width: 60, height: 40)
                 .offset(y: 14)
 
             // Head
             RoundedRectangle(cornerRadius: 8)
-                .fill(Color(red: 0.82, green: 0.62, blue: 0.40))
+                .fill(coat.head)
                 .frame(width: 42, height: 38)
                 .offset(y: -14)
 
@@ -175,7 +183,7 @@ private struct PlaceholderDog: View {
 
     private func tailShape(angle: Double) -> some View {
         RoundedRectangle(cornerRadius: 4)
-            .fill(tailColor)
+            .fill(coat.tail)
             .frame(width: 8, height: 24)
             .rotationEffect(.degrees(angle), anchor: .bottom)
             .offset(x: 26, y: 2)
@@ -203,7 +211,7 @@ private struct PlaceholderDog: View {
     /// One ear, pivoting at its base so it swings like a flap.
     private func ear(angle: Double) -> some View {
         RoundedRectangle(cornerRadius: 4)
-            .fill(Color(red: 0.55, green: 0.38, blue: 0.22))
+            .fill(coat.ear)
             .frame(width: 14, height: 22)
             .rotationEffect(.degrees(angle), anchor: .top)
     }

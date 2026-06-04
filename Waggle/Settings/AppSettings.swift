@@ -8,11 +8,13 @@ struct AppSettings: Equatable {
     var stretchIntervalMinutes: Int
     var pomodoroFocusMinutes: Int
     var pomodoroBreakMinutes: Int
+    var dogCoatID: String
 
     static let defaults = AppSettings(
         stretchEnabled: true,
         stretchIntervalMinutes: 45,
         pomodoroFocusMinutes: 25,
-        pomodoroBreakMinutes: 5
+        pomodoroBreakMinutes: 5,
+        dogCoatID: "tan"
     )
 }

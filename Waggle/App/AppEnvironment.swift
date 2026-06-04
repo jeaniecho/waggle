@@ -20,6 +20,7 @@ final class AppEnvironment {
     init() {
         let settingsStore = SettingsStore()
         let dogViewModel = DogViewModel()
+        dogViewModel.coat = DogCoat.coat(id: settingsStore.dogCoatID)
         let permissionManager = AccessibilityPermissionManager()
         let stretchManager = StretchReminderManager(
             settingsStore: settingsStore,
@@ -83,7 +84,8 @@ final class AppEnvironment {
         menuBarController = MenuBarController(
             onAction: { [weak self] action in self?.handle(action) },
             isPomodoroActive: { [weak self] in self?.pomodoroManager.isActive ?? false },
-            isOverlayVisible: { [weak self] in self?.overlayController.isOverlayVisible ?? false }
+            isOverlayVisible: { [weak self] in self?.overlayController.isOverlayVisible ?? false },
+            currentCoatID: { [weak self] in self?.dogViewModel.coat.id ?? DogCoat.default.id }
         )
     }
 
@@ -97,7 +99,14 @@ final class AppEnvironment {
         case .showWaggle: overlayController.setVisible(true)
         case .hideWaggle: overlayController.setVisible(false)
         case .openAccessibilitySettings: permissionManager.promptForAccessibility()
+        case .setDogCoat(let id): selectDogCoat(id)
         case .quit: NSApplication.shared.terminate(nil)
         }
+    }
+
+    /// Apply and persist a dog coat selection.
+    private func selectDogCoat(_ id: String) {
+        settingsStore.dogCoatID = id
+        dogViewModel.coat = DogCoat.coat(id: id)
     }
 }

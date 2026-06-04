@@ -11,6 +11,7 @@ final class MenuBarController: NSObject, NSMenuDelegate {
     private let onAction: (MenuBarAction) -> Void
     private let isPomodoroActive: () -> Bool
     private let isOverlayVisible: () -> Bool
+    private let currentCoatID: () -> String
 
     private let statusItem: NSStatusItem
     private let menu = NSMenu()
@@ -18,11 +19,13 @@ final class MenuBarController: NSObject, NSMenuDelegate {
     init(
         onAction: @escaping (MenuBarAction) -> Void,
         isPomodoroActive: @escaping () -> Bool,
-        isOverlayVisible: @escaping () -> Bool
+        isOverlayVisible: @escaping () -> Bool,
+        currentCoatID: @escaping () -> String
     ) {
         self.onAction = onAction
         self.isPomodoroActive = isPomodoroActive
         self.isOverlayVisible = isOverlayVisible
+        self.currentCoatID = currentCoatID
         self.statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
         super.init()
@@ -64,11 +67,28 @@ final class MenuBarController: NSObject, NSMenuDelegate {
 
         menu.addItem(.separator())
 
+        addDogColorMenu()
         addItem("Open Accessibility Settings…", .openAccessibilitySettings)
 
         menu.addItem(.separator())
 
         addItem("Quit Waggle", .quit, keyEquivalent: "q")
+    }
+
+    /// A "Dog Color" submenu listing the coats, with a checkmark on the current.
+    private func addDogColorMenu() {
+        let submenu = NSMenu()
+        let selected = currentCoatID()
+        for coat in DogCoat.all {
+            let item = NSMenuItem(title: coat.name, action: #selector(handle(_:)), keyEquivalent: "")
+            item.target = self
+            item.representedObject = MenuBarAction.setDogCoat(coat.id)
+            item.state = (coat.id == selected) ? .on : .off
+            submenu.addItem(item)
+        }
+        let parent = NSMenuItem(title: "Dog Color", action: nil, keyEquivalent: "")
+        parent.submenu = submenu
+        menu.addItem(parent)
     }
 
     // MARK: - Helpers
