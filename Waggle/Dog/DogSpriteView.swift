@@ -100,7 +100,7 @@ private struct PlaceholderDog: View {
     /// Peak ear flap swing, in degrees.
     private let earSwing: Double = 45
     /// Default ear angle: the ears rest flopped at the flap-max position.
-    private let earRest: Double = 53
+    private let earRest: Double = 45
 
     @State private var leftAngle: Double = 0
     @State private var rightAngle: Double = 0
@@ -224,13 +224,13 @@ private struct PlaceholderDog: View {
         }
     }
 
-    /// A "?" was typed: cock the head to one side, hold briefly, then return.
+    /// A "?" was typed: quickly cock the head to one side, hold briefly, snap back.
     private func headTilt() {
         let dir = tiltLeftNext ? 1.0 : -1.0
         tiltLeftNext.toggle()
-        withAnimation(.easeInOut(duration: 0.16)) { tilt = 15 * dir }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.55) {
-            withAnimation(.easeInOut(duration: 0.22)) { tilt = 0 }
+        withAnimation(.easeOut(duration: 0.08)) { tilt = 15 * dir }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.28) {
+            withAnimation(.easeIn(duration: 0.1)) { tilt = 0 }
         }
     }
 
@@ -299,7 +299,7 @@ private struct PlaceholderDog: View {
         flapLeftNext.toggle()
 
         // Perk the active ear up (toward vertical) from its flopped rest, then drop.
-        let target = isLeft ? -earSwing : earSwing
+        let target = isLeft ? earSwing : -earSwing
         withAnimation(.easeOut(duration: 0.07)) {
             if isLeft { leftAngle = target } else { rightAngle = target }
         }
