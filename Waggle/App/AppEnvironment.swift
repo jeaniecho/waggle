@@ -13,10 +13,12 @@ final class AppEnvironment {
     let stretchManager: StretchReminderManager
     let pomodoroManager: PomodoroManager
     let launchItem = LoginItemManager()
+    private let notificationManager = NotificationManager()
     private let overlayController: DogOverlayWindowController
     private let inputMonitor: GlobalInputMonitor
     private var menuBarController: MenuBarController?
     private var breakCancellable: AnyCancellable?
+    private var stretchNotifyCancellable: AnyCancellable?
 
     init() {
         let settingsStore = SettingsStore()
@@ -72,6 +74,33 @@ final class AppEnvironment {
         }
         installMenuBar()
         observeRoaming()
+        notificationManager.requestAuthorization()
+        observeNotifications()
+    }
+
+    /// Post system notifications on stretch + Pomodoro transitions (when enabled
+    /// and not paused).
+    private func observeNotifications() {
+        pomodoroManager.onEvent = { [weak self] event in
+            switch event {
+            case .breakStarted(let isLong):
+                self?.notify(isLong ? "Long break — go relax 🛁" : "Break time — go relax 🛁")
+            case .focusStarted:
+                self?.notify("Back to focus 🐶")
+            case .finished:
+                self?.notify("Pomodoro set complete! 🎉")
+            }
+        }
+        stretchNotifyCancellable = stretchManager.$isStretchDue
+            .removeDuplicates()
+            .sink { [weak self] due in
+                if due { self?.notify("Time to stretch! 🐕") }
+            }
+    }
+
+    private func notify(_ body: String) {
+        guard settingsStore.notificationsEnabled, !settingsStore.reactionsPaused else { return }
+        notificationManager.notify(body)
     }
 
     /// Configure the cursor/typing reactions from settings (off while paused).

@@ -24,6 +24,7 @@
 		9D23A09CC855F3B34FB1495A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30ABFBDEBE103C835180B00 /* AppDelegate.swift */; };
 		A21AAF9D21A45995B5C67253 /* DogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0791ABB6ABA89D6526A5A656 /* DogViewModel.swift */; };
 		A2334C851BACB481B2DB0D07 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EDD36D29AD22456B3B5FA6 /* AppSettings.swift */; };
+		A494310C4E7BA1F00FBF2F3C /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F85C193ED90D38EF7572738B /* NotificationManager.swift */; };
 		A96FD3887C2142B4D54D7324 /* PomodoroManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE67B664936C8E3FD35497B /* PomodoroManager.swift */; };
 		AB883FDFC498F87470C1D213 /* DogState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D38D2BF6335CF39EA09F40E /* DogState.swift */; };
 		AB979832BD22BDB58F87D94D /* OverlayPositionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B524278CD8BA04A93FCBD4 /* OverlayPositionStore.swift */; };
@@ -77,6 +78,7 @@
 		E30ABFBDEBE103C835180B00 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E7E9B66831090F7C5DED04C1 /* MenuBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarController.swift; sourceTree = "<group>"; };
 		EB9CEE664521FB8AF7D97896 /* DogCoat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogCoat.swift; sourceTree = "<group>"; };
+		F85C193ED90D38EF7572738B /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -151,6 +153,7 @@
 		5AE9C658A8672CAD96C28639 /* Productivity */ = {
 			isa = PBXGroup;
 			children = (
+				F85C193ED90D38EF7572738B /* NotificationManager.swift */,
 				ADE67B664936C8E3FD35497B /* PomodoroManager.swift */,
 				3CE57E0EA2B5C2CEC41781FB /* PomodoroState.swift */,
 				79D0FBD74374D5B7018E608E /* StretchReminderManager.swift */,
@@ -301,6 +304,7 @@
 				CEFDA985AE1D684621442E49 /* LoginItemManager.swift in Sources */,
 				111C4D77B2B510E64064927D /* MenuBarAction.swift in Sources */,
 				77DC89753FF6F5992F300338 /* MenuBarController.swift in Sources */,
+				A494310C4E7BA1F00FBF2F3C /* NotificationManager.swift in Sources */,
 				AB979832BD22BDB58F87D94D /* OverlayPositionStore.swift in Sources */,
 				A96FD3887C2142B4D54D7324 /* PomodoroManager.swift in Sources */,
 				EE5EE6A0BA2E4D1B1A9BF85D /* PomodoroState.swift in Sources */,
