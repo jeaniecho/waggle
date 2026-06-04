@@ -101,6 +101,8 @@ private struct PlaceholderDog: View {
 
     /// Vertical offset for the "!" jump reaction.
     @State private var jumpOffset: Double = 0
+    /// Brief eye-close for the occasional blink.
+    @State private var blinking = false
 
     private var isFocusing: Bool { animationState == .sleep }
     private var isBreak: Bool { animationState == .celebrate }
@@ -175,6 +177,18 @@ private struct PlaceholderDog: View {
         .onChange(of: keyPulse) { _ in flap() }
         .onChange(of: tiltPulse) { _ in headTilt() }
         .onChange(of: jumpPulse) { _ in jump() }
+        .onAppear { scheduleBlink() }
+    }
+
+    /// Blink occasionally so the resting dog feels alive. Reschedules itself —
+    /// one lightweight timer, no continuous redraw.
+    private func scheduleBlink() {
+        let delay = Double.random(in: 2.8 ... 6.5)
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            blinking = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) { blinking = false }
+            scheduleBlink()
+        }
     }
 
     /// Stretch-reminder pulse: 1× when idle; while active, slowly scales taller
@@ -254,8 +268,8 @@ private struct PlaceholderDog: View {
 
     @ViewBuilder
     private var eye: some View {
-        if isFocusing {
-            // relaxed, closed eyes
+        if isFocusing || blinking {
+            // relaxed/closed eyes (focus) or a quick blink
             Capsule().fill(Color.black).frame(width: 7, height: 2)
         } else {
             Circle().fill(Color.black).frame(width: 6, height: 6)
