@@ -22,7 +22,7 @@ struct DogSpriteView: View {
     private var content: some View {
         let frames = Self.loadFrames(for: animationState)
         if frames.isEmpty {
-            PlaceholderDog()
+            PlaceholderDog(isTyping: animationState == .typing)
         } else if frames.count == 1 {
             sprite(frames[0])
         } else {
@@ -56,10 +56,16 @@ struct DogSpriteView: View {
 /// Placeholder pixel-style dog drawn with SwiftUI shapes, used until real sprite
 /// frames are added.
 private struct PlaceholderDog: View {
-    /// Drives the continuous ear waggle.
+    /// Waggle the ears only while the user is typing.
+    let isTyping: Bool
+
+    /// Drives the ear waggle oscillation.
     @State private var waggle = false
     /// Peak ear swing, in degrees.
     private let earSwing: Double = 14
+
+    private var leftEarAngle: Double { isTyping ? (waggle ? earSwing : -earSwing) : 0 }
+    private var rightEarAngle: Double { isTyping ? (waggle ? -earSwing : earSwing) : 0 }
 
     var body: some View {
         ZStack {
@@ -75,10 +81,10 @@ private struct PlaceholderDog: View {
                 .frame(width: 42, height: 38)
                 .offset(y: -14)
 
-            // Ears (waggle in opposite directions)
+            // Ears (waggle in opposite directions while typing)
             HStack(spacing: 26) {
-                ear(angle: waggle ? earSwing : -earSwing)
-                ear(angle: waggle ? -earSwing : earSwing)
+                ear(angle: leftEarAngle)
+                ear(angle: rightEarAngle)
             }
             .offset(y: -30)
 
@@ -95,9 +101,21 @@ private struct PlaceholderDog: View {
                 .frame(width: 7, height: 7)
                 .offset(y: -4)
         }
-        .onAppear {
+        .onAppear { updateWaggle(isTyping) }
+        .onChange(of: isTyping) { updateWaggle($0) }
+    }
+
+    /// Start the repeating waggle while typing; settle the ears to rest when not.
+    private func updateWaggle(_ typing: Bool) {
+        if typing {
             withAnimation(.easeInOut(duration: 0.45).repeatForever(autoreverses: true)) {
                 waggle = true
+            }
+        } else {
+            // A finite animation here replaces the repeatForever one so the ears
+            // ease back to rest instead of being stuck mid-swing.
+            withAnimation(.easeInOut(duration: 0.15)) {
+                waggle = false
             }
         }
     }
