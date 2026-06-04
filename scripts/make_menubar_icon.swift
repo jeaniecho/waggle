@@ -9,7 +9,8 @@ import AppKit
 // Run: swift scripts/make_menubar_icon.swift
 
 let W: CGFloat = 30
-let H: CGFloat = 36
+let H: CGFloat = 24       // cropped tight so the dog fills the frame (bigger in the bar)
+let contentDropY: CGFloat = 6 // shift content down into the shorter canvas
 
 func render(k: CGFloat, to path: String) {
     let pxW = Int((W * k).rounded())
@@ -23,6 +24,7 @@ func render(k: CGFloat, to path: String) {
     let gctx = NSGraphicsContext(bitmapImageRep: rep)!
     NSGraphicsContext.current = gctx
     let ctx = gctx.cgContext
+    ctx.translateBy(x: 0, y: -contentDropY * k) // recenter content in the shorter canvas
     NSColor.black.setFill()
 
     func rr(_ x: CGFloat, _ y: CGFloat, _ w: CGFloat, _ h: CGFloat, _ r: CGFloat) {
