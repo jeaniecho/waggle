@@ -145,15 +145,15 @@ private struct PlaceholderDog: View {
 
             // Legs (short paws poking out below the body)
             HStack(spacing: 18) {
-                Capsule().fill(coat.body).frame(width: 13, height: 16)
-                Capsule().fill(coat.body).frame(width: 13, height: 16)
+                RoundedRectangle(cornerRadius: 4).fill(coat.body).frame(width: 13, height: 16)
+                RoundedRectangle(cornerRadius: 4).fill(coat.body).frame(width: 13, height: 16)
             }
-            .offset(y: 30)
+            .offset(y: 29)
 
-            // Body — flatter
+            // Body
             RoundedRectangle(cornerRadius: 8)
                 .fill(coat.body)
-                .frame(width: 62, height: 34)
+                .frame(width: 58, height: 32)
                 .offset(y: 14)
 
             // Head
@@ -164,12 +164,12 @@ private struct PlaceholderDog: View {
 
             // Ears — default flopped at the flap-max angle (±53°); a keystroke
             // perks the active ear up briefly (see flap()).
-            ear(angle: earRest + leftAngle).offset(x: -13, y: -26)
-            ear(angle: -earRest + rightAngle).offset(x: 13, y: -26)
+            ear(angle: earRest + leftAngle).offset(x: -13, y: -23)
+            ear(angle: -earRest + rightAngle).offset(x: 13, y: -23)
 
             // Eyes — plain dopey dots, set a little wide
-            eye.offset(x: -11, y: -16)
-            eye.offset(x: 11, y: -16)
+            eye.offset(x: -11, y: -13)
+            eye.offset(x: 11, y: -13)
 
             // Nose — flat rounded rectangle
             RoundedRectangle(cornerRadius: 2.5)
@@ -291,11 +291,11 @@ private struct PlaceholderDog: View {
     }
 
     private func tailShape(angle: Double) -> some View {
-        TaperedTail()
+        RoundedRectangle(cornerRadius: 6)
             .fill(coat.tail)
-            .frame(width: 15, height: 26)
+            .frame(width: 13, height: 26)
             .rotationEffect(.degrees(angle), anchor: .bottom)
-            .offset(x: 26, y: 3)
+            .offset(x: 25, y: 3)
     }
 
     // MARK: - Ear flap (typing)
@@ -373,21 +373,6 @@ private struct PlaceholderDog: View {
             .frame(width: size, height: size)
             .blur(radius: 1.5)
             .offset(x: x + wiggle, y: y)
-    }
-}
-
-/// A tapered tail: wide base, curved sides, softly tapered tip.
-private struct TaperedTail: Shape {
-    func path(in r: CGRect) -> Path {
-        let w = r.width, h = r.height
-        var p = Path()
-        p.move(to: CGPoint(x: w * 0.30, y: h))
-        p.addLine(to: CGPoint(x: w * 0.70, y: h))                                    // wide base
-        p.addQuadCurve(to: CGPoint(x: w * 0.55, y: 0), control: CGPoint(x: w, y: h * 0.30))      // right → tip
-        p.addQuadCurve(to: CGPoint(x: w * 0.45, y: 0), control: CGPoint(x: w * 0.5, y: -h * 0.06)) // rounded tip
-        p.addQuadCurve(to: CGPoint(x: w * 0.30, y: h), control: CGPoint(x: 0, y: h * 0.30))       // left → base
-        p.closeSubpath()
-        return p
     }
 }
 

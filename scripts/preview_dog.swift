@@ -11,49 +11,38 @@ let tailC = Color(red: 0.62, green: 0.44, blue: 0.27)
 let canvasW: CGFloat = 128
 let canvasH: CGFloat = 120
 
-struct TaperedTail: Shape {
-    func path(in r: CGRect) -> Path {
-        let w = r.width, h = r.height
-        var p = Path()
-        p.move(to: CGPoint(x: w * 0.30, y: h))
-        p.addLine(to: CGPoint(x: w * 0.70, y: h))
-        p.addQuadCurve(to: CGPoint(x: w * 0.55, y: 0), control: CGPoint(x: w, y: h * 0.30))
-        p.addQuadCurve(to: CGPoint(x: w * 0.45, y: 0), control: CGPoint(x: w * 0.5, y: -h * 0.06))
-        p.addQuadCurve(to: CGPoint(x: w * 0.30, y: h), control: CGPoint(x: 0, y: h * 0.30))
-        p.closeSubpath()
-        return p
-    }
-}
-
 struct DopeyDog: View {
     // Point the tail right to test clipping at the canvas edge.
     var tailAngle: Double = 70
     var body: some View {
         ZStack {
-            TaperedTail().fill(tailC)
-                .frame(width: 15, height: 26)
+            // Tail — rounded rectangle
+            RoundedRectangle(cornerRadius: 6).fill(tailC)
+                .frame(width: 13, height: 26)
                 .rotationEffect(.degrees(tailAngle), anchor: .bottom)
-                .offset(x: 26, y: 3)
+                .offset(x: 25, y: 3)
 
+            // Legs — rounded rectangles
             HStack(spacing: 18) {
-                Capsule().fill(bodyC).frame(width: 13, height: 16)
-                Capsule().fill(bodyC).frame(width: 13, height: 16)
-            }.offset(y: 30)
+                RoundedRectangle(cornerRadius: 4).fill(bodyC).frame(width: 13, height: 16)
+                RoundedRectangle(cornerRadius: 4).fill(bodyC).frame(width: 13, height: 16)
+            }.offset(y: 29)
 
-            // Body — flatter
+            // Body — a bit smaller
             RoundedRectangle(cornerRadius: 8).fill(bodyC)
-                .frame(width: 62, height: 34).offset(y: 14)
+                .frame(width: 58, height: 32).offset(y: 14)
 
             // Head
             RoundedRectangle(cornerRadius: 8).fill(headC)
                 .frame(width: 42, height: 38).offset(y: -14)
 
-            // Ears — thinner (11 wide), flopped ±45
-            earV.rotationEffect(.degrees(45), anchor: .top).offset(x: -13, y: -26)
-            earV.rotationEffect(.degrees(-45), anchor: .top).offset(x: 13, y: -26)
+            // Ears — thinner (11 wide), flopped ±45, nudged down
+            earV.rotationEffect(.degrees(45), anchor: .top).offset(x: -13, y: -23)
+            earV.rotationEffect(.degrees(-45), anchor: .top).offset(x: 13, y: -23)
 
-            Circle().fill(.black).frame(width: 7, height: 7).offset(x: -11, y: -16)
-            Circle().fill(.black).frame(width: 7, height: 7).offset(x: 11, y: -16)
+            // Eyes — nudged down
+            Circle().fill(.black).frame(width: 7, height: 7).offset(x: -11, y: -13)
+            Circle().fill(.black).frame(width: 7, height: 7).offset(x: 11, y: -13)
 
             // Nose — rounded rectangle
             RoundedRectangle(cornerRadius: 2.5).fill(.black)
