@@ -19,8 +19,8 @@ struct DogSpriteView: View {
     var tiltPulse: Int = 0
     /// Increments when "!" is typed; the placeholder jumps.
     var jumpPulse: Int = 0
-    /// Horizontal direction to the cursor (-1…+1) for the tail to follow; nil if far.
-    var cursorLean: Double?
+    /// Angle to the cursor (degrees) for the tail to follow; nil if far.
+    var cursorAngle: Double?
     /// Whether the dog is carrying a fetched bone.
     var hasBone: Bool = false
     /// The dog's coat colour.
@@ -40,7 +40,7 @@ struct DogSpriteView: View {
                 animationState: animationState,
                 tiltPulse: tiltPulse,
                 jumpPulse: jumpPulse,
-                cursorLean: cursorLean,
+                cursorAngle: cursorAngle,
                 hasBone: hasBone,
                 coat: coat
             )
@@ -90,15 +90,17 @@ private struct PlaceholderDog: View {
     let tiltPulse: Int
     /// Increments when a "!" is typed; each change makes the dog jump once.
     let jumpPulse: Int
-    /// Horizontal direction to the cursor (-1…+1) the tail follows; nil if far.
-    let cursorLean: Double?
+    /// Angle to the cursor (degrees) the tail follows; nil if far.
+    let cursorAngle: Double?
     /// Whether the dog is carrying a fetched bone (drawn at its mouth).
     let hasBone: Bool
     /// Coat colour shades for body / head / ears / tail.
     let coat: DogCoat
 
-    /// Peak ear flap angle, in degrees.
+    /// Peak ear flap swing, in degrees.
     private let earSwing: Double = 45
+    /// Default ear angle: the ears rest flopped at the flap-max position.
+    private let earRest: Double = 53
 
     @State private var leftAngle: Double = 0
     @State private var rightAngle: Double = 0
@@ -113,11 +115,10 @@ private struct PlaceholderDog: View {
     @State private var jumpOffset: Double = 0
     /// Brief eye-close for the occasional blink.
     @State private var blinking = false
-    /// Animated tail base angle (follows the cursor, eases back to rest).
+    /// Animated tail base angle (follows the cursor in full 360°, eases to rest).
+    /// Kept continuous (unwrapped) so it never snaps when crossing ±180°.
     @State private var tailBase: Double = 8
     private let tailRest: Double = 8
-    /// Max tail swing toward the cursor (rotation radius).
-    private let tailReach: Double = 90
 
     private var isFocusing: Bool { animationState == .sleep }
     private var isBreak: Bool { animationState == .celebrate }
@@ -153,9 +154,10 @@ private struct PlaceholderDog: View {
                 .frame(width: 42, height: 38)
                 .offset(y: -14)
 
-            // Ears (up, slightly splayed; flap on typing)
-            ear(angle: 8 + leftAngle).offset(x: -13, y: -26)
-            ear(angle: -8 + rightAngle).offset(x: 13, y: -26)
+            // Ears — default flopped at the flap-max angle (±53°); a keystroke
+            // perks the active ear up briefly (see flap()).
+            ear(angle: earRest + leftAngle).offset(x: -13, y: -26)
+            ear(angle: -earRest + rightAngle).offset(x: 13, y: -26)
 
             // Eyes — plain dopey dots, set a little wide
             eye.offset(x: -11, y: -16)
@@ -191,7 +193,7 @@ private struct PlaceholderDog: View {
         .onChange(of: keyPulse) { _ in flap() }
         .onChange(of: tiltPulse) { _ in headTilt() }
         .onChange(of: jumpPulse) { _ in jump() }
-        .onChange(of: cursorLean) { updateTailFollow($0) }
+        .onChange(of: cursorAngle) { updateTailFollow($0) }
         .onAppear { scheduleBlink() }
     }
 
@@ -236,25 +238,35 @@ private struct PlaceholderDog: View {
 
     @ViewBuilder
     private var tail: some View {
-        if cursorLean == nil, isWagging {
+        if cursorAngle == nil, isWagging {
             // Break: happy wag.
             TimelineView(.animation) { context in
                 tailShape(angle: sin(context.date.timeIntervalSinceReferenceDate * 7) * 30)
             }
         } else {
-            // Following the cursor (eased) or resting — tailBase is animated, so
-            // it eases back to rest instead of snapping when the cursor leaves.
+            // Following the cursor (full 360°, eased) or resting.
             tailShape(angle: tailBase)
         }
     }
 
-    /// Point the tail toward the cursor (eased), or ease back to rest when far.
-    private func updateTailFollow(_ lean: Double?) {
-        if let lean {
-            withAnimation(.easeOut(duration: 0.18)) { tailBase = lean * tailReach }
+    /// Point the tail toward the cursor (any direction, taking the short way), or
+    /// ease back to rest when far.
+    private func updateTailFollow(_ angle: Double?) {
+        if let angle {
+            let target = 90 - angle // clockwise rotation from "up" toward the cursor
+            withAnimation(.easeOut(duration: 0.18)) { tailBase = unwrapped(target) }
         } else {
-            withAnimation(.easeInOut(duration: 0.5)) { tailBase = tailRest }
+            withAnimation(.easeInOut(duration: 0.5)) { tailBase = unwrapped(tailRest) }
         }
+    }
+
+    /// The multiple of `target` (±360·k) nearest the current tailBase, so the
+    /// tail rotates the short way and accumulates a full turn as the cursor circles.
+    private func unwrapped(_ target: Double) -> Double {
+        var t = target
+        while t - tailBase > 180 { t -= 360 }
+        while t - tailBase < -180 { t += 360 }
+        return t
     }
 
     /// A little dog bone, carried at the mouth.
@@ -286,7 +298,8 @@ private struct PlaceholderDog: View {
         let isLeft = flapLeftNext
         flapLeftNext.toggle()
 
-        let target = isLeft ? earSwing : -earSwing // ears flap outward, opposite ways
+        // Perk the active ear up (toward vertical) from its flopped rest, then drop.
+        let target = isLeft ? -earSwing : earSwing
         withAnimation(.easeOut(duration: 0.07)) {
             if isLeft { leftAngle = target } else { rightAngle = target }
         }

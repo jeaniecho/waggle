@@ -19,7 +19,7 @@ struct DogOverlayView: View {
             keyPulse: dogViewModel.keyPressCount,
             tiltPulse: dogViewModel.headTiltCount,
             jumpPulse: dogViewModel.jumpCount,
-            cursorLean: dogViewModel.cursorLean,
+            cursorAngle: dogViewModel.cursorAngle,
             hasBone: dogViewModel.hasBone,
             coat: dogViewModel.coat
         )

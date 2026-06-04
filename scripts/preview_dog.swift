@@ -27,9 +27,9 @@ struct DopeyDog: View {
             RoundedRectangle(cornerRadius: 8).fill(headC)
                 .frame(width: 42, height: 38).offset(y: -14)
 
-            // Ears (up, slightly splayed)
-            earV.rotationEffect(.degrees(8), anchor: .bottom).offset(x: -13, y: -26)
-            earV.rotationEffect(.degrees(-8), anchor: .bottom).offset(x: 13, y: -26)
+            // Ears — default at the flap-max angle (±53°), pivoting at top
+            earV.rotationEffect(.degrees(53), anchor: .top).offset(x: -13, y: -26)
+            earV.rotationEffect(.degrees(-53), anchor: .top).offset(x: 13, y: -26)
 
             // Eyes — plain dopey dots, set a little wide
             Circle().fill(.black).frame(width: 7, height: 7).offset(x: -11, y: -15)
