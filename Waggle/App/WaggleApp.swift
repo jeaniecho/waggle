@@ -12,7 +12,11 @@ struct WaggleApp: App {
 
     var body: some Scene {
         Settings {
-            EmptyView()
+            if let environment = appDelegate.environment {
+                SettingsView(env: environment)
+            } else {
+                Text("Loading…").padding()
+            }
         }
     }
 }

@@ -16,6 +16,9 @@ enum MenuBarAction: Equatable {
     case setReactionsPaused(Bool)
     case setReactCursor(Bool)
     case setReactTyping(Bool)
+    case setNotificationsEnabled(Bool)
+    case setLongBreakMinutes(Int)
+    case setSessionsBeforeLongBreak(Int)
     case setLaunchAtLogin(Bool)
     case openSettings
     case quit

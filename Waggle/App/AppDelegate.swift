@@ -1,8 +1,10 @@
 import AppKit
 
 /// Owns app lifecycle and creates the shared environment + overlay window.
-final class AppDelegate: NSObject, NSApplicationDelegate {
-    private var environment: AppEnvironment?
+/// Observable so the SwiftUI `Settings` scene can pick up `environment` once it
+/// is created at launch.
+final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
+    @Published var environment: AppEnvironment?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let environment = AppEnvironment()

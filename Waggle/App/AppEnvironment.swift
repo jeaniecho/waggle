@@ -6,7 +6,7 @@ import Combine
 /// productivity managers here; for the MVP scaffold it owns the dog view model,
 /// settings store, and overlay controller.
 @MainActor
-final class AppEnvironment {
+final class AppEnvironment: ObservableObject {
     let settingsStore: SettingsStore
     let dogViewModel: DogViewModel
     let permissionManager: AccessibilityPermissionManager
@@ -133,7 +133,7 @@ final class AppEnvironment {
 
     private func installMenuBar() {
         menuBarController = MenuBarController(
-            onAction: { [weak self] action in self?.handle(action) },
+            onAction: { [weak self] action in self?.perform(action) },
             state: { [weak self] in self?.menuState() ?? AppEnvironment.defaultMenuState }
         )
     }
@@ -162,9 +162,10 @@ final class AppEnvironment {
         launchAtLogin: false, launchAvailable: true
     )
 
-    /// Route a menu action to the owning manager. The menu bar holds no logic of
-    /// its own — every case delegates to an existing manager method.
-    private func handle(_ action: MenuBarAction) {
+    /// Route an action (from the menu bar or Settings window) to the owning
+    /// manager. No logic lives in the UI — every case delegates here.
+    func perform(_ action: MenuBarAction) {
+        objectWillChange.send() // let the Settings window reflect the change
         switch action {
         case .startPomodoro: pomodoroManager.start()
         case .stopPomodoro: pomodoroManager.stop()
@@ -179,6 +180,9 @@ final class AppEnvironment {
         case .setReactCursor(let on): settingsStore.reactCursor = on; applyInputReactions()
         case .setReactTyping(let on): settingsStore.reactTyping = on; applyInputReactions()
         case .setReactionsPaused(let paused): setReactionsPaused(paused)
+        case .setNotificationsEnabled(let on): settingsStore.notificationsEnabled = on
+        case .setLongBreakMinutes(let m): settingsStore.pomodoroLongBreakMinutes = m
+        case .setSessionsBeforeLongBreak(let n): settingsStore.pomodoroSessionsBeforeLongBreak = n
         case .setLaunchAtLogin(let on): launchItem.setEnabled(on)
         case .openSettings: openSettings()
         case .quit: NSApplication.shared.terminate(nil)
