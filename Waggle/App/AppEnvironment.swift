@@ -75,7 +75,7 @@ final class AppEnvironment {
         case .resetStretchTimer: stretchManager.reset()
         case .showWaggle: overlayController.setVisible(true)
         case .hideWaggle: overlayController.setVisible(false)
-        case .openAccessibilitySettings: permissionManager.openSystemSettings()
+        case .openAccessibilitySettings: permissionManager.promptForAccessibility()
         case .quit: NSApplication.shared.terminate(nil)
         }
     }

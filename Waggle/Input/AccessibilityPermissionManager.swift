@@ -40,6 +40,13 @@ final class AccessibilityPermissionManager: ObservableObject {
         startPolling()
     }
 
+    /// Guide the user to grant Accessibility: registers the app (so it appears
+    /// in the list with a toggle), shows the system prompt, and opens the pane.
+    func promptForAccessibility() {
+        requestPermission()
+        openSystemSettings()
+    }
+
     /// Open System Settings directly at Privacy & Security → Accessibility.
     func openSystemSettings() {
         guard let url = URL(string:

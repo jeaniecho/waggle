@@ -42,9 +42,9 @@ struct DogOverlayView: View {
                 if permission.isTrusted {
                     Text("Keyboard reactions: Enabled")
                 } else {
-                    Text("Keyboard reactions need Accessibility access")
-                    Button("Open Accessibility Settings…") {
-                        permission.openSystemSettings()
+                    Text("Ears waggle when you type — needs Accessibility access")
+                    Button("Enable typing reactions…") {
+                        permission.promptForAccessibility()
                     }
                 }
             }
