@@ -2,19 +2,27 @@ import AppKit
 
 // Renders a monochrome dog-HEAD silhouette for the menu bar (a template image):
 // a rounded head with two ears poking out to the sides, eyes + nose punched out.
-// The canvas is narrow (30×36 grid) so the menu bar slot isn't wide, and the
-// ears use the width instead of empty padding.
-// Black on transparent; macOS tints for light/dark menu bars.
+// Narrow 30×36 design grid so the menu bar slot isn't wide.
+//
+// Draws into an explicitly-sized NSBitmapImageRep (not lockFocus, which doubles
+// on Retina) so the @1x/@2x pixel sizes are exact: 15×18 and 30×36.
 // Run: swift scripts/make_menubar_icon.swift
 
 let W: CGFloat = 30
 let H: CGFloat = 36
 
-func render(scale: CGFloat, to path: String) {
-    let img = NSImage(size: NSSize(width: W * scale, height: H * scale))
-    img.lockFocus()
-    let ctx = NSGraphicsContext.current!.cgContext
-    let k = scale
+func render(k: CGFloat, to path: String) {
+    let pxW = Int((W * k).rounded())
+    let pxH = Int((H * k).rounded())
+    let rep = NSBitmapImageRep(
+        bitmapDataPlanes: nil, pixelsWide: pxW, pixelsHigh: pxH,
+        bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false,
+        colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0
+    )!
+    NSGraphicsContext.saveGraphicsState()
+    let gctx = NSGraphicsContext(bitmapImageRep: rep)!
+    NSGraphicsContext.current = gctx
+    let ctx = gctx.cgContext
     NSColor.black.setFill()
 
     func rr(_ x: CGFloat, _ y: CGFloat, _ w: CGFloat, _ h: CGFloat, _ r: CGFloat) {
@@ -44,12 +52,12 @@ func render(scale: CGFloat, to path: String) {
     NSBezierPath(ovalIn: NSRect(x: 13.4 * k, y: 10.6 * k, width: 3.2 * k, height: 2.9 * k)).fill()  // nose
     ctx.restoreGState()
 
-    img.unlockFocus()
-    let rep = NSBitmapImageRep(data: img.tiffRepresentation!)!
-    try! rep.representation(using: .png, properties: [:])!.write(to: URL(fileURLWithPath: path))
+    NSGraphicsContext.restoreGraphicsState()
+    let png = rep.representation(using: .png, properties: [:])!
+    try! png.write(to: URL(fileURLWithPath: path))
 }
 
-render(scale: 0.5, to: "/tmp/menubar_dog.png")   // 15×18 (@1x)
-render(scale: 1.0, to: "/tmp/menubar_dog@2x.png") // 30×36 (@2x)
-render(scale: 5.0, to: "/tmp/menubar_dog_preview.png")
+render(k: 0.5, to: "/tmp/menubar_dog.png")    // 15×18 (@1x)
+render(k: 1.0, to: "/tmp/menubar_dog@2x.png") // 30×36 (@2x)
+render(k: 5.0, to: "/tmp/menubar_dog_preview.png")
 print("done")
