@@ -9,8 +9,9 @@ import SwiftUI
 /// PNGs later needs no code changes.
 struct DogSpriteView: View {
     /// Logical canvas size of the dog. The overlay window sizes itself to this.
-    /// Extra height above the dog leaves room for the sauna steam during focus.
-    static let size = CGSize(width: 96, height: 120)
+    /// Extra height above leaves room for the sauna steam; extra width keeps the
+    /// cursor-following tail from being clipped when it points sideways.
+    static let size = CGSize(width: 128, height: 120)
 
     var animationState: DogAnimationState = .idle
     /// Increments once per keystroke; the placeholder flaps an ear on each change.
@@ -147,12 +148,12 @@ private struct PlaceholderDog: View {
                 Capsule().fill(coat.body).frame(width: 13, height: 16)
                 Capsule().fill(coat.body).frame(width: 13, height: 16)
             }
-            .offset(y: 33)
+            .offset(y: 30)
 
-            // Body
+            // Body — flatter
             RoundedRectangle(cornerRadius: 8)
                 .fill(coat.body)
-                .frame(width: 60, height: 40)
+                .frame(width: 62, height: 34)
                 .offset(y: 14)
 
             // Head
@@ -170,10 +171,10 @@ private struct PlaceholderDog: View {
             eye.offset(x: -11, y: -16)
             eye.offset(x: 11, y: -16)
 
-            // Nose — slightly flat (wider than tall)
-            Ellipse()
+            // Nose — flat rounded rectangle
+            RoundedRectangle(cornerRadius: 2.5)
                 .fill(Color.black)
-                .frame(width: 10, height: 6)
+                .frame(width: 11, height: 6)
                 .offset(y: -4)
 
             // Tongue (break: panting happily)
@@ -321,7 +322,7 @@ private struct PlaceholderDog: View {
     private func ear(angle: Double) -> some View {
         RoundedRectangle(cornerRadius: 4)
             .fill(coat.ear)
-            .frame(width: 14, height: 22)
+            .frame(width: 11, height: 22)
             .rotationEffect(.degrees(angle), anchor: .top)
     }
 
