@@ -45,8 +45,11 @@ final class MenuBarController: NSObject, NSMenuDelegate {
 
     private func configureButton() {
         guard let button = statusItem.button else { return }
-        if let image = NSImage(systemSymbolName: "pawprint.fill", accessibilityDescription: "Waggle") {
-            button.image = image
+        if let dog = NSImage(named: "MenuBarDog") {
+            dog.isTemplate = true // tint for light/dark menu bars
+            button.image = dog
+        } else if let sf = NSImage(systemSymbolName: "pawprint.fill", accessibilityDescription: "Waggle") {
+            button.image = sf
         } else {
             button.title = "🐾"
         }
