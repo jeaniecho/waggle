@@ -21,6 +21,7 @@ final class AppEnvironment: ObservableObject {
     private var breakCancellable: AnyCancellable?
     private var stretchNotifyCancellable: AnyCancellable?
     private var onboardingWindow: NSWindow?
+    private var settingsWindowController: SettingsWindowController?
 
     init() {
         let settingsStore = SettingsStore()
@@ -231,12 +232,10 @@ final class AppEnvironment: ObservableObject {
     }
 
     private func openSettings() {
-        NSApp.activate(ignoringOtherApps: true)
-        if #available(macOS 14, *) {
-            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
-        } else {
-            NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
+        if settingsWindowController == nil {
+            settingsWindowController = SettingsWindowController(env: self)
         }
+        settingsWindowController?.show()
     }
 
     /// Apply and persist a dog coat selection.

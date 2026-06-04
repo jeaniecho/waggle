@@ -19,6 +19,8 @@ struct DogSpriteView: View {
     var tiltPulse: Int = 0
     /// Increments when "!" is typed; the placeholder jumps.
     var jumpPulse: Int = 0
+    /// Horizontal direction to the cursor (-1…+1) for the tail to follow; nil if far.
+    var cursorLean: Double?
     /// The dog's coat colour.
     var coat: DogCoat = .default
 
@@ -36,6 +38,7 @@ struct DogSpriteView: View {
                 animationState: animationState,
                 tiltPulse: tiltPulse,
                 jumpPulse: jumpPulse,
+                cursorLean: cursorLean,
                 coat: coat
             )
         } else if frames.count == 1 {
@@ -84,6 +87,8 @@ private struct PlaceholderDog: View {
     let tiltPulse: Int
     /// Increments when a "!" is typed; each change makes the dog jump once.
     let jumpPulse: Int
+    /// Horizontal direction to the cursor (-1…+1) the tail follows; nil if far.
+    let cursorLean: Double?
     /// Coat colour shades for body / head / ears / tail.
     let coat: DogCoat
 
@@ -221,7 +226,13 @@ private struct PlaceholderDog: View {
 
     @ViewBuilder
     private var tail: some View {
-        if isWagging {
+        if let lean = cursorLean {
+            // Follow the cursor: lean toward it (±45°) with a small wag.
+            TimelineView(.animation) { context in
+                let wag = sin(context.date.timeIntervalSinceReferenceDate * 7) * 10
+                tailShape(angle: lean * 45 + wag)
+            }
+        } else if isWagging {
             TimelineView(.animation) { context in
                 let t = context.date.timeIntervalSinceReferenceDate
                 tailShape(angle: sin(t * 7) * 24)

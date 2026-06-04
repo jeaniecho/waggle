@@ -11,6 +11,7 @@
 		125A4B2D5B4708951905DB20 /* DogCoat.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9CEE664521FB8AF7D97896 /* DogCoat.swift */; };
 		1BFA72C31B394A37DED6DF1B /* Debouncer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2375F67FDBB2C518D4447E81 /* Debouncer.swift */; };
 		1E223DF66CBFAAC71C345E1F /* TimeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188E2D0A6DA1EBCC166E9EF4 /* TimeProvider.swift */; };
+		248944C23C47D185F76762BD /* SettingsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDA8DBE224A6F1F57E20EA35 /* SettingsWindowController.swift */; };
 		27B8F9E8E9CC8EE94F9152C4 /* WaggleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A630E9DC7A0CD59AA1C7B3B3 /* WaggleApp.swift */; };
 		2A346880F19D8E12424211F7 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9057DC0DDA539C621CE2CCBF /* Logger.swift */; };
 		5070B264DDAB83A5471ACC0C /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309B7E330CF7F83EB728FE8C /* AppEnvironment.swift */; };
@@ -75,6 +76,7 @@
 		9AFD5FA6311C73A8D259DAF3 /* DogOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogOverlayView.swift; sourceTree = "<group>"; };
 		A630E9DC7A0CD59AA1C7B3B3 /* WaggleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaggleApp.swift; sourceTree = "<group>"; };
 		ADE67B664936C8E3FD35497B /* PomodoroManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroManager.swift; sourceTree = "<group>"; };
+		BDA8DBE224A6F1F57E20EA35 /* SettingsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowController.swift; sourceTree = "<group>"; };
 		C2A9F2D21E7FBC12DFC039F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C4FE3AFA9AD9D7FBD5911A55 /* Waggle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Waggle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E121029A55867416BE5A8682 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				29EDD36D29AD22456B3B5FA6 /* AppSettings.swift */,
 				E121029A55867416BE5A8682 /* SettingsStore.swift */,
 				EBE4C321F526EAA2C1D3850C /* SettingsView.swift */,
+				BDA8DBE224A6F1F57E20EA35 /* SettingsWindowController.swift */,
 				47B7BDA36826104DAA285823 /* UserDefaultsKeys.swift */,
 			);
 			path = Settings;
@@ -325,6 +328,7 @@
 				EE5EE6A0BA2E4D1B1A9BF85D /* PomodoroState.swift in Sources */,
 				71C63C5CC2B723E52193C55A /* SettingsStore.swift in Sources */,
 				E77C7F36DD5345B3501811BA /* SettingsView.swift in Sources */,
+				248944C23C47D185F76762BD /* SettingsWindowController.swift in Sources */,
 				B78C5376E42B9085D69CAB93 /* StretchReminderManager.swift in Sources */,
 				1E223DF66CBFAAC71C345E1F /* TimeProvider.swift in Sources */,
 				B949A399A81BBF405187BBB9 /* TimerState.swift in Sources */,

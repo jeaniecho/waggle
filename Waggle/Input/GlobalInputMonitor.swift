@@ -80,13 +80,13 @@ final class GlobalInputMonitor {
     func setReactions(cursor: Bool, typing: Bool) {
         cursorEnabled = cursor
         typingEnabled = typing
-        if !cursor { dogViewModel.updateCursor(direction: nil, excited: false) }
+        if !cursor { dogViewModel.updateCursor(direction: nil, excited: false, lean: nil) }
         if !typing { dogViewModel.setTyping(false) }
     }
 
     private func handleCursor(at location: CGPoint) {
         guard cursorEnabled, let center = dogCenter() else {
-            dogViewModel.updateCursor(direction: nil, excited: false)
+            dogViewModel.updateCursor(direction: nil, excited: false, lean: nil)
             return
         }
 
@@ -95,13 +95,14 @@ final class GlobalInputMonitor {
         let distance = (dx * dx + dy * dy).squareRoot()
 
         guard distance <= nearRadius else {
-            dogViewModel.updateCursor(direction: nil, excited: false)
+            dogViewModel.updateCursor(direction: nil, excited: false, lean: nil)
             return
         }
 
         dogViewModel.updateCursor(
             direction: DogDirection.from(dx: dx, dy: dy),
-            excited: distance <= excitedRadius
+            excited: distance <= excitedRadius,
+            lean: distance > 0 ? max(-1, min(1, dx / distance)) : 0
         )
     }
 }

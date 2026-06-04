@@ -19,6 +19,7 @@ struct DogOverlayView: View {
             keyPulse: dogViewModel.keyPressCount,
             tiltPulse: dogViewModel.headTiltCount,
             jumpPulse: dogViewModel.jumpCount,
+            cursorLean: dogViewModel.cursorLean,
             coat: dogViewModel.coat
         )
             // Transparent background so only the dog is visible; the whole

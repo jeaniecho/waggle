@@ -23,6 +23,9 @@ final class DogViewModel: ObservableObject {
     @Published private(set) var jumpCount: Int = 0
     /// The dog's coat colour (set from settings / the menu bar).
     @Published var coat: DogCoat = .default
+    /// Horizontal direction to the cursor while nearby (-1 left … +1 right), so
+    /// the tail can point toward it. `nil` when the cursor is far.
+    @Published private(set) var cursorLean: Double?
 
     // MARK: - Input signals
 
@@ -88,9 +91,11 @@ final class DogViewModel: ObservableObject {
         recompute()
     }
 
-    /// Update cursor proximity. Pass `direction: nil` when the cursor is far
-    /// away; pass `excited: true` when it is very close.
-    func updateCursor(direction: DogDirection?, excited: Bool) {
+    /// Update cursor proximity. Pass `direction: nil`/`lean: nil` when the cursor
+    /// is far; `excited: true` when very close. `lean` is the horizontal
+    /// direction to the cursor (-1…+1) for the tail to follow.
+    func updateCursor(direction: DogDirection?, excited: Bool, lean: Double?) {
+        if cursorLean != lean { cursorLean = lean } // continuous; no state recompute
         guard cursorDirection != direction || cursorIsExcited != excited else { return }
         cursorDirection = direction
         cursorIsExcited = excited
