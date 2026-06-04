@@ -233,7 +233,7 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					471C21FA1D3E8F787B09F4DA = {
-						DevelopmentTeam = ATTDC976HA;
+						DevelopmentTeam = V2PH44NVAY;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -322,7 +322,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.curelation.Waggle;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.jeanie.waggle;
 				PRODUCT_NAME = Waggle;
 				SDKROOT = macosx;
 			};
@@ -361,12 +361,12 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Apple Development: jeanie.cho@curelation.co (ACFY3NCX67)";
+				CODE_SIGN_IDENTITY = "Apple Development: Yeajean Cho (Z3BFP9266U)";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = ATTDC976HA;
+				DEVELOPMENT_TEAM = V2PH44NVAY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -404,7 +404,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.curelation.Waggle;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.jeanie.waggle;
 				PRODUCT_NAME = Waggle;
 				SDKROOT = macosx;
 			};
@@ -443,12 +443,12 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Apple Development: jeanie.cho@curelation.co (ACFY3NCX67)";
+				CODE_SIGN_IDENTITY = "Apple Development: Yeajean Cho (Z3BFP9266U)";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = ATTDC976HA;
+				DEVELOPMENT_TEAM = V2PH44NVAY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;

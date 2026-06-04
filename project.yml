@@ -8,7 +8,7 @@
 name: Waggle
 
 options:
-  bundleIdPrefix: co.curelation
+  bundleIdPrefix: dev.jeanie
   deploymentTarget:
     macOS: "12.0"
   createIntermediateGroups: true
@@ -27,8 +27,8 @@ settings:
     # different certs/teams; both silently revoked the permission. macOS apps run
     # locally with a development cert and need no provisioning profile.
     CODE_SIGN_STYLE: Manual
-    DEVELOPMENT_TEAM: ATTDC976HA
-    CODE_SIGN_IDENTITY: "Apple Development: jeanie.cho@curelation.co (ACFY3NCX67)"
+    DEVELOPMENT_TEAM: V2PH44NVAY
+    CODE_SIGN_IDENTITY: "Apple Development: Yeajean Cho (Z3BFP9266U)"
     PROVISIONING_PROFILE_SPECIFIER: ""
 
 targets:
@@ -40,7 +40,7 @@ targets:
     settings:
       base:
         PRODUCT_NAME: Waggle
-        PRODUCT_BUNDLE_IDENTIFIER: co.curelation.Waggle
+        PRODUCT_BUNDLE_IDENTIFIER: dev.jeanie.waggle
         GENERATE_INFOPLIST_FILE: YES
         # Overlay app: keep a standard app menu (so Cmd-Q quits cleanly) but
         # do not open a document window at launch. A future menu-bar task may
