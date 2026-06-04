@@ -142,6 +142,13 @@ private struct PlaceholderDog: View {
             // Tail (behind the body)
             tail
 
+            // Legs (short paws poking out below the body)
+            HStack(spacing: 18) {
+                Capsule().fill(coat.body).frame(width: 13, height: 16)
+                Capsule().fill(coat.body).frame(width: 13, height: 16)
+            }
+            .offset(y: 33)
+
             // Body
             RoundedRectangle(cornerRadius: 8)
                 .fill(coat.body)
@@ -163,10 +170,10 @@ private struct PlaceholderDog: View {
             eye.offset(x: -11, y: -16)
             eye.offset(x: 11, y: -16)
 
-            // Nose
-            Circle()
+            // Nose — slightly flat (wider than tall)
+            Ellipse()
                 .fill(Color.black)
-                .frame(width: 7, height: 7)
+                .frame(width: 10, height: 6)
                 .offset(y: -4)
 
             // Tongue (break: panting happily)
@@ -283,11 +290,11 @@ private struct PlaceholderDog: View {
     }
 
     private func tailShape(angle: Double) -> some View {
-        RoundedRectangle(cornerRadius: 4)
+        TaperedTail()
             .fill(coat.tail)
-            .frame(width: 8, height: 24)
+            .frame(width: 15, height: 26)
             .rotationEffect(.degrees(angle), anchor: .bottom)
-            .offset(x: 26, y: 2)
+            .offset(x: 26, y: 3)
     }
 
     // MARK: - Ear flap (typing)
@@ -365,6 +372,21 @@ private struct PlaceholderDog: View {
             .frame(width: size, height: size)
             .blur(radius: 1.5)
             .offset(x: x + wiggle, y: y)
+    }
+}
+
+/// A tapered tail: wide base, curved sides, softly tapered tip.
+private struct TaperedTail: Shape {
+    func path(in r: CGRect) -> Path {
+        let w = r.width, h = r.height
+        var p = Path()
+        p.move(to: CGPoint(x: w * 0.30, y: h))
+        p.addLine(to: CGPoint(x: w * 0.70, y: h))                                    // wide base
+        p.addQuadCurve(to: CGPoint(x: w * 0.55, y: 0), control: CGPoint(x: w, y: h * 0.30))      // right → tip
+        p.addQuadCurve(to: CGPoint(x: w * 0.45, y: 0), control: CGPoint(x: w * 0.5, y: -h * 0.06)) // rounded tip
+        p.addQuadCurve(to: CGPoint(x: w * 0.30, y: h), control: CGPoint(x: 0, y: h * 0.30))       // left → base
+        p.closeSubpath()
+        return p
     }
 }
 
