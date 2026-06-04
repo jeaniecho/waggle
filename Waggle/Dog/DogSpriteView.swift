@@ -164,17 +164,17 @@ private struct PlaceholderDog: View {
 
             // Ears — default flopped at the flap-max angle (±53°); a keystroke
             // perks the active ear up briefly (see flap()).
-            ear(angle: earRest + leftAngle).offset(x: -13, y: -23)
-            ear(angle: -earRest + rightAngle).offset(x: 13, y: -23)
+            ear(angle: earRest + leftAngle).offset(x: -14, y: -23)
+            ear(angle: -earRest + rightAngle).offset(x: 14, y: -23)
 
             // Eyes — plain dopey dots, set a little wide
-            eye.offset(x: -11, y: -13)
-            eye.offset(x: 11, y: -13)
+            eye.offset(x: -12, y: -13)
+            eye.offset(x: 12, y: -13)
 
             // Nose — flat rounded rectangle
             RoundedRectangle(cornerRadius: 2.5)
                 .fill(Color.black)
-                .frame(width: 11, height: 6)
+                .frame(width: 12, height: 5)
                 .offset(y: -4)
 
             // Tongue (break: panting happily)
@@ -291,9 +291,9 @@ private struct PlaceholderDog: View {
     }
 
     private func tailShape(angle: Double) -> some View {
-        RoundedRectangle(cornerRadius: 6)
+        RoundedRectangle(cornerRadius: 5)
             .fill(coat.tail)
-            .frame(width: 13, height: 26)
+            .frame(width: 11, height: 26)
             .rotationEffect(.degrees(angle), anchor: .bottom)
             .offset(x: 25, y: 3)
     }
@@ -320,9 +320,9 @@ private struct PlaceholderDog: View {
 
     /// One ear, pivoting at its top so it swings like a flap.
     private func ear(angle: Double) -> some View {
-        RoundedRectangle(cornerRadius: 4)
+        RoundedRectangle(cornerRadius: 5)
             .fill(coat.ear)
-            .frame(width: 11, height: 22)
+            .frame(width: 13, height: 22)
             .rotationEffect(.degrees(angle), anchor: .top)
     }
 
@@ -332,7 +332,7 @@ private struct PlaceholderDog: View {
             // relaxed/closed eyes (focus) or a quick blink
             Capsule().fill(Color.black).frame(width: 8, height: 2)
         } else {
-            Circle().fill(Color.black).frame(width: 7, height: 7)
+            Circle().fill(Color.black).frame(width: 6, height: 6)
         }
     }
 

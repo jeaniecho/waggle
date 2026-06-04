@@ -16,9 +16,9 @@ struct DopeyDog: View {
     var tailAngle: Double = 70
     var body: some View {
         ZStack {
-            // Tail — rounded rectangle
-            RoundedRectangle(cornerRadius: 6).fill(tailC)
-                .frame(width: 13, height: 26)
+            // Tail — rounded rectangle, thinner
+            RoundedRectangle(cornerRadius: 5).fill(tailC)
+                .frame(width: 11, height: 26)
                 .rotationEffect(.degrees(tailAngle), anchor: .bottom)
                 .offset(x: 25, y: 3)
 
@@ -36,23 +36,23 @@ struct DopeyDog: View {
             RoundedRectangle(cornerRadius: 8).fill(headC)
                 .frame(width: 42, height: 38).offset(y: -14)
 
-            // Ears — thinner (11 wide), flopped ±45, nudged down
-            earV.rotationEffect(.degrees(45), anchor: .top).offset(x: -13, y: -23)
-            earV.rotationEffect(.degrees(-45), anchor: .top).offset(x: 13, y: -23)
+            // Ears — slightly thicker (13 wide), flopped ±45, nudged down
+            earV.rotationEffect(.degrees(45), anchor: .top).offset(x: -14, y: -23)
+            earV.rotationEffect(.degrees(-45), anchor: .top).offset(x: 14, y: -23)
 
-            // Eyes — nudged down
-            Circle().fill(.black).frame(width: 7, height: 7).offset(x: -11, y: -13)
-            Circle().fill(.black).frame(width: 7, height: 7).offset(x: 11, y: -13)
+            // Eyes — smaller, set a touch farther apart
+            Circle().fill(.black).frame(width: 6, height: 6).offset(x: -12, y: -13)
+            Circle().fill(.black).frame(width: 6, height: 6).offset(x: 12, y: -13)
 
-            // Nose — rounded rectangle
+            // Nose — rounded rectangle, flatter
             RoundedRectangle(cornerRadius: 2.5).fill(.black)
-                .frame(width: 11, height: 6).offset(y: -4)
+                .frame(width: 12, height: 5).offset(y: -4)
         }
         .frame(width: canvasW, height: canvasH)
         .border(.red.opacity(0.7)) // canvas (window) edge
     }
     var earV: some View {
-        RoundedRectangle(cornerRadius: 4).fill(earC).frame(width: 11, height: 22)
+        RoundedRectangle(cornerRadius: 5).fill(earC).frame(width: 13, height: 22)
     }
 }
 
