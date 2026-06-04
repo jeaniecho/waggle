@@ -117,7 +117,7 @@ private struct PlaceholderDog: View {
     @State private var tailBase: Double = 8
     private let tailRest: Double = 8
     /// Max tail swing toward the cursor (rotation radius).
-    private let tailReach: Double = 70
+    private let tailReach: Double = 90
 
     private var isFocusing: Bool { animationState == .sleep }
     private var isBreak: Bool { animationState == .celebrate }
@@ -142,43 +142,64 @@ private struct PlaceholderDog: View {
             tail
 
             // Body
-            RoundedRectangle(cornerRadius: 8)
+            RoundedRectangle(cornerRadius: 16)
                 .fill(coat.body)
-                .frame(width: 60, height: 40)
-                .offset(y: 14)
+                .frame(width: 62, height: 44)
+                .offset(y: 16)
+
+            // Chest / belly patch
+            Ellipse()
+                .fill(coat.muzzle.opacity(0.6))
+                .frame(width: 24, height: 26)
+                .offset(y: 22)
+
+            // Front paws
+            HStack(spacing: 16) {
+                Capsule().fill(coat.body).frame(width: 14, height: 12)
+                Capsule().fill(coat.body).frame(width: 14, height: 12)
+            }
+            .offset(y: 35)
+
+            // Ears (poke out to the sides; flap on typing)
+            ear(angle: 14 + leftAngle).offset(x: -16, y: -28)
+            ear(angle: -14 + rightAngle).offset(x: 16, y: -28)
 
             // Head
-            RoundedRectangle(cornerRadius: 8)
+            RoundedRectangle(cornerRadius: 18)
                 .fill(coat.head)
-                .frame(width: 42, height: 38)
-                .offset(y: -14)
+                .frame(width: 46, height: 42)
+                .offset(y: -13)
 
-            // Ears
-            HStack(spacing: 26) {
-                ear(angle: leftAngle)
-                ear(angle: rightAngle)
-            }
-            .offset(y: -26)
+            // Muzzle
+            Ellipse()
+                .fill(coat.muzzle)
+                .frame(width: 30, height: 22)
+                .offset(y: -3)
 
             // Eyes
-            HStack(spacing: 14) {
+            HStack(spacing: 12) {
                 eye
                 eye
             }
             .offset(y: -16)
 
             // Nose
-            Circle()
+            Ellipse()
                 .fill(Color.black)
-                .frame(width: 7, height: 7)
-                .offset(y: -4)
+                .frame(width: 9, height: 7)
+                .offset(y: -8)
+
+            // Mouth (hidden when the tongue is out on a break)
+            if !isBreak {
+                mouth
+            }
 
             // Tongue (break: panting happily)
             if isBreak {
-                RoundedRectangle(cornerRadius: 3)
+                RoundedRectangle(cornerRadius: 4)
                     .fill(Color(red: 0.93, green: 0.36, blue: 0.45))
-                    .frame(width: 8, height: 7)
-                    .offset(y: 3)
+                    .frame(width: 9, height: 8)
+                    .offset(y: 2)
             }
 
             // Fetched bone, carried at the mouth
@@ -303,11 +324,11 @@ private struct PlaceholderDog: View {
         }
     }
 
-    /// One ear, pivoting at its base so it swings like a flap.
+    /// One ear, pivoting at its top so it swings like a flap.
     private func ear(angle: Double) -> some View {
-        RoundedRectangle(cornerRadius: 4)
+        RoundedRectangle(cornerRadius: 7)
             .fill(coat.ear)
-            .frame(width: 14, height: 22)
+            .frame(width: 16, height: 26)
             .rotationEffect(.degrees(angle), anchor: .top)
     }
 
@@ -315,10 +336,26 @@ private struct PlaceholderDog: View {
     private var eye: some View {
         if isFocusing || blinking {
             // relaxed/closed eyes (focus) or a quick blink
-            Capsule().fill(Color.black).frame(width: 7, height: 2)
+            Capsule().fill(Color.black).frame(width: 8, height: 2)
         } else {
-            Circle().fill(Color.black).frame(width: 6, height: 6)
+            ZStack {
+                Circle().fill(Color.black).frame(width: 8, height: 8)
+                Circle().fill(Color.white).frame(width: 2.6, height: 2.6).offset(x: 1.4, y: -1.4)
+            }
         }
+    }
+
+    /// A small "w" smile under the nose.
+    private var mouth: some View {
+        Path { p in
+            p.move(to: CGPoint(x: 8, y: 0))
+            p.addQuadCurve(to: CGPoint(x: 16, y: 5), control: CGPoint(x: 11, y: 5))
+            p.move(to: CGPoint(x: 8, y: 0))
+            p.addQuadCurve(to: CGPoint(x: 0, y: 5), control: CGPoint(x: 5, y: 5))
+        }
+        .stroke(Color.black.opacity(0.6), lineWidth: 1.6)
+        .frame(width: 16, height: 6)
+        .offset(y: -1)
     }
 
     // MARK: - Sauna towel (focus)
