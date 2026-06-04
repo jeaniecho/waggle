@@ -44,6 +44,48 @@ final class SettingsStore {
         set { defaults.set(newValue, forKey: UserDefaultsKeys.pomodoroBreakMinutes) }
     }
 
+    var pomodoroLongBreakMinutes: Int {
+        get {
+            let stored = defaults.integer(forKey: UserDefaultsKeys.pomodoroLongBreakMinutes)
+            return stored > 0 ? stored : AppSettings.defaults.pomodoroLongBreakMinutes
+        }
+        set { defaults.set(newValue, forKey: UserDefaultsKeys.pomodoroLongBreakMinutes) }
+    }
+
+    var pomodoroSessionsBeforeLongBreak: Int {
+        get {
+            let stored = defaults.integer(forKey: UserDefaultsKeys.pomodoroSessionsBeforeLongBreak)
+            return stored > 0 ? stored : AppSettings.defaults.pomodoroSessionsBeforeLongBreak
+        }
+        set { defaults.set(newValue, forKey: UserDefaultsKeys.pomodoroSessionsBeforeLongBreak) }
+    }
+
+    // MARK: - Reactions
+
+    private func bool(_ key: String, default def: Bool) -> Bool {
+        defaults.object(forKey: key) as? Bool ?? def
+    }
+
+    var reactCursor: Bool {
+        get { bool(UserDefaultsKeys.reactCursor, default: AppSettings.defaults.reactCursor) }
+        set { defaults.set(newValue, forKey: UserDefaultsKeys.reactCursor) }
+    }
+
+    var reactTyping: Bool {
+        get { bool(UserDefaultsKeys.reactTyping, default: AppSettings.defaults.reactTyping) }
+        set { defaults.set(newValue, forKey: UserDefaultsKeys.reactTyping) }
+    }
+
+    var reactionsPaused: Bool {
+        get { bool(UserDefaultsKeys.reactionsPaused, default: AppSettings.defaults.reactionsPaused) }
+        set { defaults.set(newValue, forKey: UserDefaultsKeys.reactionsPaused) }
+    }
+
+    var notificationsEnabled: Bool {
+        get { bool(UserDefaultsKeys.notificationsEnabled, default: AppSettings.defaults.notificationsEnabled) }
+        set { defaults.set(newValue, forKey: UserDefaultsKeys.notificationsEnabled) }
+    }
+
     // MARK: - Appearance
 
     var dogCoatID: String {

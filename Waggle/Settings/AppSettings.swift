@@ -8,13 +8,25 @@ struct AppSettings: Equatable {
     var stretchIntervalMinutes: Int
     var pomodoroFocusMinutes: Int
     var pomodoroBreakMinutes: Int
+    var pomodoroLongBreakMinutes: Int
+    var pomodoroSessionsBeforeLongBreak: Int
     var dogCoatID: String
+    var reactCursor: Bool
+    var reactTyping: Bool
+    var reactionsPaused: Bool
+    var notificationsEnabled: Bool
 
     static let defaults = AppSettings(
         stretchEnabled: true,
         stretchIntervalMinutes: 45,
         pomodoroFocusMinutes: 25,
         pomodoroBreakMinutes: 5,
-        dogCoatID: "tan"
+        pomodoroLongBreakMinutes: 15,
+        pomodoroSessionsBeforeLongBreak: 4,
+        dogCoatID: "tan",
+        reactCursor: true,
+        reactTyping: true,
+        reactionsPaused: false,
+        notificationsEnabled: true
     )
 }

@@ -9,6 +9,11 @@ struct MenuBarState {
     var breakMinutes: Int
     var stretchMinutes: Int
     var stretchEnabled: Bool
+    var reactionsPaused: Bool
+    var reactCursor: Bool
+    var reactTyping: Bool
+    var launchAtLogin: Bool
+    var launchAvailable: Bool
 }
 
 /// Owns the status-bar item and its menu. This is a thin shell: it builds the
@@ -71,6 +76,10 @@ final class MenuBarController: NSObject, NSMenuDelegate {
 
         menu.addItem(.separator())
 
+        addCheckItem("Pause Reactions", checked: s.reactionsPaused, .setReactionsPaused(!s.reactionsPaused))
+
+        menu.addItem(.separator())
+
         if s.overlayVisible {
             addItem("Hide Waggle", .hideWaggle)
         } else {
@@ -83,14 +92,45 @@ final class MenuBarController: NSObject, NSMenuDelegate {
         addMinutesMenu("Focus Duration", focusOptions, current: s.focusMinutes) { .setFocusMinutes($0) }
         addMinutesMenu("Break Duration", breakOptions, current: s.breakMinutes) { .setBreakMinutes($0) }
         addStretchMenu(current: s.stretchMinutes, enabled: s.stretchEnabled)
+        addReactionsMenu(cursor: s.reactCursor, typing: s.reactTyping)
+        if s.launchAvailable {
+            addCheckItem("Launch at Login", checked: s.launchAtLogin, .setLaunchAtLogin(!s.launchAtLogin))
+        }
 
         menu.addItem(.separator())
 
+        addItem("Settings…", .openSettings, keyEquivalent: ",")
         addItem("Open Accessibility Settings…", .openAccessibilitySettings)
 
         menu.addItem(.separator())
 
         addItem("Quit Waggle", .quit, keyEquivalent: "q")
+    }
+
+    private func addCheckItem(_ title: String, checked: Bool, _ action: MenuBarAction) {
+        let item = NSMenuItem(title: title, action: #selector(handle(_:)), keyEquivalent: "")
+        item.target = self
+        item.representedObject = action
+        item.state = checked ? .on : .off
+        menu.addItem(item)
+    }
+
+    /// "Reactions" submenu: per-reaction on/off toggles.
+    private func addReactionsMenu(cursor: Bool, typing: Bool) {
+        let submenu = NSMenu()
+        for (title, on, action) in [
+            ("Cursor", cursor, MenuBarAction.setReactCursor(!cursor)),
+            ("Typing", typing, MenuBarAction.setReactTyping(!typing))
+        ] {
+            let item = NSMenuItem(title: title, action: #selector(handle(_:)), keyEquivalent: "")
+            item.target = self
+            item.representedObject = action
+            item.state = on ? .on : .off
+            submenu.addItem(item)
+        }
+        let parent = NSMenuItem(title: "Reactions", action: nil, keyEquivalent: "")
+        parent.submenu = submenu
+        menu.addItem(parent)
     }
 
     /// A "Dog Color" submenu listing the coats, with a checkmark on the current.

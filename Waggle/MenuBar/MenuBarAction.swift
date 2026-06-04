@@ -13,5 +13,10 @@ enum MenuBarAction: Equatable {
     case setFocusMinutes(Int)
     case setBreakMinutes(Int)
     case setStretchMinutes(Int) // 0 = off
+    case setReactionsPaused(Bool)
+    case setReactCursor(Bool)
+    case setReactTyping(Bool)
+    case setLaunchAtLogin(Bool)
+    case openSettings
     case quit
 }

@@ -15,6 +15,10 @@ final class GlobalInputMonitor {
 
     private var permissionCancellable: AnyCancellable?
 
+    /// Reaction toggles (set from settings / pause).
+    private var cursorEnabled = true
+    private var typingEnabled = true
+
     /// Within this distance the dog watches the cursor.
     private let nearRadius: CGFloat = 240
     /// Within this (smaller) distance the dog gets excited.
@@ -37,16 +41,20 @@ final class GlobalInputMonitor {
         cursorTracker.start()
 
         typingTracker.onTypingChanged = { [weak self] typing in
-            self?.dogViewModel.setTyping(typing)
+            guard let self, self.typingEnabled else { return }
+            self.dogViewModel.setTyping(typing)
         }
         typingTracker.onKeyDown = { [weak self] in
-            self?.dogViewModel.registerKeystroke()
+            guard let self, self.typingEnabled else { return }
+            self.dogViewModel.registerKeystroke()
         }
         typingTracker.onQuestionMark = { [weak self] in
-            self?.dogViewModel.registerQuestionMark()
+            guard let self, self.typingEnabled else { return }
+            self.dogViewModel.registerQuestionMark()
         }
         typingTracker.onExclamation = { [weak self] in
-            self?.dogViewModel.registerExclamation()
+            guard let self, self.typingEnabled else { return }
+            self.dogViewModel.registerExclamation()
         }
         // Start/stop keyboard monitoring as Accessibility permission changes.
         // Sinking on @Published delivers the current value immediately, so this
@@ -68,8 +76,16 @@ final class GlobalInputMonitor {
         permissionCancellable = nil
     }
 
+    /// Enable/disable each reaction; clears any lingering state when turned off.
+    func setReactions(cursor: Bool, typing: Bool) {
+        cursorEnabled = cursor
+        typingEnabled = typing
+        if !cursor { dogViewModel.updateCursor(direction: nil, excited: false) }
+        if !typing { dogViewModel.setTyping(false) }
+    }
+
     private func handleCursor(at location: CGPoint) {
-        guard let center = dogCenter() else {
+        guard cursorEnabled, let center = dogCenter() else {
             dogViewModel.updateCursor(direction: nil, excited: false)
             return
         }

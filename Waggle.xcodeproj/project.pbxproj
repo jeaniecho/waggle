@@ -32,6 +32,7 @@
 		B78C5376E42B9085D69CAB93 /* StretchReminderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D0FBD74374D5B7018E608E /* StretchReminderManager.swift */; };
 		B949A399A81BBF405187BBB9 /* TimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB25B7B0F82EACD27474325 /* TimerState.swift */; };
 		CB9B76A3FB8C677A552BF426 /* DogDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050720011042C60C57FAF19 /* DogDirection.swift */; };
+		CEFDA985AE1D684621442E49 /* LoginItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3FE914946FFA76D7C6E5D3 /* LoginItemManager.swift */; };
 		DC1FA989211FEE79A51729B7 /* DogSpriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751346DE08E562EBB3148CC2 /* DogSpriteView.swift */; };
 		E0E9B6FD579E923B377DFF2E /* DogOverlayWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4C72A77718DA771A23EB3A /* DogOverlayWindow.swift */; };
 		E8B9D195615E295DD561BABD /* DogAnimationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D38581ADDF5A65C6D98219 /* DogAnimationState.swift */; };
@@ -51,6 +52,7 @@
 		309B7E330CF7F83EB728FE8C /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		317E9B9D5179F348C3D40B41 /* MenuBarAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarAction.swift; sourceTree = "<group>"; };
 		33D38581ADDF5A65C6D98219 /* DogAnimationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogAnimationState.swift; sourceTree = "<group>"; };
+		3C3FE914946FFA76D7C6E5D3 /* LoginItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginItemManager.swift; sourceTree = "<group>"; };
 		3CE57E0EA2B5C2CEC41781FB /* PomodoroState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroState.swift; sourceTree = "<group>"; };
 		3EB25B7B0F82EACD27474325 /* TimerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerState.swift; sourceTree = "<group>"; };
 		47B7BDA36826104DAA285823 /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 			children = (
 				E30ABFBDEBE103C835180B00 /* AppDelegate.swift */,
 				309B7E330CF7F83EB728FE8C /* AppEnvironment.swift */,
+				3C3FE914946FFA76D7C6E5D3 /* LoginItemManager.swift */,
 				A630E9DC7A0CD59AA1C7B3B3 /* WaggleApp.swift */,
 			);
 			path = App;
@@ -295,6 +298,7 @@
 				75371F0987435F975694AB63 /* GlobalInputMonitor.swift in Sources */,
 				B2294BADFA518A1BC98496F2 /* InputEvent.swift in Sources */,
 				2A346880F19D8E12424211F7 /* Logger.swift in Sources */,
+				CEFDA985AE1D684621442E49 /* LoginItemManager.swift in Sources */,
 				111C4D77B2B510E64064927D /* MenuBarAction.swift in Sources */,
 				77DC89753FF6F5992F300338 /* MenuBarController.swift in Sources */,
 				AB979832BD22BDB58F87D94D /* OverlayPositionStore.swift in Sources */,

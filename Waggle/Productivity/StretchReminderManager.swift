@@ -43,6 +43,13 @@ final class StretchReminderManager: ObservableObject {
         start()
     }
 
+    /// Pause: stop the countdown and clear any active nudge (e.g. Do Not Disturb).
+    func suspend() {
+        stop()
+        isStretchDue = false
+        dogViewModel.setStretching(false)
+    }
+
     // MARK: - Internals
 
     /// Interval elapsed: nudge the dog to stretch and wait for a reset.

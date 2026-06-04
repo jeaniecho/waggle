@@ -12,6 +12,7 @@ final class AppEnvironment {
     let permissionManager: AccessibilityPermissionManager
     let stretchManager: StretchReminderManager
     let pomodoroManager: PomodoroManager
+    let launchItem = LoginItemManager()
     private let overlayController: DogOverlayWindowController
     private let inputMonitor: GlobalInputMonitor
     private var menuBarController: MenuBarController?
@@ -63,9 +64,23 @@ final class AppEnvironment {
         }
         overlayController.showOverlay()
         inputMonitor.start()
-        stretchManager.start()
+        applyInputReactions()
+        if settingsStore.reactionsPaused {
+            stretchManager.suspend()
+        } else {
+            stretchManager.start()
+        }
         installMenuBar()
         observeRoaming()
+    }
+
+    /// Configure the cursor/typing reactions from settings (off while paused).
+    private func applyInputReactions() {
+        let paused = settingsStore.reactionsPaused
+        inputMonitor.setReactions(
+            cursor: settingsStore.reactCursor && !paused,
+            typing: settingsStore.reactTyping && !paused
+        )
     }
 
     /// Stroll across the screen during Pomodoro breaks — but pause (and stay put)
@@ -102,13 +117,20 @@ final class AppEnvironment {
             focusMinutes: settingsStore.pomodoroFocusMinutes,
             breakMinutes: settingsStore.pomodoroBreakMinutes,
             stretchMinutes: settingsStore.stretchIntervalMinutes,
-            stretchEnabled: settingsStore.stretchEnabled
+            stretchEnabled: settingsStore.stretchEnabled,
+            reactionsPaused: settingsStore.reactionsPaused,
+            reactCursor: settingsStore.reactCursor,
+            reactTyping: settingsStore.reactTyping,
+            launchAtLogin: launchItem.isEnabled,
+            launchAvailable: launchItem.isAvailable
         )
     }
 
     private static let defaultMenuState = MenuBarState(
         pomodoroActive: false, overlayVisible: true, coatID: DogCoat.default.id,
-        focusMinutes: 25, breakMinutes: 5, stretchMinutes: 45, stretchEnabled: true
+        focusMinutes: 25, breakMinutes: 5, stretchMinutes: 45, stretchEnabled: true,
+        reactionsPaused: false, reactCursor: true, reactTyping: true,
+        launchAtLogin: false, launchAvailable: true
     )
 
     /// Route a menu action to the owning manager. The menu bar holds no logic of
@@ -125,7 +147,31 @@ final class AppEnvironment {
         case .setFocusMinutes(let m): settingsStore.pomodoroFocusMinutes = m
         case .setBreakMinutes(let m): settingsStore.pomodoroBreakMinutes = m
         case .setStretchMinutes(let m): setStretchMinutes(m)
+        case .setReactCursor(let on): settingsStore.reactCursor = on; applyInputReactions()
+        case .setReactTyping(let on): settingsStore.reactTyping = on; applyInputReactions()
+        case .setReactionsPaused(let paused): setReactionsPaused(paused)
+        case .setLaunchAtLogin(let on): launchItem.setEnabled(on)
+        case .openSettings: openSettings()
         case .quit: NSApplication.shared.terminate(nil)
+        }
+    }
+
+    private func setReactionsPaused(_ paused: Bool) {
+        settingsStore.reactionsPaused = paused
+        applyInputReactions()
+        if paused {
+            stretchManager.suspend()
+        } else {
+            stretchManager.start()
+        }
+    }
+
+    private func openSettings() {
+        NSApp.activate(ignoringOtherApps: true)
+        if #available(macOS 14, *) {
+            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        } else {
+            NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
         }
     }
 
