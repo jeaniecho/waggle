@@ -10,9 +10,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         environment.showOverlay()
     }
 
-    /// The overlay is the whole point of the app; quit when it would otherwise
-    /// be left running with no windows.
+    /// Waggle is a menu-bar / overlay app: it has no ordinary windows, and the
+    /// transparent dog overlay is a borderless `NSPanel` that AppKit does not
+    /// count as a window. Returning `true` here made the app quit itself the
+    /// moment a status-bar menu opened and closed (the menu's transient window
+    /// being treated as the "last" window). Quitting is done explicitly from the
+    /// menu bar, so never auto-terminate.
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        true
+        false
     }
 }
