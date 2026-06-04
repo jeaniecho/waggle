@@ -88,7 +88,7 @@ private struct PlaceholderDog: View {
                 ear(angle: leftAngle)
                 ear(angle: rightAngle)
             }
-            .offset(y: -24)
+            .offset(y: -26)
 
             // Eyes
             HStack(spacing: 14) {
