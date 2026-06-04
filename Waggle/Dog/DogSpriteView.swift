@@ -62,7 +62,7 @@ private struct PlaceholderDog: View {
     let keyPulse: Int
 
     /// Peak ear flap angle, in degrees.
-    private let earSwing: Double = 22
+    private let earSwing: Double = 30
 
     @State private var leftAngle: Double = 0
     @State private var rightAngle: Double = 0
@@ -128,7 +128,7 @@ private struct PlaceholderDog: View {
         RoundedRectangle(cornerRadius: 4)
             .fill(Color(red: 0.55, green: 0.38, blue: 0.22))
             .frame(width: 14, height: 22)
-            .rotationEffect(.degrees(angle), anchor: .bottom)
+            .rotationEffect(.degrees(angle), anchor: .top)
     }
 
     private var eye: some View {
