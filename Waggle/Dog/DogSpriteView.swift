@@ -59,13 +59,10 @@ private struct PlaceholderDog: View {
     /// Waggle the ears only while the user is typing.
     let isTyping: Bool
 
-    /// Drives the ear waggle oscillation.
-    @State private var waggle = false
     /// Peak ear swing, in degrees.
     private let earSwing: Double = 14
-
-    private var leftEarAngle: Double { isTyping ? (waggle ? earSwing : -earSwing) : 0 }
-    private var rightEarAngle: Double { isTyping ? (waggle ? -earSwing : earSwing) : 0 }
+    /// Waggle oscillations per second.
+    private let earCyclesPerSecond: Double = 1.5
 
     var body: some View {
         ZStack {
@@ -81,12 +78,9 @@ private struct PlaceholderDog: View {
                 .frame(width: 42, height: 38)
                 .offset(y: -14)
 
-            // Ears (waggle in opposite directions while typing)
-            HStack(spacing: 26) {
-                ear(angle: leftEarAngle)
-                ear(angle: rightEarAngle)
-            }
-            .offset(y: -30)
+            // Ears
+            ears
+                .offset(y: -30)
 
             // Eyes
             HStack(spacing: 14) {
@@ -101,23 +95,32 @@ private struct PlaceholderDog: View {
                 .frame(width: 7, height: 7)
                 .offset(y: -4)
         }
-        .onAppear { updateWaggle(isTyping) }
-        .onChange(of: isTyping) { updateWaggle($0) }
     }
 
-    /// Start the repeating waggle while typing; settle the ears to rest when not.
-    private func updateWaggle(_ typing: Bool) {
-        if typing {
-            withAnimation(.easeInOut(duration: 0.45).repeatForever(autoreverses: true)) {
-                waggle = true
+    /// Ears: continuously waggle (opposite directions) while typing, driven by a
+    /// TimelineView so the motion is tied directly to `isTyping` and stops the
+    /// instant typing ends. No repeatForever animation to get "stuck".
+    @ViewBuilder
+    private var ears: some View {
+        if isTyping {
+            TimelineView(.animation) { context in
+                earsRow(angle: swingAngle(at: context.date))
             }
         } else {
-            // A finite animation here replaces the repeatForever one so the ears
-            // ease back to rest instead of being stuck mid-swing.
-            withAnimation(.easeInOut(duration: 0.15)) {
-                waggle = false
-            }
+            earsRow(angle: 0)
         }
+    }
+
+    private func earsRow(angle: Double) -> some View {
+        HStack(spacing: 26) {
+            ear(angle: angle)
+            ear(angle: -angle)
+        }
+    }
+
+    private func swingAngle(at date: Date) -> Double {
+        let phase = date.timeIntervalSinceReferenceDate * earCyclesPerSecond * 2 * .pi
+        return sin(phase) * earSwing
     }
 
     /// One ear, pivoting at its base so it swings like a flap.

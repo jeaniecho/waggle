@@ -233,7 +233,6 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					471C21FA1D3E8F787B09F4DA = {
-						DevelopmentTeam = ATTDC976HA;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -314,6 +313,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = V2PH44NVAY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSUIElement = NO;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -322,7 +322,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.curelation.Waggle;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.jeanie.waggle;
 				PRODUCT_NAME = Waggle;
 				SDKROOT = macosx;
 			};
@@ -395,6 +395,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = V2PH44NVAY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSUIElement = NO;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -403,7 +404,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = co.curelation.Waggle;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.jeanie.waggle;
 				PRODUCT_NAME = Waggle;
 				SDKROOT = macosx;
 			};
