@@ -12,6 +12,8 @@ struct DogSpriteView: View {
     static let size = CGSize(width: 96, height: 96)
 
     var animationState: DogAnimationState = .idle
+    /// Increments once per keystroke; the placeholder flaps an ear on each change.
+    var keyPulse: Int = 0
 
     var body: some View {
         content
@@ -22,7 +24,7 @@ struct DogSpriteView: View {
     private var content: some View {
         let frames = Self.loadFrames(for: animationState)
         if frames.isEmpty {
-            PlaceholderDog(isTyping: animationState == .typing)
+            PlaceholderDog(keyPulse: keyPulse)
         } else if frames.count == 1 {
             sprite(frames[0])
         } else {
@@ -56,22 +58,16 @@ struct DogSpriteView: View {
 /// Placeholder pixel-style dog drawn with SwiftUI shapes, used until real sprite
 /// frames are added.
 private struct PlaceholderDog: View {
-    /// Waggle the ears only while the user is typing.
-    let isTyping: Bool
+    /// Increments once per keystroke; each change flaps one ear.
+    let keyPulse: Int
 
-    /// Peak ear swing, in degrees.
-    private let earSwing: Double = 18
-    /// Full left-then-right alternations per second.
-    private let earCyclesPerSecond: Double = 1.5
-    /// Time over which the ears ease back to rest after typing stops.
-    private let windDown: TimeInterval = 0.45
+    /// Peak ear flap angle, in degrees.
+    private let earSwing: Double = 22
 
-    /// Whether the waggle timeline runs (true while typing and during wind-down).
-    @State private var active = false
-    /// When the wind-down began; nil while typing.
-    @State private var windDownStart: Date?
-    /// Pending "stop the timeline" work, cancelled if typing resumes.
-    @State private var stopItem: DispatchWorkItem?
+    @State private var leftAngle: Double = 0
+    @State private var rightAngle: Double = 0
+    /// Which ear flaps on the next keystroke (ears alternate).
+    @State private var flapLeftNext = true
 
     var body: some View {
         ZStack {
@@ -88,8 +84,11 @@ private struct PlaceholderDog: View {
                 .offset(y: -14)
 
             // Ears
-            ears
-                .offset(y: -30)
+            HStack(spacing: 26) {
+                ear(angle: leftAngle)
+                ear(angle: rightAngle)
+            }
+            .offset(y: -30)
 
             // Eyes
             HStack(spacing: 14) {
@@ -104,73 +103,24 @@ private struct PlaceholderDog: View {
                 .frame(width: 7, height: 7)
                 .offset(y: -4)
         }
-        .onAppear { sync(typing: isTyping) }
-        .onChange(of: isTyping) { sync(typing: $0) }
+        .onChange(of: keyPulse) { _ in flap() }
     }
 
-    /// Ears alternate (one flaps while the other rests) while typing; when typing
-    /// stops they ease back to rest, then the timeline halts.
-    @ViewBuilder
-    private var ears: some View {
-        if active {
-            TimelineView(.animation) { context in
-                let amp = amplitude(at: context.date)
-                earsRow(
-                    left: leftAngle(at: context.date) * amp,
-                    right: rightAngle(at: context.date) * amp
-                )
+    /// One keystroke → one ear flap, alternating ears. The ear quickly swings out
+    /// and eases back to rest, so the waggle rate follows the typing rate.
+    private func flap() {
+        let isLeft = flapLeftNext
+        flapLeftNext.toggle()
+
+        let target = isLeft ? earSwing : -earSwing // ears flap outward, opposite ways
+        withAnimation(.easeOut(duration: 0.07)) {
+            if isLeft { leftAngle = target } else { rightAngle = target }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.07) {
+            withAnimation(.easeIn(duration: 0.11)) {
+                if isLeft { leftAngle = 0 } else { rightAngle = 0 }
             }
-        } else {
-            earsRow(left: 0, right: 0)
         }
-    }
-
-    private func earsRow(left: Double, right: Double) -> some View {
-        HStack(spacing: 26) {
-            ear(angle: left)
-            ear(angle: right)
-        }
-    }
-
-    // MARK: - Animation driving
-
-    /// Start waggling on typing; on stop, ramp down then halt the timeline.
-    private func sync(typing: Bool) {
-        stopItem?.cancel()
-        stopItem = nil
-
-        if typing {
-            windDownStart = nil
-            active = true
-        } else if active {
-            windDownStart = Date()
-            let item = DispatchWorkItem {
-                active = false
-                windDownStart = nil
-            }
-            stopItem = item
-            DispatchQueue.main.asyncAfter(deadline: .now() + windDown, execute: item)
-        }
-    }
-
-    /// 1 while typing; ramps 1 → 0 over the wind-down so the ears settle to rest.
-    private func amplitude(at date: Date) -> Double {
-        guard let start = windDownStart else { return 1 }
-        return max(0, 1 - date.timeIntervalSince(start) / windDown)
-    }
-
-    private func phase(at date: Date) -> Double {
-        date.timeIntervalSinceReferenceDate * earCyclesPerSecond * 2 * .pi
-    }
-
-    /// Left ear flaps up during the first half of each cycle, rests otherwise.
-    private func leftAngle(at date: Date) -> Double {
-        max(sin(phase(at: date)), 0) * earSwing
-    }
-
-    /// Right ear flaps (opposite direction) during the other half — alternating.
-    private func rightAngle(at date: Date) -> Double {
-        -max(-sin(phase(at: date)), 0) * earSwing
     }
 
     /// One ear, pivoting at its base so it swings like a flap.

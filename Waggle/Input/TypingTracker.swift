@@ -13,6 +13,8 @@ import AppKit
 final class TypingTracker {
     /// Called with `true` when typing starts and `false` after a quiet period.
     var onTypingChanged: ((Bool) -> Void)?
+    /// Called once per keystroke (no key content) to drive per-key reactions.
+    var onKeyDown: (() -> Void)?
 
     private var monitor: Any?
     private var isTyping = false
@@ -37,6 +39,7 @@ final class TypingTracker {
     }
 
     private func handleKeyDown() {
+        onKeyDown?()
         setTyping(true)
         // Each keystroke pushes the "stopped typing" moment further out, so
         // continuous typing keeps the state active.

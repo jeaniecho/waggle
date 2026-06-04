@@ -12,6 +12,9 @@ import SwiftUI
 final class DogViewModel: ObservableObject {
     @Published private(set) var state: DogState = .idle
     @Published private(set) var animationState: DogAnimationState = .idle
+    /// Increments once per detected keystroke. Views observe changes to pulse a
+    /// per-key reaction (e.g. an ear flap); it carries no key content (privacy).
+    @Published private(set) var keyPressCount: Int = 0
 
     // MARK: - Input signals
 
@@ -53,6 +56,11 @@ final class DogViewModel: ObservableObject {
         guard isBreakTime != breakTime else { return }
         isBreakTime = breakTime
         recompute()
+    }
+
+    /// Called once per keystroke to drive per-key reactions.
+    func registerKeystroke() {
+        keyPressCount &+= 1
     }
 
     /// Set (debounced) by the typing tracker while the user is typing.
