@@ -20,12 +20,16 @@ settings:
     MARKETING_VERSION: "0.1.0"
     CURRENT_PROJECT_VERSION: "1"
     ENABLE_HARDENED_RUNTIME: YES
-    # Sign with a stable Apple Development identity (not ad-hoc) so macOS keeps
-    # the Accessibility permission across rebuilds. Ad-hoc signing changes the
-    # code signature every build, which silently revokes the grant.
-    CODE_SIGN_STYLE: Automatic
+    # Pin a specific Apple Development identity (manual signing) so the code
+    # signature — and therefore the Accessibility grant — is identical on every
+    # build, from Xcode and the command line alike. Ad-hoc signing changed the
+    # signature each build, and automatic signing non-deterministically picked
+    # different certs/teams; both silently revoked the permission. macOS apps run
+    # locally with a development cert and need no provisioning profile.
+    CODE_SIGN_STYLE: Manual
     DEVELOPMENT_TEAM: ATTDC976HA
-    CODE_SIGN_IDENTITY: "Apple Development"
+    CODE_SIGN_IDENTITY: "Apple Development: jeanie.cho@curelation.co (ACFY3NCX67)"
+    PROVISIONING_PROFILE_SPECIFIER: ""
 
 targets:
   Waggle:
