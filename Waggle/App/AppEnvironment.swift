@@ -13,6 +13,7 @@ final class AppEnvironment {
     let pomodoroManager: PomodoroManager
     private let overlayController: DogOverlayWindowController
     private let inputMonitor: GlobalInputMonitor
+    private var menuBarController: MenuBarController?
 
     init() {
         let settingsStore = SettingsStore()
@@ -47,12 +48,35 @@ final class AppEnvironment {
         )
     }
 
-    /// Show the transparent dog overlay, start reacting to input, and begin the
-    /// stretch reminder countdown.
+    /// Show the transparent dog overlay, start reacting to input, begin the
+    /// stretch reminder countdown, and install the menu bar.
     func showOverlay() {
         permissionManager.refresh()
         overlayController.showOverlay()
         inputMonitor.start()
         stretchManager.start()
+        installMenuBar()
+    }
+
+    private func installMenuBar() {
+        menuBarController = MenuBarController(
+            onAction: { [weak self] action in self?.handle(action) },
+            isPomodoroActive: { [weak self] in self?.pomodoroManager.isActive ?? false },
+            isOverlayVisible: { [weak self] in self?.overlayController.isOverlayVisible ?? false }
+        )
+    }
+
+    /// Route a menu action to the owning manager. The menu bar holds no logic of
+    /// its own — every case delegates to an existing manager method.
+    private func handle(_ action: MenuBarAction) {
+        switch action {
+        case .startPomodoro: pomodoroManager.start()
+        case .stopPomodoro: pomodoroManager.stop()
+        case .resetStretchTimer: stretchManager.reset()
+        case .showWaggle: overlayController.setVisible(true)
+        case .hideWaggle: overlayController.setVisible(false)
+        case .openAccessibilitySettings: permissionManager.openSystemSettings()
+        case .quit: NSApplication.shared.terminate(nil)
+        }
     }
 }

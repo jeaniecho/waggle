@@ -64,6 +64,21 @@ final class DogOverlayWindowController: NSWindowController {
         window.orderFrontRegardless()
     }
 
+    /// Whether the overlay is currently on screen.
+    var isOverlayVisible: Bool {
+        window?.isVisible ?? false
+    }
+
+    /// Show or hide the overlay without activating the app.
+    func setVisible(_ visible: Bool) {
+        guard let window else { return }
+        if visible {
+            window.orderFrontRegardless()
+        } else {
+            window.orderOut(nil)
+        }
+    }
+
     /// Default to the lower-right of the main screen's visible area.
     private func positionDefault(_ window: NSWindow) {
         guard let screen = NSScreen.main else { return }
