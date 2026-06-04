@@ -73,6 +73,7 @@ final class MenuBarController: NSObject, NSMenuDelegate {
             addItem("Start Pomodoro", .startPomodoro)
         }
         addItem("Reset Stretch Timer", .resetStretchTimer)
+        addItem("Fetch a Bone 🦴", .fetchBone)
 
         menu.addItem(.separator())
 

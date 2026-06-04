@@ -26,6 +26,8 @@ final class DogViewModel: ObservableObject {
     /// Horizontal direction to the cursor while nearby (-1 left … +1 right), so
     /// the tail can point toward it. `nil` when the cursor is far.
     @Published private(set) var cursorLean: Double?
+    /// Whether the dog is currently carrying a fetched bone.
+    @Published var hasBone: Bool = false
 
     // MARK: - Input signals
 

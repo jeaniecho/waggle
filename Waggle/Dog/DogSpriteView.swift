@@ -21,6 +21,8 @@ struct DogSpriteView: View {
     var jumpPulse: Int = 0
     /// Horizontal direction to the cursor (-1…+1) for the tail to follow; nil if far.
     var cursorLean: Double?
+    /// Whether the dog is carrying a fetched bone.
+    var hasBone: Bool = false
     /// The dog's coat colour.
     var coat: DogCoat = .default
 
@@ -39,6 +41,7 @@ struct DogSpriteView: View {
                 tiltPulse: tiltPulse,
                 jumpPulse: jumpPulse,
                 cursorLean: cursorLean,
+                hasBone: hasBone,
                 coat: coat
             )
         } else if frames.count == 1 {
@@ -89,6 +92,8 @@ private struct PlaceholderDog: View {
     let jumpPulse: Int
     /// Horizontal direction to the cursor (-1…+1) the tail follows; nil if far.
     let cursorLean: Double?
+    /// Whether the dog is carrying a fetched bone (drawn at its mouth).
+    let hasBone: Bool
     /// Coat colour shades for body / head / ears / tail.
     let coat: DogCoat
 
@@ -108,6 +113,11 @@ private struct PlaceholderDog: View {
     @State private var jumpOffset: Double = 0
     /// Brief eye-close for the occasional blink.
     @State private var blinking = false
+    /// Animated tail base angle (follows the cursor, eases back to rest).
+    @State private var tailBase: Double = 8
+    private let tailRest: Double = 8
+    /// Max tail swing toward the cursor (rotation radius).
+    private let tailReach: Double = 70
 
     private var isFocusing: Bool { animationState == .sleep }
     private var isBreak: Bool { animationState == .celebrate }
@@ -171,6 +181,11 @@ private struct PlaceholderDog: View {
                     .offset(y: 3)
             }
 
+            // Fetched bone, carried at the mouth
+            if hasBone {
+                bone
+            }
+
             // Sauna towel + steam (focus)
             if isFocusing {
                 saunaTowel
@@ -182,6 +197,7 @@ private struct PlaceholderDog: View {
         .onChange(of: keyPulse) { _ in flap() }
         .onChange(of: tiltPulse) { _ in headTilt() }
         .onChange(of: jumpPulse) { _ in jump() }
+        .onChange(of: cursorLean) { updateTailFollow($0) }
         .onAppear { scheduleBlink() }
     }
 
@@ -226,20 +242,38 @@ private struct PlaceholderDog: View {
 
     @ViewBuilder
     private var tail: some View {
-        if let lean = cursorLean {
-            // Follow the cursor: lean toward it (±45°) with a small wag.
+        if cursorLean == nil, isWagging {
+            // Break: happy wag.
             TimelineView(.animation) { context in
-                let wag = sin(context.date.timeIntervalSinceReferenceDate * 7) * 10
-                tailShape(angle: lean * 45 + wag)
-            }
-        } else if isWagging {
-            TimelineView(.animation) { context in
-                let t = context.date.timeIntervalSinceReferenceDate
-                tailShape(angle: sin(t * 7) * 24)
+                tailShape(angle: sin(context.date.timeIntervalSinceReferenceDate * 7) * 30)
             }
         } else {
-            tailShape(angle: 10)
+            // Following the cursor (eased) or resting — tailBase is animated, so
+            // it eases back to rest instead of snapping when the cursor leaves.
+            tailShape(angle: tailBase)
         }
+    }
+
+    /// Point the tail toward the cursor (eased), or ease back to rest when far.
+    private func updateTailFollow(_ lean: Double?) {
+        if let lean {
+            withAnimation(.easeOut(duration: 0.18)) { tailBase = lean * tailReach }
+        } else {
+            withAnimation(.easeInOut(duration: 0.5)) { tailBase = tailRest }
+        }
+    }
+
+    /// A little dog bone, carried at the mouth.
+    private var bone: some View {
+        let c = Color(white: 0.95)
+        return ZStack {
+            Capsule().fill(c).frame(width: 17, height: 5)
+            Circle().fill(c).frame(width: 7, height: 7).offset(x: -8.5, y: -3)
+            Circle().fill(c).frame(width: 7, height: 7).offset(x: -8.5, y: 3)
+            Circle().fill(c).frame(width: 7, height: 7).offset(x: 8.5, y: -3)
+            Circle().fill(c).frame(width: 7, height: 7).offset(x: 8.5, y: 3)
+        }
+        .offset(y: 4)
     }
 
     private func tailShape(angle: Double) -> some View {

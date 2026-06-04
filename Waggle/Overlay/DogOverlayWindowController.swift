@@ -12,6 +12,18 @@ final class DogOverlayWindowController: NSWindowController {
     /// Called when the dog is clicked (not dragged).
     var onDogClicked: (() -> Void)?
 
+    // Fetch: the dog runs off one edge and returns from the other (with a bone).
+    private enum FetchPhase { case idle, leaving, away, returning }
+    private var fetchPhase: FetchPhase = .idle
+    private var fetchTimer: Timer?
+    private var fetchHome: CGPoint = .zero
+    private var fetchVisible: NSRect = .zero // home screen frame, fixed for the trip
+    private var fetchAwayUntil: Date?
+    private var fetchOnReturn: (() -> Void)?
+    private let fetchSpeed: CGFloat = 12
+
+    var isFetching: Bool { fetchPhase != .idle }
+
     // Roaming (break time): the dog strolls slowly to random points all over
     // the screen, with a gentle walking bob.
     private var roamTimer: Timer?
@@ -110,7 +122,7 @@ final class DogOverlayWindowController: NSWindowController {
     /// Start strolling the dog slowly to random spots across the screen.
     /// Remembers where it started so it can return there afterwards.
     func startRoaming() {
-        guard roamTimer == nil, let window else { return }
+        guard roamTimer == nil, fetchPhase == .idle, let window else { return }
         roamPos = window.frame.origin
         roamTarget = randomRoamTarget()
         roamPhase = 0
@@ -165,6 +177,65 @@ final class DogOverlayWindowController: NSWindowController {
         roamPhase += roamHopRate
         let hop = abs(sin(roamPhase)) * roamHop // gentle walking bob
         window.setFrameOrigin(CGPoint(x: roamPos.x, y: roamPos.y + hop))
+    }
+
+    // MARK: - Fetch
+
+    /// Run the dog off the right edge, pause off-screen, then run back in from
+    /// the left. `onReturn` fires as it reappears (so the bone shows up then).
+    func performFetch(onReturn: @escaping () -> Void) {
+        guard fetchPhase == .idle, roamTimer == nil, let window else { return }
+        fetchHome = window.frame.origin
+        fetchVisible = (window.screen ?? NSScreen.main)?.visibleFrame ?? .zero
+        fetchOnReturn = onReturn
+        fetchPhase = .leaving
+        let timer = Timer(timeInterval: 1.0 / 60.0, repeats: true) { [weak self] _ in
+            Task { @MainActor in self?.fetchStep() }
+        }
+        RunLoop.main.add(timer, forMode: .common)
+        fetchTimer = timer
+    }
+
+    private func fetchStep() {
+        guard let window else { return }
+        let width = window.frame.width
+        var origin = window.frame.origin
+
+        switch fetchPhase {
+        case .leaving:
+            origin.x += fetchSpeed
+            window.setFrameOrigin(origin)
+            if origin.x > fetchVisible.maxX { // off the home screen's right edge
+                fetchPhase = .away
+                fetchAwayUntil = Date().addingTimeInterval(2.5)
+            }
+        case .away:
+            if let until = fetchAwayUntil, Date() >= until {
+                // Reappear just off the left edge and start running back in.
+                window.setFrameOrigin(CGPoint(x: fetchVisible.minX - width, y: fetchHome.y))
+                fetchPhase = .returning
+                fetchOnReturn?() // bone appears as it returns
+                fetchOnReturn = nil
+            }
+        case .returning:
+            origin.x += fetchSpeed
+            if origin.x >= fetchHome.x {
+                window.setFrameOrigin(fetchHome)
+                endFetch()
+            } else {
+                window.setFrameOrigin(origin)
+            }
+        case .idle:
+            break
+        }
+    }
+
+    private func endFetch() {
+        fetchTimer?.invalidate()
+        fetchTimer = nil
+        fetchPhase = .idle
+        fetchAwayUntil = nil
+        fetchOnReturn = nil
     }
 
     // MARK: - Dragging

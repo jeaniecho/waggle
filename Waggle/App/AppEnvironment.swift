@@ -22,6 +22,8 @@ final class AppEnvironment: ObservableObject {
     private var stretchNotifyCancellable: AnyCancellable?
     private var onboardingWindow: NSWindow?
     private var settingsWindowController: SettingsWindowController?
+    private var fetchScheduleTimer: Timer?
+    private var boneTimer: Timer?
 
     init() {
         let settingsStore = SettingsStore()
@@ -80,6 +82,38 @@ final class AppEnvironment: ObservableObject {
         notificationManager.requestAuthorization()
         observeNotifications()
         showOnboardingIfNeeded()
+        scheduleNextFetch()
+    }
+
+    // MARK: - Fetch a bone
+
+    private func scheduleNextFetch() {
+        let delay = Double.random(in: 360 ... 900) // every 6–15 minutes
+        fetchScheduleTimer = Timer.scheduledTimer(withTimeInterval: delay, repeats: false) { [weak self] _ in
+            Task { @MainActor in
+                self?.autoFetch()
+                self?.scheduleNextFetch()
+            }
+        }
+    }
+
+    /// Auto fetch only when the dog isn't busy.
+    private func autoFetch() {
+        guard !pomodoroManager.isActive, !settingsStore.reactionsPaused else { return }
+        fetchBone()
+    }
+
+    /// Run off-screen and come back carrying a bone (which lasts 5 minutes).
+    func fetchBone() {
+        overlayController.performFetch { [weak self] in self?.giveBone() }
+    }
+
+    private func giveBone() {
+        dogViewModel.hasBone = true
+        boneTimer?.invalidate()
+        boneTimer = Timer.scheduledTimer(withTimeInterval: 300, repeats: false) { [weak self] _ in
+            Task { @MainActor in self?.dogViewModel.hasBone = false }
+        }
     }
 
     // MARK: - Onboarding
@@ -216,6 +250,7 @@ final class AppEnvironment: ObservableObject {
         case .setLongBreakMinutes(let m): settingsStore.pomodoroLongBreakMinutes = m
         case .setSessionsBeforeLongBreak(let n): settingsStore.pomodoroSessionsBeforeLongBreak = n
         case .setLaunchAtLogin(let on): launchItem.setEnabled(on)
+        case .fetchBone: fetchBone()
         case .openSettings: openSettings()
         case .quit: NSApplication.shared.terminate(nil)
         }

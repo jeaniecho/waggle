@@ -20,6 +20,7 @@ enum MenuBarAction: Equatable {
     case setLongBreakMinutes(Int)
     case setSessionsBeforeLongBreak(Int)
     case setLaunchAtLogin(Bool)
+    case fetchBone
     case openSettings
     case quit
 }
