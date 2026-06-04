@@ -120,8 +120,8 @@ private struct PlaceholderDog: View {
             if isBreak {
                 RoundedRectangle(cornerRadius: 3)
                     .fill(Color(red: 0.93, green: 0.36, blue: 0.45))
-                    .frame(width: 8, height: 13)
-                    .offset(y: 5)
+                    .frame(width: 8, height: 7)
+                    .offset(y: 3)
             }
 
             // Sauna towel + steam (focus)
@@ -174,26 +174,11 @@ private struct PlaceholderDog: View {
     // MARK: - Sauna towel (focus)
 
     private var saunaTowel: some View {
-        ZStack {
-            // Two folded "horns" (the 양머리 fold), splayed apart
-            HStack(spacing: 3) {
-                towelHorn.rotationEffect(.degrees(-13), anchor: .bottom)
-                towelHorn.rotationEffect(.degrees(13), anchor: .bottom)
-            }
-            .offset(y: -41)
-
-            // Band across the forehead
-            RoundedRectangle(cornerRadius: 5)
-                .fill(towelColor)
-                .frame(width: 46, height: 13)
-                .offset(y: -31)
-        }
-    }
-
-    private var towelHorn: some View {
-        RoundedRectangle(cornerRadius: 5)
+        // A straight towel band laid across the head.
+        RoundedRectangle(cornerRadius: 4)
             .fill(towelColor)
-            .frame(width: 11, height: 20)
+            .frame(width: 46, height: 14)
+            .offset(y: -30)
     }
 
     // MARK: - Steam (focus)

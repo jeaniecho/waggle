@@ -14,8 +14,8 @@ final class DogOverlayWindowController: NSWindowController {
     private var roamHome: CGPoint?
     private var roamDirection: CGFloat = 1
     private var roamPhase: CGFloat = 0
-    private let roamSpeed: CGFloat = 7   // points per tick (~60 fps)
-    private let roamHop: CGFloat = 16    // bounce height while running
+    private let roamSpeed: CGFloat = 4   // points per tick (~60 fps)
+    private let roamHop: CGFloat = 22    // bounce height while running
 
     /// Current dog center in screen coordinates, for cursor-proximity checks.
     var dogCenter: CGPoint? {
