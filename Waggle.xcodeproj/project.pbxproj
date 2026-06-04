@@ -18,6 +18,7 @@
 		77DC89753FF6F5992F300338 /* MenuBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E9B66831090F7C5DED04C1 /* MenuBarController.swift */; };
 		834F2DC7B74AF4781271356D /* CursorTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8020286ABADA5A6D7D4AFFA3 /* CursorTracker.swift */; };
 		87B37D224F7FF787CFD1859E /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B7BDA36826104DAA285823 /* UserDefaultsKeys.swift */; };
+		90EFFA7D4B5CD0B7E4C351D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C2A9F2D21E7FBC12DFC039F7 /* Assets.xcassets */; };
 		9B0424B8DB73306E66DD5526 /* DogOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFD5FA6311C73A8D259DAF3 /* DogOverlayView.swift */; };
 		9D23A09CC855F3B34FB1495A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30ABFBDEBE103C835180B00 /* AppDelegate.swift */; };
 		A21AAF9D21A45995B5C67253 /* DogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0791ABB6ABA89D6526A5A656 /* DogViewModel.swift */; };
@@ -25,6 +26,7 @@
 		A96FD3887C2142B4D54D7324 /* PomodoroManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE67B664936C8E3FD35497B /* PomodoroManager.swift */; };
 		AB883FDFC498F87470C1D213 /* DogState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D38D2BF6335CF39EA09F40E /* DogState.swift */; };
 		AB979832BD22BDB58F87D94D /* OverlayPositionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B524278CD8BA04A93FCBD4 /* OverlayPositionStore.swift */; };
+		AF2C50934FB13567566AA0F0 /* DogSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2C22C1184CCE8045E7DAC3 /* DogSprite.swift */; };
 		B2294BADFA518A1BC98496F2 /* InputEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F019903288FB8FAB3385FE /* InputEvent.swift */; };
 		B78C5376E42B9085D69CAB93 /* StretchReminderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D0FBD74374D5B7018E608E /* StretchReminderManager.swift */; };
 		B949A399A81BBF405187BBB9 /* TimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB25B7B0F82EACD27474325 /* TimerState.swift */; };
@@ -56,6 +58,7 @@
 		53454C9AFB2400C1004361A7 /* DogOverlayWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogOverlayWindowController.swift; sourceTree = "<group>"; };
 		5D38D2BF6335CF39EA09F40E /* DogState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogState.swift; sourceTree = "<group>"; };
 		6920D1BB340C3F12D9C53E1F /* GlobalInputMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalInputMonitor.swift; sourceTree = "<group>"; };
+		6F2C22C1184CCE8045E7DAC3 /* DogSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogSprite.swift; sourceTree = "<group>"; };
 		751346DE08E562EBB3148CC2 /* DogSpriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogSpriteView.swift; sourceTree = "<group>"; };
 		79D0FBD74374D5B7018E608E /* StretchReminderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchReminderManager.swift; sourceTree = "<group>"; };
 		8020286ABADA5A6D7D4AFFA3 /* CursorTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CursorTracker.swift; sourceTree = "<group>"; };
@@ -65,6 +68,7 @@
 		9AFD5FA6311C73A8D259DAF3 /* DogOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogOverlayView.swift; sourceTree = "<group>"; };
 		A630E9DC7A0CD59AA1C7B3B3 /* WaggleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaggleApp.swift; sourceTree = "<group>"; };
 		ADE67B664936C8E3FD35497B /* PomodoroManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroManager.swift; sourceTree = "<group>"; };
+		C2A9F2D21E7FBC12DFC039F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C4FE3AFA9AD9D7FBD5911A55 /* Waggle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Waggle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E121029A55867416BE5A8682 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		E30ABFBDEBE103C835180B00 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -81,6 +85,7 @@
 				74A98C4D7EFE54FE151D64BC /* MenuBar */,
 				1C9E13669914BA418276B80B /* Overlay */,
 				5AE9C658A8672CAD96C28639 /* Productivity */,
+				A9CDA0D5DABB32AC3069C9C8 /* Resources */,
 				220F1DDAC8A1F049E62784FA /* Settings */,
 				5D875FAC717D34E391E1871F /* Utilities */,
 			);
@@ -176,11 +181,20 @@
 			);
 			sourceTree = "<group>";
 		};
+		A9CDA0D5DABB32AC3069C9C8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C2A9F2D21E7FBC12DFC039F7 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		F89DC0E564E66260753A5DDB /* Dog */ = {
 			isa = PBXGroup;
 			children = (
 				33D38581ADDF5A65C6D98219 /* DogAnimationState.swift */,
 				1050720011042C60C57FAF19 /* DogDirection.swift */,
+				6F2C22C1184CCE8045E7DAC3 /* DogSprite.swift */,
 				751346DE08E562EBB3148CC2 /* DogSpriteView.swift */,
 				5D38D2BF6335CF39EA09F40E /* DogState.swift */,
 				0791ABB6ABA89D6526A5A656 /* DogViewModel.swift */,
@@ -196,6 +210,7 @@
 			buildConfigurationList = DC8ACA07965E0105BB554FBF /* Build configuration list for PBXNativeTarget "Waggle" */;
 			buildPhases = (
 				1EB7270B89504646B2909231 /* Sources */,
+				E4750325B97B596DF2B4502F /* Resources */,
 			);
 			buildRules = (
 			);
@@ -241,6 +256,17 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		E4750325B97B596DF2B4502F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				90EFFA7D4B5CD0B7E4C351D2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1EB7270B89504646B2909231 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -257,6 +283,7 @@
 				9B0424B8DB73306E66DD5526 /* DogOverlayView.swift in Sources */,
 				E0E9B6FD579E923B377DFF2E /* DogOverlayWindow.swift in Sources */,
 				EAAC99306A2B654717227B7C /* DogOverlayWindowController.swift in Sources */,
+				AF2C50934FB13567566AA0F0 /* DogSprite.swift in Sources */,
 				DC1FA989211FEE79A51729B7 /* DogSpriteView.swift in Sources */,
 				AB883FDFC498F87470C1D213 /* DogState.swift in Sources */,
 				A21AAF9D21A45995B5C67253 /* DogViewModel.swift in Sources */,

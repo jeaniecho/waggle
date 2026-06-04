@@ -1,15 +1,61 @@
 import SwiftUI
 
-/// Placeholder pixel-art dog drawn with SwiftUI shapes.
+/// Renders the dog for a given `DogAnimationState`.
 ///
-/// This is intentionally simple so behavior and architecture can be built
-/// without final art. Real sprite frames replace this view in the sprite
-/// pipeline task; keep the public surface (a fixed-size, transparent-background
-/// view) stable so the swap is mechanical.
+/// If the state's sprite frames exist (see `DogSprite`), they are drawn with
+/// nearest-neighbor scaling (crisp pixel art, no blur) and animated when there
+/// is more than one frame. If any frame is missing, the view falls back to the
+/// placeholder shapes below — so the app works with or without art, and adding
+/// PNGs later needs no code changes.
 struct DogSpriteView: View {
     /// Logical canvas size of the dog. The overlay window sizes itself to this.
     static let size = CGSize(width: 96, height: 96)
 
+    var animationState: DogAnimationState = .idle
+
+    var body: some View {
+        content
+            .frame(width: Self.size.width, height: Self.size.height)
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        let frames = Self.loadFrames(for: animationState)
+        if frames.isEmpty {
+            PlaceholderDog()
+        } else if frames.count == 1 {
+            sprite(frames[0])
+        } else {
+            TimelineView(.periodic(from: .now, by: 1.0 / DogSprite.framesPerSecond)) { context in
+                sprite(frames[Self.frameIndex(at: context.date, count: frames.count)])
+            }
+        }
+    }
+
+    private func sprite(_ image: NSImage) -> some View {
+        Image(nsImage: image)
+            .resizable()
+            .interpolation(.none) // nearest-neighbor → crisp pixels, no blur
+            .frame(width: Self.size.width, height: Self.size.height)
+    }
+
+    /// Load every frame for a state; returns `[]` if any are missing so the
+    /// caller falls back to the placeholder rather than showing a partial set.
+    private static func loadFrames(for state: DogAnimationState) -> [NSImage] {
+        let names = DogSprite.frameNames(for: state)
+        let images = names.compactMap { NSImage(named: $0) }
+        return images.count == names.count ? images : []
+    }
+
+    private static func frameIndex(at date: Date, count: Int) -> Int {
+        let tick = Int(date.timeIntervalSinceReferenceDate * DogSprite.framesPerSecond)
+        return ((tick % count) + count) % count
+    }
+}
+
+/// Placeholder pixel-style dog drawn with SwiftUI shapes, used until real sprite
+/// frames are added.
+private struct PlaceholderDog: View {
     var body: some View {
         ZStack {
             // Body
@@ -44,7 +90,6 @@ struct DogSpriteView: View {
                 .frame(width: 7, height: 7)
                 .offset(y: -4)
         }
-        .frame(width: Self.size.width, height: Self.size.height)
     }
 
     private var ear: some View {
@@ -61,6 +106,6 @@ struct DogSpriteView: View {
 }
 
 #Preview {
-    DogSpriteView()
+    DogSpriteView(animationState: .idle)
         .background(Color.gray.opacity(0.2))
 }
