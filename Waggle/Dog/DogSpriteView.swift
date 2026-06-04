@@ -56,6 +56,11 @@ struct DogSpriteView: View {
 /// Placeholder pixel-style dog drawn with SwiftUI shapes, used until real sprite
 /// frames are added.
 private struct PlaceholderDog: View {
+    /// Drives the continuous ear waggle.
+    @State private var waggle = false
+    /// Peak ear swing, in degrees.
+    private let earSwing: Double = 14
+
     var body: some View {
         ZStack {
             // Body
@@ -70,10 +75,10 @@ private struct PlaceholderDog: View {
                 .frame(width: 42, height: 38)
                 .offset(y: -14)
 
-            // Ears
+            // Ears (waggle in opposite directions)
             HStack(spacing: 26) {
-                ear
-                ear
+                ear(angle: waggle ? earSwing : -earSwing)
+                ear(angle: waggle ? -earSwing : earSwing)
             }
             .offset(y: -30)
 
@@ -90,12 +95,19 @@ private struct PlaceholderDog: View {
                 .frame(width: 7, height: 7)
                 .offset(y: -4)
         }
+        .onAppear {
+            withAnimation(.easeInOut(duration: 0.45).repeatForever(autoreverses: true)) {
+                waggle = true
+            }
+        }
     }
 
-    private var ear: some View {
+    /// One ear, pivoting at its base so it swings like a flap.
+    private func ear(angle: Double) -> some View {
         RoundedRectangle(cornerRadius: 4)
             .fill(Color(red: 0.55, green: 0.38, blue: 0.22))
             .frame(width: 14, height: 22)
+            .rotationEffect(.degrees(angle), anchor: .bottom)
     }
 
     private var eye: some View {
