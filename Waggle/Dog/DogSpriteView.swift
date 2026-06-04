@@ -62,7 +62,7 @@ private struct PlaceholderDog: View {
     let keyPulse: Int
 
     /// Peak ear flap angle, in degrees.
-    private let earSwing: Double = 30
+    private let earSwing: Double = 45
 
     @State private var leftAngle: Double = 0
     @State private var rightAngle: Double = 0
@@ -88,7 +88,7 @@ private struct PlaceholderDog: View {
                 ear(angle: leftAngle)
                 ear(angle: rightAngle)
             }
-            .offset(y: -30)
+            .offset(y: -24)
 
             // Eyes
             HStack(spacing: 14) {
