@@ -9,13 +9,15 @@ final class DogOverlayWindowController: NSWindowController {
     private let dogViewModel: DogViewModel
     private let positionStore: OverlayPositionStore
 
-    // Roaming (break time): the dog runs back and forth across the screen.
+    // Roaming (break time): the dog strolls slowly to random points all over
+    // the screen, with a gentle walking bob.
     private var roamTimer: Timer?
-    private var roamHome: CGPoint?
-    private var roamDirection: CGFloat = 1
+    private var roamHome: CGPoint?       // where to return when the break ends
+    private var roamPos: CGPoint = .zero // base walking position (without the bob)
+    private var roamTarget: CGPoint?     // current destination
     private var roamPhase: CGFloat = 0
-    private let roamSpeed: CGFloat = 4   // points per tick (~60 fps)
-    private let roamHop: CGFloat = 22    // bounce height while running
+    private let roamSpeed: CGFloat = 1.5 // points per tick (~60 fps) — slow stroll
+    private let roamHop: CGFloat = 10    // gentle walking bob
 
     /// Current dog center in screen coordinates, for cursor-proximity checks.
     var dogCenter: CGPoint? {
@@ -101,11 +103,13 @@ final class DogOverlayWindowController: NSWindowController {
 
     // MARK: - Roaming (break time)
 
-    /// Start running the dog back and forth across the screen, hopping as it
-    /// goes. Remembers where it started so it can return there afterwards.
+    /// Start strolling the dog slowly to random spots across the screen.
+    /// Remembers where it started so it can return there afterwards.
     func startRoaming() {
         guard roamTimer == nil, let window else { return }
         roamHome = window.frame.origin
+        roamPos = window.frame.origin
+        roamTarget = randomRoamTarget()
         roamPhase = 0
         let timer = Timer(timeInterval: 1.0 / 60.0, repeats: true) { [weak self] _ in
             Task { @MainActor in self?.roamStep() }
@@ -115,7 +119,7 @@ final class DogOverlayWindowController: NSWindowController {
         roamTimer = timer
     }
 
-    /// Stop running and return the dog to where it started.
+    /// Stop strolling and return the dog to where it started.
     func stopRoaming() {
         guard roamTimer != nil else { return }
         roamTimer?.invalidate()
@@ -124,25 +128,39 @@ final class DogOverlayWindowController: NSWindowController {
             window.setFrameOrigin(home)
         }
         roamHome = nil
+        roamTarget = nil
+    }
+
+    /// A random reachable origin anywhere on the current screen's visible area.
+    private func randomRoamTarget() -> CGPoint {
+        guard let window else { return .zero }
+        let visible = (window.screen ?? NSScreen.main)?.visibleFrame ?? .zero
+        let maxX = max(visible.minX, visible.maxX - window.frame.width)
+        let maxY = max(visible.minY, visible.maxY - window.frame.height)
+        return CGPoint(
+            x: .random(in: visible.minX ... maxX),
+            y: .random(in: visible.minY ... maxY)
+        )
     }
 
     private func roamStep() {
-        guard let window, let home = roamHome else { return }
-        let visible = (window.screen ?? NSScreen.main)?.visibleFrame ?? .zero
-        let width = window.frame.width
+        guard let window else { return }
+        let target = roamTarget ?? randomRoamTarget()
 
-        var x = window.frame.origin.x + roamDirection * roamSpeed
-        if x <= visible.minX {
-            x = visible.minX
-            roamDirection = 1
-        } else if x + width >= visible.maxX {
-            x = visible.maxX - width
-            roamDirection = -1
+        let dx = target.x - roamPos.x
+        let dy = target.y - roamPos.y
+        let dist = max(0.0001, (dx * dx + dy * dy).squareRoot())
+        if dist <= roamSpeed {
+            roamPos = target
+            roamTarget = randomRoamTarget() // arrived → pick a new spot
+        } else {
+            roamPos.x += dx / dist * roamSpeed
+            roamPos.y += dy / dist * roamSpeed
         }
 
-        roamPhase += 0.28
-        let y = home.y + abs(sin(roamPhase)) * roamHop // little hops
-        window.setFrameOrigin(CGPoint(x: x, y: y))
+        roamPhase += 0.18
+        let hop = abs(sin(roamPhase)) * roamHop // gentle walking bob
+        window.setFrameOrigin(CGPoint(x: roamPos.x, y: roamPos.y + hop))
     }
 
     // MARK: - Dragging

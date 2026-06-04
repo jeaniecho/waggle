@@ -16,7 +16,8 @@ struct DogOverlayView: View {
     var body: some View {
         DogSpriteView(
             animationState: dogViewModel.animationState,
-            keyPulse: dogViewModel.keyPressCount
+            keyPulse: dogViewModel.keyPressCount,
+            tiltPulse: dogViewModel.headTiltCount
         )
             // Transparent background so only the dog is visible; the whole
             // frame is still hit-testable so the dog can be dragged anywhere.

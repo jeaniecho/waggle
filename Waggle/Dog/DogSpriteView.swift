@@ -15,6 +15,8 @@ struct DogSpriteView: View {
     var animationState: DogAnimationState = .idle
     /// Increments once per keystroke; the placeholder flaps an ear on each change.
     var keyPulse: Int = 0
+    /// Increments when "?" is typed; the placeholder tilts its head.
+    var tiltPulse: Int = 0
 
     var body: some View {
         content
@@ -25,7 +27,7 @@ struct DogSpriteView: View {
     private var content: some View {
         let frames = Self.loadFrames(for: animationState)
         if frames.isEmpty {
-            PlaceholderDog(keyPulse: keyPulse, animationState: animationState)
+            PlaceholderDog(keyPulse: keyPulse, animationState: animationState, tiltPulse: tiltPulse)
         } else if frames.count == 1 {
             sprite(frames[0])
         } else {
@@ -68,6 +70,8 @@ private struct PlaceholderDog: View {
     let keyPulse: Int
     /// Current visual state, used for the Pomodoro flavour.
     let animationState: DogAnimationState
+    /// Increments when a "?" is typed; each change makes the dog tilt its head.
+    let tiltPulse: Int
 
     /// Peak ear flap angle, in degrees.
     private let earSwing: Double = 45
@@ -77,13 +81,23 @@ private struct PlaceholderDog: View {
     /// Which ear flaps on the next keystroke (ears alternate).
     @State private var flapLeftNext = true
 
+    /// Head-tilt angle (degrees) for the "?" reaction.
+    @State private var tilt: Double = 0
+    @State private var tiltLeftNext = true
+
     private var isFocusing: Bool { animationState == .sleep }
     private var isBreak: Bool { animationState == .celebrate }
+    /// Tail wags happily when watching the cursor or on break.
+    private var isWagging: Bool { animationState == .tailWag || animationState == .celebrate }
 
     private let towelColor = Color(white: 0.97)
+    private let tailColor = Color(red: 0.62, green: 0.44, blue: 0.27)
 
     var body: some View {
         ZStack {
+            // Tail (behind the body)
+            tail
+
             // Body
             RoundedRectangle(cornerRadius: 8)
                 .fill(Color(red: 0.78, green: 0.58, blue: 0.36))
@@ -130,15 +144,48 @@ private struct PlaceholderDog: View {
                 steam
             }
         }
+        .rotationEffect(.degrees(tilt), anchor: UnitPoint(x: 0.5, y: 0.72))
         .onChange(of: keyPulse) { _ in flap() }
+        .onChange(of: tiltPulse) { _ in headTilt() }
+    }
+
+    /// A "?" was typed: cock the head to one side, hold briefly, then return.
+    private func headTilt() {
+        let dir = tiltLeftNext ? 1.0 : -1.0
+        tiltLeftNext.toggle()
+        withAnimation(.easeInOut(duration: 0.16)) { tilt = 15 * dir }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.55) {
+            withAnimation(.easeInOut(duration: 0.22)) { tilt = 0 }
+        }
+    }
+
+    // MARK: - Tail
+
+    @ViewBuilder
+    private var tail: some View {
+        if isWagging {
+            TimelineView(.animation) { context in
+                let t = context.date.timeIntervalSinceReferenceDate
+                tailShape(angle: sin(t * 7) * 24)
+            }
+        } else {
+            tailShape(angle: 10)
+        }
+    }
+
+    private func tailShape(angle: Double) -> some View {
+        RoundedRectangle(cornerRadius: 4)
+            .fill(tailColor)
+            .frame(width: 8, height: 24)
+            .rotationEffect(.degrees(angle), anchor: .bottom)
+            .offset(x: 26, y: 2)
     }
 
     // MARK: - Ear flap (typing)
 
-    /// One keystroke → one ear flap, alternating ears. Skipped during Pomodoro
-    /// focus/break so the towel-resting and running looks stay clean.
+    /// One keystroke → one ear flap, alternating ears. Runs in every state,
+    /// including Pomodoro focus/break.
     private func flap() {
-        guard !isFocusing, !isBreak else { return }
         let isLeft = flapLeftNext
         flapLeftNext.toggle()
 
