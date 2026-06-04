@@ -25,4 +25,22 @@ final class SettingsStore {
         }
         set { defaults.set(newValue, forKey: UserDefaultsKeys.stretchIntervalMinutes) }
     }
+
+    // MARK: - Pomodoro
+
+    var pomodoroFocusMinutes: Int {
+        get {
+            let stored = defaults.integer(forKey: UserDefaultsKeys.pomodoroFocusMinutes)
+            return stored > 0 ? stored : AppSettings.defaults.pomodoroFocusMinutes
+        }
+        set { defaults.set(newValue, forKey: UserDefaultsKeys.pomodoroFocusMinutes) }
+    }
+
+    var pomodoroBreakMinutes: Int {
+        get {
+            let stored = defaults.integer(forKey: UserDefaultsKeys.pomodoroBreakMinutes)
+            return stored > 0 ? stored : AppSettings.defaults.pomodoroBreakMinutes
+        }
+        set { defaults.set(newValue, forKey: UserDefaultsKeys.pomodoroBreakMinutes) }
+    }
 }

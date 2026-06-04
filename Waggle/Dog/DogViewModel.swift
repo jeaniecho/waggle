@@ -17,6 +17,8 @@ final class DogViewModel: ObservableObject {
 
     private var isDragging = false
     private var isStretching = false
+    private var isBreakTime = false
+    private var isFocusing = false
     private var isTyping = false
     /// Direction to the cursor while it is nearby; `nil` when the cursor is far.
     private var cursorDirection: DogDirection?
@@ -36,6 +38,20 @@ final class DogViewModel: ObservableObject {
     func setStretching(_ stretching: Bool) {
         guard isStretching != stretching else { return }
         isStretching = stretching
+        recompute()
+    }
+
+    /// Set by the Pomodoro manager during a focus interval.
+    func setFocusing(_ focusing: Bool) {
+        guard isFocusing != focusing else { return }
+        isFocusing = focusing
+        recompute()
+    }
+
+    /// Set by the Pomodoro manager during a break interval.
+    func setBreakTime(_ breakTime: Bool) {
+        guard isBreakTime != breakTime else { return }
+        isBreakTime = breakTime
         recompute()
     }
 
@@ -68,6 +84,8 @@ final class DogViewModel: ObservableObject {
     private func resolveState() -> DogState {
         if isDragging { return .dragging }
         if isStretching { return .stretching }
+        if isBreakTime { return .breakTime }
+        if isFocusing { return .focusing }
         if isTyping { return .typing }
         if let direction = cursorDirection {
             return cursorIsExcited ? .excited : .watchingCursor(direction: direction)

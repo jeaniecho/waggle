@@ -11,6 +11,7 @@ struct DogOverlayView: View {
     @ObservedObject var dogViewModel: DogViewModel
     @ObservedObject var permission: AccessibilityPermissionManager
     @ObservedObject var stretch: StretchReminderManager
+    @ObservedObject var pomodoro: PomodoroManager
 
     var body: some View {
         DogSpriteView()
@@ -19,6 +20,18 @@ struct DogOverlayView: View {
             .background(Color.clear)
             .contentShape(Rectangle())
             .contextMenu {
+                if pomodoro.isActive {
+                    Text(pomodoroStatus)
+                    if pomodoro.isPaused {
+                        Button("Resume Pomodoro") { pomodoro.resume() }
+                    } else {
+                        Button("Pause Pomodoro") { pomodoro.pause() }
+                    }
+                    Button("Stop Pomodoro") { pomodoro.stop() }
+                } else {
+                    Button("Start Pomodoro") { pomodoro.start() }
+                }
+                Divider()
                 if stretch.isStretchDue {
                     Text("Time to stretch! 🐕")
                 }
@@ -35,5 +48,19 @@ struct DogOverlayView: View {
                     }
                 }
             }
+    }
+
+    /// Human-readable Pomodoro status, e.g. "Focusing — 24:13".
+    private var pomodoroStatus: String {
+        switch pomodoro.state {
+        case .idle: return ""
+        case .focusing(let seconds): return "Focusing — \(Self.clock(seconds))"
+        case .breakTime(let seconds): return "Break — \(Self.clock(seconds))"
+        case .paused: return "Pomodoro paused"
+        }
+    }
+
+    private static func clock(_ seconds: Int) -> String {
+        String(format: "%d:%02d", seconds / 60, seconds % 60)
     }
 }

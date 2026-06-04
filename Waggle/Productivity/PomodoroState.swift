@@ -1,8 +1,10 @@
 import Foundation
 
-/// Phase of a Pomodoro session. Drives focusing/breakTime dog states (Task 007).
+/// Phase of a Pomodoro session, carrying the live countdown. Drives the dog's
+/// focusing/breakTime states (see docs/specs/POMODORO.md).
 enum PomodoroState: Equatable {
-    case inactive
-    case focus
-    case onBreak
+    case idle
+    case focusing(remainingSeconds: Int)
+    case breakTime(remainingSeconds: Int)
+    case paused
 }

@@ -10,6 +10,7 @@ final class AppEnvironment {
     let dogViewModel: DogViewModel
     let permissionManager: AccessibilityPermissionManager
     let stretchManager: StretchReminderManager
+    let pomodoroManager: PomodoroManager
     private let overlayController: DogOverlayWindowController
     private let inputMonitor: GlobalInputMonitor
 
@@ -21,10 +22,15 @@ final class AppEnvironment {
             settingsStore: settingsStore,
             dogViewModel: dogViewModel
         )
+        let pomodoroManager = PomodoroManager(
+            settingsStore: settingsStore,
+            dogViewModel: dogViewModel
+        )
         let overlayController = DogOverlayWindowController(
             dogViewModel: dogViewModel,
             permissionManager: permissionManager,
             stretchManager: stretchManager,
+            pomodoroManager: pomodoroManager,
             positionStore: OverlayPositionStore(defaults: settingsStore.defaults)
         )
 
@@ -32,6 +38,7 @@ final class AppEnvironment {
         self.dogViewModel = dogViewModel
         self.permissionManager = permissionManager
         self.stretchManager = stretchManager
+        self.pomodoroManager = pomodoroManager
         self.overlayController = overlayController
         self.inputMonitor = GlobalInputMonitor(
             dogViewModel: dogViewModel,
