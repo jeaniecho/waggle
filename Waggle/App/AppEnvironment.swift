@@ -55,24 +55,31 @@ final class AppEnvironment {
     /// stretch reminder countdown, and install the menu bar.
     func showOverlay() {
         permissionManager.refresh()
+        // Clicking the dog dismisses a stretch nudge (regardless of Pomodoro
+        // state) and returns it to normal.
+        overlayController.onDogClicked = { [weak self] in
+            guard let self, self.stretchManager.isStretchDue else { return }
+            self.stretchManager.reset()
+        }
         overlayController.showOverlay()
         inputMonitor.start()
         stretchManager.start()
         installMenuBar()
-        observeBreak()
+        observeRoaming()
     }
 
-    /// Run the dog across the screen during Pomodoro breaks; return it home when
-    /// the break ends.
-    private func observeBreak() {
-        breakCancellable = pomodoroManager.$state
-            .map { state -> Bool in
-                if case .breakTime = state { return true }
-                return false
-            }
+    /// Stroll across the screen during Pomodoro breaks — but pause (and stay put)
+    /// while a stretch nudge is active so the dog can be clicked to dismiss it.
+    private func observeRoaming() {
+        let onBreak = pomodoroManager.$state.map { state -> Bool in
+            if case .breakTime = state { return true }
+            return false
+        }
+        breakCancellable = Publishers.CombineLatest(onBreak, stretchManager.$isStretchDue)
+            .map { breaking, stretchDue in breaking && !stretchDue }
             .removeDuplicates()
-            .sink { [weak self] isBreak in
-                if isBreak {
+            .sink { [weak self] shouldRoam in
+                if shouldRoam {
                     self?.overlayController.startRoaming()
                 } else {
                     self?.overlayController.stopRoaming()
@@ -83,11 +90,26 @@ final class AppEnvironment {
     private func installMenuBar() {
         menuBarController = MenuBarController(
             onAction: { [weak self] action in self?.handle(action) },
-            isPomodoroActive: { [weak self] in self?.pomodoroManager.isActive ?? false },
-            isOverlayVisible: { [weak self] in self?.overlayController.isOverlayVisible ?? false },
-            currentCoatID: { [weak self] in self?.dogViewModel.coat.id ?? DogCoat.default.id }
+            state: { [weak self] in self?.menuState() ?? AppEnvironment.defaultMenuState }
         )
     }
+
+    private func menuState() -> MenuBarState {
+        MenuBarState(
+            pomodoroActive: pomodoroManager.isActive,
+            overlayVisible: overlayController.isOverlayVisible,
+            coatID: dogViewModel.coat.id,
+            focusMinutes: settingsStore.pomodoroFocusMinutes,
+            breakMinutes: settingsStore.pomodoroBreakMinutes,
+            stretchMinutes: settingsStore.stretchIntervalMinutes,
+            stretchEnabled: settingsStore.stretchEnabled
+        )
+    }
+
+    private static let defaultMenuState = MenuBarState(
+        pomodoroActive: false, overlayVisible: true, coatID: DogCoat.default.id,
+        focusMinutes: 25, breakMinutes: 5, stretchMinutes: 45, stretchEnabled: true
+    )
 
     /// Route a menu action to the owning manager. The menu bar holds no logic of
     /// its own — every case delegates to an existing manager method.
@@ -100,6 +122,9 @@ final class AppEnvironment {
         case .hideWaggle: overlayController.setVisible(false)
         case .openAccessibilitySettings: permissionManager.promptForAccessibility()
         case .setDogCoat(let id): selectDogCoat(id)
+        case .setFocusMinutes(let m): settingsStore.pomodoroFocusMinutes = m
+        case .setBreakMinutes(let m): settingsStore.pomodoroBreakMinutes = m
+        case .setStretchMinutes(let m): setStretchMinutes(m)
         case .quit: NSApplication.shared.terminate(nil)
         }
     }
@@ -108,5 +133,17 @@ final class AppEnvironment {
     private func selectDogCoat(_ id: String) {
         settingsStore.dogCoatID = id
         dogViewModel.coat = DogCoat.coat(id: id)
+    }
+
+    /// Set the stretch interval (0 = off) and restart the countdown so it takes
+    /// effect immediately.
+    private func setStretchMinutes(_ minutes: Int) {
+        if minutes == 0 {
+            settingsStore.stretchEnabled = false
+        } else {
+            settingsStore.stretchEnabled = true
+            settingsStore.stretchIntervalMinutes = minutes
+        }
+        stretchManager.reset()
     }
 }

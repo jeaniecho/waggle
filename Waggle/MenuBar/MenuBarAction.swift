@@ -10,5 +10,8 @@ enum MenuBarAction: Equatable {
     case hideWaggle
     case openAccessibilitySettings
     case setDogCoat(String)
+    case setFocusMinutes(Int)
+    case setBreakMinutes(Int)
+    case setStretchMinutes(Int) // 0 = off
     case quit
 }

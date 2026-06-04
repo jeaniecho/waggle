@@ -15,6 +15,8 @@ final class DogOverlayWindow: NSPanel {
     var dragDidBegin: (() -> Void)?
     /// Called when the press is released (drag ends).
     var dragDidEnd: (() -> Void)?
+    /// Called when the dog is clicked without being dragged.
+    var onClick: (() -> Void)?
 
     init(contentSize: CGSize) {
         super.init(
@@ -48,8 +50,13 @@ final class DogOverlayWindow: NSPanel {
     /// the user releases the mouse, giving smooth movement with no coordinate
     /// feedback issues.
     override func mouseDown(with event: NSEvent) {
+        let before = frame.origin
         dragDidBegin?()
         performDrag(with: event)
         dragDidEnd?()
+        // If the window didn't actually move, treat it as a click (not a drag).
+        if hypot(frame.origin.x - before.x, frame.origin.y - before.y) < 3 {
+            onClick?()
+        }
     }
 }

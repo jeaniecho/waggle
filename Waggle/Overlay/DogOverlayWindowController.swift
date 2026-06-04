@@ -9,6 +9,9 @@ final class DogOverlayWindowController: NSWindowController {
     private let dogViewModel: DogViewModel
     private let positionStore: OverlayPositionStore
 
+    /// Called when the dog is clicked (not dragged).
+    var onDogClicked: (() -> Void)?
+
     // Roaming (break time): the dog strolls slowly to random points all over
     // the screen, with a gentle walking bob.
     private var roamTimer: Timer?
@@ -53,6 +56,7 @@ final class DogOverlayWindowController: NSWindowController {
 
         window.dragDidBegin = { [weak self] in self?.handleDragBegan() }
         window.dragDidEnd = { [weak self] in self?.handleDragEnded() }
+        window.onClick = { [weak self] in self?.onDogClicked?() }
     }
 
     @available(*, unavailable)

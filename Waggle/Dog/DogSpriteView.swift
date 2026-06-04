@@ -104,12 +104,22 @@ private struct PlaceholderDog: View {
 
     private var isFocusing: Bool { animationState == .sleep }
     private var isBreak: Bool { animationState == .celebrate }
+    private var isStretching: Bool { animationState == .stretch }
     /// Tail wags happily when watching the cursor or on break.
     private var isWagging: Bool { animationState == .tailWag || animationState == .celebrate }
 
     private let towelColor = Color(white: 0.97)
 
     var body: some View {
+        // The timeline is paused (no constant redraw) unless the stretch reminder
+        // is active; while stretching, the whole dog scales up and down.
+        TimelineView(.animation(paused: !isStretching)) { context in
+            dogContent
+                .scaleEffect(stretchScale(at: context.date), anchor: .center)
+        }
+    }
+
+    private var dogContent: some View {
         ZStack {
             // Tail (behind the body)
             tail
@@ -165,6 +175,14 @@ private struct PlaceholderDog: View {
         .onChange(of: keyPulse) { _ in flap() }
         .onChange(of: tiltPulse) { _ in headTilt() }
         .onChange(of: jumpPulse) { _ in jump() }
+    }
+
+    /// Stretch-reminder pulse: 1× when idle; while active, slowly scales taller
+    /// and a touch narrower to grab attention (anchored at centre).
+    private func stretchScale(at date: Date) -> CGSize {
+        guard isStretching else { return CGSize(width: 1, height: 1) }
+        let s = 0.5 - 0.5 * cos(date.timeIntervalSinceReferenceDate * 2.6) // 0…1
+        return CGSize(width: 1 - 0.18 * s, height: 1 + 0.42 * s)
     }
 
     /// A "!" was typed: hop up and land with a little bounce.
