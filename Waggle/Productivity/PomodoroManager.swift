@@ -32,6 +32,30 @@ final class PomodoroManager: ObservableObject {
         return false
     }
 
+    /// Fraction (0…1) of the current focus/break interval still remaining, for a
+    /// progress ring. 0 when idle.
+    var remainingFraction: Double {
+        switch state {
+        case .idle:
+            return 0
+        case .focusing(let r):
+            return fraction(r, of: focusSeconds)
+        case .breakTime(let r):
+            return fraction(r, of: breakSeconds)
+        case .paused:
+            switch pausedState {
+            case .focusing(let r): return fraction(r, of: focusSeconds)
+            case .breakTime(let r): return fraction(r, of: breakSeconds)
+            default: return 0
+            }
+        }
+    }
+
+    private func fraction(_ remaining: Int, of total: Int) -> Double {
+        guard total > 0 else { return 0 }
+        return min(1, max(0, Double(remaining) / Double(total)))
+    }
+
     private var focusSeconds: Int { max(1, settingsStore.pomodoroFocusMinutes) * 60 }
     private var breakSeconds: Int { max(1, settingsStore.pomodoroBreakMinutes) * 60 }
 

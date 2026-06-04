@@ -14,10 +14,16 @@ struct DogOverlayView: View {
     @ObservedObject var pomodoro: PomodoroManager
 
     var body: some View {
-        DogSpriteView(
-            animationState: dogViewModel.animationState,
-            keyPulse: dogViewModel.keyPressCount
-        )
+        ZStack {
+            DogSpriteView(
+                animationState: dogViewModel.animationState,
+                keyPulse: dogViewModel.keyPressCount
+            )
+            if pomodoro.isActive {
+                pomodoroOverlay
+            }
+        }
+            .frame(width: DogSpriteView.size.width, height: DogSpriteView.size.height)
             // Transparent background so only the dog is visible; the whole
             // frame is still hit-testable so the dog can be dragged anywhere.
             .background(Color.clear)
@@ -51,6 +57,49 @@ struct DogOverlayView: View {
                     }
                 }
             }
+    }
+
+    /// Progress ring + countdown shown around the dog while a Pomodoro runs.
+    /// Orange for focus, green for break; dims while paused.
+    private var pomodoroOverlay: some View {
+        let color = phaseColor
+        return ZStack {
+            Circle()
+                .stroke(color.opacity(0.18), lineWidth: 4)
+            Circle()
+                .trim(from: 0, to: pomodoro.remainingFraction)
+                .stroke(color, style: StrokeStyle(lineWidth: 4, lineCap: .round))
+                .rotationEffect(.degrees(-90))
+                .animation(.linear(duration: 0.25), value: pomodoro.remainingFraction)
+
+            VStack {
+                Spacer()
+                Text(pomodoroClock)
+                    .font(.system(size: 11, weight: .bold, design: .rounded))
+                    .monospacedDigit()
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 1)
+                    .background(Capsule().fill(color))
+            }
+        }
+        .padding(2)
+        .opacity(pomodoro.isPaused ? 0.55 : 1)
+    }
+
+    private var phaseColor: Color {
+        switch pomodoro.state {
+        case .breakTime: return .green
+        default: return .orange // focusing or paused
+        }
+    }
+
+    private var pomodoroClock: String {
+        switch pomodoro.state {
+        case .focusing(let seconds), .breakTime(let seconds): return Self.clock(seconds)
+        case .paused: return "Paused"
+        case .idle: return ""
+        }
     }
 
     /// Human-readable Pomodoro status, e.g. "Focusing — 24:13".
