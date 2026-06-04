@@ -17,6 +17,8 @@ struct DogSpriteView: View {
     var keyPulse: Int = 0
     /// Increments when "?" is typed; the placeholder tilts its head.
     var tiltPulse: Int = 0
+    /// Increments when "!" is typed; the placeholder jumps.
+    var jumpPulse: Int = 0
     /// The dog's coat colour.
     var coat: DogCoat = .default
 
@@ -33,6 +35,7 @@ struct DogSpriteView: View {
                 keyPulse: keyPulse,
                 animationState: animationState,
                 tiltPulse: tiltPulse,
+                jumpPulse: jumpPulse,
                 coat: coat
             )
         } else if frames.count == 1 {
@@ -79,6 +82,8 @@ private struct PlaceholderDog: View {
     let animationState: DogAnimationState
     /// Increments when a "?" is typed; each change makes the dog tilt its head.
     let tiltPulse: Int
+    /// Increments when a "!" is typed; each change makes the dog jump once.
+    let jumpPulse: Int
     /// Coat colour shades for body / head / ears / tail.
     let coat: DogCoat
 
@@ -93,6 +98,9 @@ private struct PlaceholderDog: View {
     /// Head-tilt angle (degrees) for the "?" reaction.
     @State private var tilt: Double = 0
     @State private var tiltLeftNext = true
+
+    /// Vertical offset for the "!" jump reaction.
+    @State private var jumpOffset: Double = 0
 
     private var isFocusing: Bool { animationState == .sleep }
     private var isBreak: Bool { animationState == .celebrate }
@@ -153,8 +161,18 @@ private struct PlaceholderDog: View {
             }
         }
         .rotationEffect(.degrees(tilt), anchor: UnitPoint(x: 0.5, y: 0.72))
+        .offset(y: jumpOffset)
         .onChange(of: keyPulse) { _ in flap() }
         .onChange(of: tiltPulse) { _ in headTilt() }
+        .onChange(of: jumpPulse) { _ in jump() }
+    }
+
+    /// A "!" was typed: hop up and land with a little bounce.
+    private func jump() {
+        withAnimation(.easeOut(duration: 0.15)) { jumpOffset = -22 }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) { jumpOffset = 0 }
+        }
     }
 
     /// A "?" was typed: cock the head to one side, hold briefly, then return.

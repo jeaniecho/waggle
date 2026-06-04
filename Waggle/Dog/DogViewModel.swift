@@ -18,6 +18,9 @@ final class DogViewModel: ObservableObject {
     /// Increments when a "?" is typed, so the dog can tilt its head. Only the
     /// fact that "?" was pressed is kept — never the surrounding text.
     @Published private(set) var headTiltCount: Int = 0
+    /// Increments when a "!" is typed, so the dog can jump. As with "?", only the
+    /// fact that "!" was pressed is kept.
+    @Published private(set) var jumpCount: Int = 0
     /// The dog's coat colour (set from settings / the menu bar).
     @Published var coat: DogCoat = .default
 
@@ -71,6 +74,11 @@ final class DogViewModel: ObservableObject {
     /// Called when a "?" is typed, to trigger the head-tilt reaction.
     func registerQuestionMark() {
         headTiltCount &+= 1
+    }
+
+    /// Called when a "!" is typed, to trigger the jump reaction.
+    func registerExclamation() {
+        jumpCount &+= 1
     }
 
     /// Set (debounced) by the typing tracker while the user is typing.

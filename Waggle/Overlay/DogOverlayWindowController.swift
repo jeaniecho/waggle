@@ -12,7 +12,6 @@ final class DogOverlayWindowController: NSWindowController {
     // Roaming (break time): the dog strolls slowly to random points all over
     // the screen, with a gentle walking bob.
     private var roamTimer: Timer?
-    private var roamHome: CGPoint?       // where to return when the break ends
     private var roamPos: CGPoint = .zero // base walking position (without the bob)
     private var roamTarget: CGPoint?     // current destination
     private var roamPhase: CGFloat = 0
@@ -108,7 +107,6 @@ final class DogOverlayWindowController: NSWindowController {
     /// Remembers where it started so it can return there afterwards.
     func startRoaming() {
         guard roamTimer == nil, let window else { return }
-        roamHome = window.frame.origin
         roamPos = window.frame.origin
         roamTarget = randomRoamTarget()
         roamPhase = 0
@@ -120,15 +118,16 @@ final class DogOverlayWindowController: NSWindowController {
         roamTimer = timer
     }
 
-    /// Stop strolling and return the dog to where it started.
+    /// Stop strolling and stay wherever the dog ended up (settling out of the
+    /// hop), remembering that spot as the new saved position.
     func stopRoaming() {
         guard roamTimer != nil else { return }
         roamTimer?.invalidate()
         roamTimer = nil
-        if let window, let home = roamHome {
-            window.setFrameOrigin(home)
+        if let window {
+            window.setFrameOrigin(roamPos)
+            positionStore.saveOrigin(roamPos)
         }
-        roamHome = nil
         roamTarget = nil
     }
 

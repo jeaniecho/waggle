@@ -45,6 +45,9 @@ final class GlobalInputMonitor {
         typingTracker.onQuestionMark = { [weak self] in
             self?.dogViewModel.registerQuestionMark()
         }
+        typingTracker.onExclamation = { [weak self] in
+            self?.dogViewModel.registerExclamation()
+        }
         // Start/stop keyboard monitoring as Accessibility permission changes.
         // Sinking on @Published delivers the current value immediately, so this
         // also handles the already-trusted case.

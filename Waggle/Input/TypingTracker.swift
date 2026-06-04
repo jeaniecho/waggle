@@ -17,6 +17,8 @@ final class TypingTracker {
     var onKeyDown: (() -> Void)?
     /// Called when a "?" is pressed, for the head-tilt reaction.
     var onQuestionMark: (() -> Void)?
+    /// Called when a "!" is pressed, for the jump reaction.
+    var onExclamation: (() -> Void)?
 
     private var monitor: Any?
     private var isTyping = false
@@ -41,10 +43,13 @@ final class TypingTracker {
     }
 
     private func handleKeyDown(_ event: NSEvent) {
-        // Privacy: the character is inspected only transiently to detect "?" for
-        // the head-tilt reaction. It is never stored, logged, or forwarded.
-        if event.characters == "?" {
-            onQuestionMark?()
+        // Privacy: the character is inspected only transiently to detect "?"/"!"
+        // for the head-tilt / jump reactions. It is never stored, logged, or
+        // forwarded.
+        switch event.characters {
+        case "?": onQuestionMark?()
+        case "!": onExclamation?()
+        default: break
         }
         onKeyDown?()
         setTyping(true)
