@@ -135,7 +135,7 @@ final class DogOverlayWindowController: NSWindowController {
         roamPos = window.frame.origin
         roamTarget = randomRoamTarget()
         roamPhase = 0
-        let timer = Timer(timeInterval: 1.0 / 60.0, repeats: true) { [weak self] _ in
+        let timer = Timer(timeInterval: 1.0 / 30.0, repeats: true) { [weak self] _ in
             Task { @MainActor in self?.roamStep() }
         }
         // Keep running while menus/tracking loops are active.
@@ -226,7 +226,7 @@ final class DogOverlayWindowController: NSWindowController {
         fetchWanderPhase = 0
         fetchPhase = .wandering
 
-        let timer = Timer(timeInterval: 1.0 / 60.0, repeats: true) { [weak self] _ in
+        let timer = Timer(timeInterval: 1.0 / 30.0, repeats: true) { [weak self] _ in
             Task { @MainActor in self?.fetchStep() }
         }
         RunLoop.main.add(timer, forMode: .common)

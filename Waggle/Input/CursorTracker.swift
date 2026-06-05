@@ -15,6 +15,10 @@ final class CursorTracker {
 
     private let matching: NSEvent.EventTypeMask = [.mouseMoved, .leftMouseDragged]
 
+    /// Throttle: only forward cursor events at most 30× per second.
+    private let reportInterval: TimeInterval = 1.0 / 30.0
+    private var lastReportTime: TimeInterval = 0
+
     func start() {
         guard globalMonitor == nil, localMonitor == nil else { return }
 
@@ -37,6 +41,9 @@ final class CursorTracker {
     }
 
     private func report() {
+        let now = Date().timeIntervalSinceReferenceDate
+        guard now - lastReportTime >= reportInterval else { return }
+        lastReportTime = now
         onMove?(NSEvent.mouseLocation)
     }
 

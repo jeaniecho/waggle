@@ -286,13 +286,13 @@ private struct PlaceholderDog: View {
     @ViewBuilder
     private var tail: some View {
         if isDragging {
-            // Spin 360° continuously while being dragged.
-            TimelineView(.animation) { context in
+            // Spin 360° while dragged — 60 fps for smooth rotation.
+            TimelineView(.periodic(from: .now, by: 1.0 / 60.0)) { context in
                 tailShape(angle: context.date.timeIntervalSinceReferenceDate * 360 * 1.5)
             }
         } else if cursorAngle == nil, isWagging {
-            // Break: happy wag.
-            TimelineView(.animation) { context in
+            // Happy wag — 30 fps is plenty for a sin wave.
+            TimelineView(.periodic(from: .now, by: 1.0 / 30.0)) { context in
                 tailShape(angle: sin(context.date.timeIntervalSinceReferenceDate * 7) * 30)
             }
         } else {
@@ -388,7 +388,7 @@ private struct PlaceholderDog: View {
     // MARK: - Zzz (sleeping)
 
     private var zzz: some View {
-        TimelineView(.animation) { context in
+        TimelineView(.periodic(from: .now, by: 1.0 / 20.0)) { context in
             let t = context.date.timeIntervalSinceReferenceDate
             ZStack {
                 zPuff(t: t, offset: 0.0, scale: 0.7, x:  12, baseY: -28)
@@ -422,7 +422,7 @@ private struct PlaceholderDog: View {
     // MARK: - Steam (focus)
 
     private var steam: some View {
-        TimelineView(.animation) { context in
+        TimelineView(.periodic(from: .now, by: 1.0 / 20.0)) { context in
             let t = context.date.timeIntervalSinceReferenceDate
             ZStack {
                 steamPuff(t: t, offset: 0.0, x: -7)
