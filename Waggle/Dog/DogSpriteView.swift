@@ -376,19 +376,22 @@ private struct PlaceholderDog: View {
     }
 }
 
-/// Ear shape: narrow at top (attachment), wider and rounded at bottom (tip).
+/// Ear shape: narrow rounded top (attachment), curves out to wider rounded bottom (tip).
 private struct TaperedEar: Shape {
     func path(in r: CGRect) -> Path {
         let w = r.width, h = r.height
-        let topInset: CGFloat = w * 0.25
-        let cr: CGFloat = 5
         var p = Path()
-        p.move(to: CGPoint(x: topInset, y: 0))
-        p.addLine(to: CGPoint(x: w - topInset, y: 0))
-        p.addLine(to: CGPoint(x: w, y: h - cr))
-        p.addQuadCurve(to: CGPoint(x: w - cr, y: h), control: CGPoint(x: w, y: h))
-        p.addLine(to: CGPoint(x: cr, y: h))
-        p.addQuadCurve(to: CGPoint(x: 0, y: h - cr), control: CGPoint(x: 0, y: h))
+        p.move(to: CGPoint(x: w * 0.22, y: 0))
+        p.addQuadCurve(to: CGPoint(x: w * 0.78, y: 0),
+                       control: CGPoint(x: w * 0.5, y: -h * 0.06))
+        p.addQuadCurve(to: CGPoint(x: w, y: h * 0.75),
+                       control: CGPoint(x: w * 1.08, y: h * 0.3))
+        p.addQuadCurve(to: CGPoint(x: w * 0.5, y: h),
+                       control: CGPoint(x: w, y: h))
+        p.addQuadCurve(to: CGPoint(x: 0, y: h * 0.75),
+                       control: CGPoint(x: 0, y: h))
+        p.addQuadCurve(to: CGPoint(x: w * 0.22, y: 0),
+                       control: CGPoint(x: -w * 0.08, y: h * 0.3))
         p.closeSubpath()
         return p
     }
