@@ -4,6 +4,9 @@ import Foundation
 /// view model so rendering concerns stay separate from semantic state.
 enum DogAnimationState: Equatable {
     case idle
+    case drowsy
+    case sleeping
+    case petting
     case tailWag
     case blink
     case typing

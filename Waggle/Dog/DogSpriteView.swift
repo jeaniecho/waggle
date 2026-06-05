@@ -136,13 +136,14 @@ private struct PlaceholderDog: View {
     @State private var tailBase: Double = 8
     private let tailRest: Double = 8
 
-    private var isFocusing: Bool { animationState == .sleep }
-    private var isBreak: Bool { animationState == .celebrate }
+    private var isFocusing: Bool  { animationState == .sleep }
+    private var isBreak: Bool     { animationState == .celebrate }
     private var isStretching: Bool { animationState == .stretch }
-    // Use the directly-passed flag so the spin works even if animationState lags.
-    private var isDragging: Bool { isBeingDragged }
-    /// Tail wags happily when watching the cursor or on break.
-    private var isWagging: Bool { animationState == .tailWag || animationState == .celebrate }
+    private var isDragging: Bool  { isBeingDragged }
+    private var isPetting: Bool   { animationState == .petting }
+    private var isDrowsy: Bool    { animationState == .drowsy }
+    private var isSleeping: Bool  { animationState == .sleeping }
+    private var isWagging: Bool   { animationState == .tailWag || animationState == .celebrate || animationState == .petting }
 
     private let towelColor = Color(white: 0.97)
 
@@ -234,7 +235,11 @@ private struct PlaceholderDog: View {
                 saunaTowel
                 steam
             }
+
+            if isSleeping { zzz }
         }
+        // Drowsy: head droops slightly; sleeping: more.
+        .offset(y: isSleeping ? 4 : (isDrowsy ? 2 : 0))
         // Pivot at the neck (bottom of head), canvas is 120pt tall, neck ≈ 69pt from top.
         .frame(width: 128, height: 120)
         .rotationEffect(.degrees(tilt), anchor: UnitPoint(x: 0.5, y: 0.575))
@@ -370,12 +375,39 @@ private struct PlaceholderDog: View {
 
     @ViewBuilder
     private var eye: some View {
-        if isFocusing || blinking {
-            // relaxed/closed eyes (focus) or a quick blink
+        if isFocusing || blinking || isPetting || isSleeping {
+            // closed: focus, blink, petting, sleeping
             Capsule().fill(Color.black).frame(width: 6, height: 1.5)
+        } else if isDrowsy {
+            // half-closed: droopy capsule
+            Capsule().fill(Color.black).frame(width: 6, height: 2.5)
         } else {
             Circle().fill(Color.black).frame(width: 4, height: 4)
         }
+    }
+
+    // MARK: - Zzz (sleeping)
+
+    private var zzz: some View {
+        TimelineView(.animation) { context in
+            let t = context.date.timeIntervalSinceReferenceDate
+            ZStack {
+                zPuff(t: t, offset: 0.0, scale: 0.7, x:  12, baseY: -28)
+                zPuff(t: t, offset: 0.8, scale: 0.9, x:  18, baseY: -34)
+                zPuff(t: t, offset: 1.6, scale: 1.1, x:  24, baseY: -40)
+            }
+        }
+    }
+
+    private func zPuff(t: Double, offset: Double, scale: Double, x: Double, baseY: Double) -> some View {
+        let period = 2.4
+        let local = ((t + offset).truncatingRemainder(dividingBy: period)) / period
+        let y = baseY - local * 10
+        let opacity = sin(local * .pi) * 0.75
+        return Text("z")
+            .font(.system(size: 10 * scale, weight: .bold))
+            .foregroundColor(Color.white.opacity(opacity))
+            .offset(x: x, y: y)
     }
 
     // MARK: - Sauna towel (focus)

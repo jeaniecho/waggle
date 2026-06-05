@@ -17,6 +17,11 @@ final class GlobalInputMonitor {
     private var leftClickMonitor: Any?
     private var rightClickMonitor: Any?
 
+    // Petting detection: cursor in excited radius + slow movement.
+    private var lastCursorPos: CGPoint = .zero
+    private var lastCursorTime: Date = Date()
+    private let pettingSpeedThreshold: CGFloat = 80 // pts/sec
+
     /// Reaction toggles (set from settings / pause).
     private var cursorEnabled = true
     private var typingEnabled = true
@@ -37,6 +42,8 @@ final class GlobalInputMonitor {
     }
 
     func start() {
+        dogViewModel.startIdleTracking()
+
         cursorTracker.onMove = { [weak self] location in
             self?.handleCursor(at: location)
         }
@@ -97,8 +104,20 @@ final class GlobalInputMonitor {
     }
 
     private func handleCursor(at location: CGPoint) {
+        // Measure speed for petting detection.
+        let now = Date()
+        let dt = max(0.001, now.timeIntervalSince(lastCursorTime))
+        let moveDist = (pow(location.x - lastCursorPos.x, 2) + pow(location.y - lastCursorPos.y, 2)).squareRoot()
+        let speed = moveDist / dt
+        lastCursorPos = location
+        lastCursorTime = now
+
+        // Any cursor movement resets the idle/sleep timer.
+        if moveDist > 1 { dogViewModel.resetIdleTimer() }
+
         guard cursorEnabled, let center = dogCenter() else {
             dogViewModel.updateCursor(direction: nil, excited: false, angle: nil)
+            dogViewModel.setPetting(false)
             return
         }
 
@@ -108,8 +127,13 @@ final class GlobalInputMonitor {
 
         guard distance <= nearRadius else {
             dogViewModel.updateCursor(direction: nil, excited: false, angle: nil)
+            dogViewModel.setPetting(false)
             return
         }
+
+        // Petting: inside excited radius + slow movement.
+        let petting = distance <= excitedRadius && speed < pettingSpeedThreshold
+        dogViewModel.setPetting(petting)
 
         dogViewModel.updateCursor(
             direction: DogDirection.from(dx: dx, dy: dy),

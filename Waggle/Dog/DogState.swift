@@ -7,8 +7,11 @@ import Foundation
 /// cases exist so later tasks can fill them in without changing this type.
 enum DogState: Equatable {
     case idle
+    case drowsy
+    case sleeping
     case watchingCursor(direction: DogDirection)
     case excited
+    case petting
     case typing
     case dragging
     case stretching
