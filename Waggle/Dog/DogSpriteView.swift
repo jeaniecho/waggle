@@ -183,6 +183,12 @@ private struct PlaceholderDog: View {
         .onChange(of: tiltPulse) { _ in headTilt() }
         .onChange(of: jumpPulse) { _ in jump() }
         .onChange(of: cursorAngle) { updateTailFollow($0) }
+        .onChange(of: isBeingDragged) { dragging in
+            if !dragging {
+                // Ease tail back to rest when drag ends.
+                withAnimation(.easeInOut(duration: 0.5)) { tailBase = unwrapped(tailRest) }
+            }
+        }
         .onAppear { scheduleBlink() }
     }
 
