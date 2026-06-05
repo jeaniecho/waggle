@@ -218,7 +218,7 @@ private struct PlaceholderDog: View {
 
             Capsule()
                 .fill(Color.black)
-                .frame(width: 7, height: 4)
+                .frame(width: 7, height: 5)
                 .offset(y: 6)
 
             if isBreak {
