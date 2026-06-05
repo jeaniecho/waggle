@@ -225,7 +225,7 @@ private struct PlaceholderDog: View {
                 RoundedRectangle(cornerRadius: 3)
                     .fill(Color(red: 0.93, green: 0.36, blue: 0.45))
                     .frame(width: 8, height: 7)
-                    .offset(y: 3)
+                    .offset(y: 14)
             }
 
             if hasBone { bone }
