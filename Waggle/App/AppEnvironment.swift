@@ -66,12 +66,8 @@ final class AppEnvironment: ObservableObject {
         // Clicking the dog dismisses a stretch nudge (regardless of Pomodoro
         // state) and returns it to normal.
         overlayController.onDogClicked = { [weak self] in
-            guard let self else { return }
-            self.dogViewModel.flapLeftEar()
-            if self.stretchManager.isStretchDue { self.stretchManager.reset() }
-        }
-        overlayController.onDogRightClicked = { [weak self] in
-            self?.dogViewModel.flapRightEar()
+            guard let self, self.stretchManager.isStretchDue else { return }
+            self.stretchManager.reset()
         }
         overlayController.showOverlay()
         inputMonitor.start()

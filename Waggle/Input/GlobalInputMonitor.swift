@@ -14,6 +14,8 @@ final class GlobalInputMonitor {
     private let dogCenter: () -> CGPoint?
 
     private var permissionCancellable: AnyCancellable?
+    private var leftClickMonitor: Any?
+    private var rightClickMonitor: Any?
 
     /// Reaction toggles (set from settings / pause).
     private var cursorEnabled = true
@@ -56,6 +58,14 @@ final class GlobalInputMonitor {
             guard let self, self.typingEnabled else { return }
             self.dogViewModel.registerExclamation()
         }
+        // Global mouse clicks — no Accessibility permission needed.
+        leftClickMonitor = NSEvent.addGlobalMonitorForEvents(matching: .leftMouseDown) { [weak self] _ in
+            Task { @MainActor in self?.dogViewModel.flapLeftEar() }
+        }
+        rightClickMonitor = NSEvent.addGlobalMonitorForEvents(matching: .rightMouseDown) { [weak self] _ in
+            Task { @MainActor in self?.dogViewModel.flapRightEar() }
+        }
+
         // Start/stop keyboard monitoring as Accessibility permission changes.
         // Sinking on @Published delivers the current value immediately, so this
         // also handles the already-trusted case.
@@ -74,6 +84,8 @@ final class GlobalInputMonitor {
         cursorTracker.stop()
         typingTracker.stop()
         permissionCancellable = nil
+        if let m = leftClickMonitor  { NSEvent.removeMonitor(m); leftClickMonitor  = nil }
+        if let m = rightClickMonitor { NSEvent.removeMonitor(m); rightClickMonitor = nil }
     }
 
     /// Enable/disable each reaction; clears any lingering state when turned off.
