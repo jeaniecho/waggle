@@ -236,9 +236,9 @@ private struct PlaceholderDog: View {
     private func headTilt() {
         let dir = tiltLeftNext ? 1.0 : -1.0
         tiltLeftNext.toggle()
-        withAnimation(.easeOut(duration: 0.08)) { tilt = 15 * dir }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.28) {
-            withAnimation(.easeIn(duration: 0.1)) { tilt = 0 }
+        withAnimation(.easeOut(duration: 0.08)) { tilt = 10 * dir }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            withAnimation(.easeInOut(duration: 0.28)) { tilt = 0 }
         }
     }
 
