@@ -372,7 +372,7 @@ private struct PlaceholderDog: View {
     private var eye: some View {
         if isFocusing || blinking {
             // relaxed/closed eyes (focus) or a quick blink
-            Capsule().fill(Color.black).frame(width: 8, height: 2)
+            Capsule().fill(Color.black).frame(width: 6, height: 1.5)
         } else {
             Circle().fill(Color.black).frame(width: 4, height: 4)
         }
