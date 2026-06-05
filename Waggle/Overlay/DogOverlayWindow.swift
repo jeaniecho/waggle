@@ -15,8 +15,10 @@ final class DogOverlayWindow: NSPanel {
     var dragDidBegin: (() -> Void)?
     /// Called when the press is released (drag ends).
     var dragDidEnd: (() -> Void)?
-    /// Called when the dog is clicked without being dragged.
+    /// Called when the dog is left-clicked without being dragged.
     var onClick: (() -> Void)?
+    /// Called when the dog is right-clicked.
+    var onRightClick: (() -> Void)?
 
     init(contentSize: CGSize) {
         super.init(
@@ -44,6 +46,10 @@ final class DogOverlayWindow: NSPanel {
     // A borderless panel returns false by default; allow key so it can receive
     // mouse-drag events reliably while still not activating the app.
     override var canBecomeKey: Bool { true }
+
+    override func rightMouseDown(with event: NSEvent) {
+        onRightClick?()
+    }
 
     /// Perform a native window drag, bracketed by begin/end callbacks.
     /// `performDrag(with:)` runs AppKit's drag-tracking loop and returns once

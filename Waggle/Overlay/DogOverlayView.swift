@@ -21,7 +21,9 @@ struct DogOverlayView: View {
             jumpPulse: dogViewModel.jumpCount,
             cursorAngle: dogViewModel.cursorAngle,
             hasBone: dogViewModel.hasBone,
-            coat: dogViewModel.coat
+            coat: dogViewModel.coat,
+            leftEarPulse: dogViewModel.leftEarPulse,
+            rightEarPulse: dogViewModel.rightEarPulse
         )
             // Transparent background so only the dog is visible; the whole
             // frame is still hit-testable so the dog can be dragged anywhere.

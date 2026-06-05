@@ -26,6 +26,10 @@ struct DogSpriteView: View {
     var hasBone: Bool = false
     /// The dog's coat colour.
     var coat: DogCoat = .default
+    /// Increments on left-click; flaps the left ear.
+    var leftEarPulse: Int = 0
+    /// Increments on right-click; flaps the right ear.
+    var rightEarPulse: Int = 0
 
     var body: some View {
         content
@@ -43,7 +47,9 @@ struct DogSpriteView: View {
                 jumpPulse: jumpPulse,
                 cursorAngle: cursorAngle,
                 hasBone: hasBone,
-                coat: coat
+                coat: coat,
+                leftEarPulse: leftEarPulse,
+                rightEarPulse: rightEarPulse
             )
         } else if frames.count == 1 {
             sprite(frames[0])
@@ -83,7 +89,7 @@ struct DogSpriteView: View {
 /// - break (`.celebrate`): tongue out, happy eyes (the window also runs across
 ///   the screen — see DogOverlayWindowController).
 private struct PlaceholderDog: View {
-    /// Increments once per keystroke; each change flaps one ear.
+    /// Increments once per keystroke; each change flaps one ear (alternating).
     let keyPulse: Int
     /// Current visual state, used for the Pomodoro flavour.
     let animationState: DogAnimationState
@@ -97,6 +103,10 @@ private struct PlaceholderDog: View {
     let hasBone: Bool
     /// Coat colour shades for body / head / ears / tail.
     let coat: DogCoat
+    /// Increments on left-click; forces left ear to flap.
+    let leftEarPulse: Int
+    /// Increments on right-click; forces right ear to flap.
+    let rightEarPulse: Int
 
     /// Peak ear flap swing, in degrees.
     private let earSwing: Double = 45
@@ -160,7 +170,9 @@ private struct PlaceholderDog: View {
             headGroup
         }
         .offset(y: jumpOffset)
-        .onChange(of: keyPulse) { _ in flap() }
+        .onChange(of: keyPulse)      { _ in flapAlternating() }
+        .onChange(of: leftEarPulse)  { _ in flapEar(isLeft: true) }
+        .onChange(of: rightEarPulse) { _ in flapEar(isLeft: false) }
         .onChange(of: tiltPulse) { _ in headTilt() }
         .onChange(of: jumpPulse) { _ in jump() }
         .onChange(of: cursorAngle) { updateTailFollow($0) }
@@ -298,15 +310,16 @@ private struct PlaceholderDog: View {
             .offset(x: 11, y: 6)
     }
 
-    // MARK: - Ear flap (typing)
+    // MARK: - Ear flap
 
-    /// One keystroke → one ear flap, alternating ears. Runs in every state,
-    /// including Pomodoro focus/break.
-    private func flap() {
+    private func flapAlternating() {
         let isLeft = flapLeftNext
         flapLeftNext.toggle()
+        flapEar(isLeft: isLeft)
+    }
 
-        // Perk the active ear up (toward vertical) from its flopped rest, then drop.
+    /// Perk one ear up from its flopped rest, then drop it back.
+    private func flapEar(isLeft: Bool) {
         let target = isLeft ? earSwing : -earSwing
         withAnimation(.easeOut(duration: 0.07)) {
             if isLeft { leftAngle = target } else { rightAngle = target }

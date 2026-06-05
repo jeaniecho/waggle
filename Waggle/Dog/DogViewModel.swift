@@ -15,6 +15,10 @@ final class DogViewModel: ObservableObject {
     /// Increments once per detected keystroke. Views observe changes to pulse a
     /// per-key reaction (e.g. an ear flap); it carries no key content (privacy).
     @Published private(set) var keyPressCount: Int = 0
+    /// Increments on left-click; flaps the left ear.
+    @Published private(set) var leftEarPulse: Int = 0
+    /// Increments on right-click; flaps the right ear.
+    @Published private(set) var rightEarPulse: Int = 0
     /// Increments when a "?" is typed, so the dog can tilt its head. Only the
     /// fact that "?" was pressed is kept — never the surrounding text.
     @Published private(set) var headTiltCount: Int = 0
@@ -75,6 +79,9 @@ final class DogViewModel: ObservableObject {
     func registerKeystroke() {
         keyPressCount &+= 1
     }
+
+    func flapLeftEar()  { leftEarPulse  &+= 1 }
+    func flapRightEar() { rightEarPulse &+= 1 }
 
     /// Called when a "?" is typed, to trigger the head-tilt reaction.
     func registerQuestionMark() {

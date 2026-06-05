@@ -9,8 +9,10 @@ final class DogOverlayWindowController: NSWindowController {
     private let dogViewModel: DogViewModel
     private let positionStore: OverlayPositionStore
 
-    /// Called when the dog is clicked (not dragged).
+    /// Called when the dog is left-clicked (not dragged).
     var onDogClicked: (() -> Void)?
+    /// Called when the dog is right-clicked.
+    var onDogRightClicked: (() -> Void)?
 
     // Fetch: the dog runs off one edge and returns from the other (with a bone).
     private enum FetchPhase { case idle, leaving, away, returning }
@@ -69,6 +71,7 @@ final class DogOverlayWindowController: NSWindowController {
         window.dragDidBegin = { [weak self] in self?.handleDragBegan() }
         window.dragDidEnd = { [weak self] in self?.handleDragEnded() }
         window.onClick = { [weak self] in self?.onDogClicked?() }
+        window.onRightClick = { [weak self] in self?.onDogRightClicked?() }
     }
 
     @available(*, unavailable)
