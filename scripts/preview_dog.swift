@@ -41,8 +41,8 @@ struct DopeyDog: View {
             earV.rotationEffect(.degrees(-45), anchor: .top).offset(x: 14, y: -23)
 
             // Eyes — smaller, set a touch farther apart
-            Circle().fill(.black).frame(width: 6, height: 6).offset(x: -12, y: -13)
-            Circle().fill(.black).frame(width: 6, height: 6).offset(x: 12, y: -13)
+            Circle().fill(.black).frame(width: 5, height: 5).offset(x: -12, y: -13)
+            Circle().fill(.black).frame(width: 5, height: 5).offset(x: 12, y: -13)
 
             // Nose — rounded rectangle, flatter
             RoundedRectangle(cornerRadius: 2.5).fill(.black)

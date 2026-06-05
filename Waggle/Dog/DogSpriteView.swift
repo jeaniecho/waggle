@@ -332,7 +332,7 @@ private struct PlaceholderDog: View {
             // relaxed/closed eyes (focus) or a quick blink
             Capsule().fill(Color.black).frame(width: 8, height: 2)
         } else {
-            Circle().fill(Color.black).frame(width: 6, height: 6)
+            Circle().fill(Color.black).frame(width: 5, height: 5)
         }
     }
 
