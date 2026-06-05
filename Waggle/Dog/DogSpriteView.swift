@@ -157,7 +157,7 @@ private struct PlaceholderDog: View {
                 .offset(y: 16)
 
             // Head
-            RoundedRectangle(cornerRadius: 8)
+            RoundedRectangle(cornerRadius: 16)
                 .fill(coat.head)
                 .frame(width: 42, height: 38)
                 .offset(y: -14)

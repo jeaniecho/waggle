@@ -33,7 +33,7 @@ struct DopeyDog: View {
                 .frame(width: 36, height: 24).offset(y: 16)
 
             // Head
-            RoundedRectangle(cornerRadius: 8).fill(headC)
+            RoundedRectangle(cornerRadius: 16).fill(headC)
                 .frame(width: 42, height: 38).offset(y: -14)
 
             // Ears — slightly thicker (13 wide), flopped ±45, nudged down
