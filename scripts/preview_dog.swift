@@ -24,9 +24,9 @@ struct DopeyDog: View {
 
             // Legs — rounded rectangles
             HStack(spacing: 12) {
-                RoundedRectangle(cornerRadius: 4).fill(bodyC).frame(width: 12, height: 16)
-                RoundedRectangle(cornerRadius: 4).fill(bodyC).frame(width: 12, height: 16)
-            }.offset(y: 29)
+                RoundedRectangle(cornerRadius: 3).fill(bodyC).frame(width: 10, height: 11)
+                RoundedRectangle(cornerRadius: 3).fill(bodyC).frame(width: 10, height: 11)
+            }.offset(y: 25)
 
             // Body — smaller than the head (cuter)
             RoundedRectangle(cornerRadius: 8).fill(bodyC)

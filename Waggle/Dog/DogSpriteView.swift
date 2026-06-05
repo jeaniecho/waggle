@@ -145,10 +145,10 @@ private struct PlaceholderDog: View {
 
             // Legs (short paws poking out below the body)
             HStack(spacing: 12) {
-                RoundedRectangle(cornerRadius: 4).fill(coat.body).frame(width: 12, height: 16)
-                RoundedRectangle(cornerRadius: 4).fill(coat.body).frame(width: 12, height: 16)
+                RoundedRectangle(cornerRadius: 3).fill(coat.body).frame(width: 10, height: 11)
+                RoundedRectangle(cornerRadius: 3).fill(coat.body).frame(width: 10, height: 11)
             }
-            .offset(y: 29)
+            .offset(y: 25)
 
             // Body — smaller than the head (cuter)
             RoundedRectangle(cornerRadius: 8)
