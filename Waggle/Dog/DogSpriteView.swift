@@ -291,9 +291,9 @@ private struct PlaceholderDog: View {
     }
 
     private func tailShape(angle: Double) -> some View {
-        RoundedRectangle(cornerRadius: 5)
+        TaperedTail()
             .fill(coat.tail)
-            .frame(width: 9, height: 15)
+            .frame(width: 11, height: 15)
             .rotationEffect(.degrees(angle), anchor: .bottom)
             .offset(x: 11, y: 6)
     }
@@ -373,6 +373,26 @@ private struct PlaceholderDog: View {
             .frame(width: size, height: size)
             .blur(radius: 1.5)
             .offset(x: x + wiggle, y: y)
+    }
+}
+
+/// Tail shape: wide rounded base (attachment), curves in to narrow rounded tip.
+private struct TaperedTail: Shape {
+    func path(in r: CGRect) -> Path {
+        let w = r.width, h = r.height
+        let cr: CGFloat = w * 0.35
+        var p = Path()
+        p.move(to: CGPoint(x: cr, y: h))
+        p.addQuadCurve(to: CGPoint(x: 0, y: h - cr), control: CGPoint(x: 0, y: h))
+        p.addQuadCurve(to: CGPoint(x: w * 0.30, y: 0),
+                       control: CGPoint(x: -w * 0.05, y: h * 0.35))
+        p.addQuadCurve(to: CGPoint(x: w * 0.70, y: 0),
+                       control: CGPoint(x: w * 0.5, y: -h * 0.06))
+        p.addQuadCurve(to: CGPoint(x: w, y: h - cr),
+                       control: CGPoint(x: w * 1.05, y: h * 0.35))
+        p.addQuadCurve(to: CGPoint(x: w - cr, y: h), control: CGPoint(x: w, y: h))
+        p.closeSubpath()
+        return p
     }
 }
 

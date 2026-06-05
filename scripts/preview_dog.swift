@@ -16,11 +16,11 @@ struct DopeyDog: View {
     var tailAngle: Double = 70
     var body: some View {
         ZStack {
-            // Tail — rounded rectangle, thinner
-            RoundedRectangle(cornerRadius: 5).fill(tailC)
-                .frame(width: 11, height: 18)
+            // Tail — tapered: wide base, narrow tip
+            TaperedTail().fill(tailC)
+                .frame(width: 11, height: 15)
                 .rotationEffect(.degrees(tailAngle), anchor: .bottom)
-                .offset(x: 15, y: 6)
+                .offset(x: 11, y: 6)
 
             // Legs — rounded rectangles
             HStack(spacing: 12) {
@@ -73,6 +73,25 @@ struct TaperedEar: Shape {
         // Left side back to top
         p.addQuadCurve(to: CGPoint(x: w * 0.22, y: 0),
                        control: CGPoint(x: -w * 0.08, y: h * 0.3))
+        p.closeSubpath()
+        return p
+    }
+}
+
+struct TaperedTail: Shape {
+    func path(in r: CGRect) -> Path {
+        let w = r.width, h = r.height
+        let cr: CGFloat = w * 0.35
+        var p = Path()
+        p.move(to: CGPoint(x: cr, y: h))
+        p.addQuadCurve(to: CGPoint(x: 0, y: h - cr), control: CGPoint(x: 0, y: h))
+        p.addQuadCurve(to: CGPoint(x: w * 0.30, y: 0),
+                       control: CGPoint(x: -w * 0.05, y: h * 0.35))
+        p.addQuadCurve(to: CGPoint(x: w * 0.70, y: 0),
+                       control: CGPoint(x: w * 0.5, y: -h * 0.06))
+        p.addQuadCurve(to: CGPoint(x: w, y: h - cr),
+                       control: CGPoint(x: w * 1.05, y: h * 0.35))
+        p.addQuadCurve(to: CGPoint(x: w - cr, y: h), control: CGPoint(x: w, y: h))
         p.closeSubpath()
         return p
     }
