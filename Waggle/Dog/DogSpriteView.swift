@@ -116,7 +116,7 @@ private struct PlaceholderDog: View {
     /// Peak ear flap swing, in degrees.
     private let earSwing: Double = 45
     /// Default ear angle: the ears rest flopped at the flap-max position.
-    private let earRest: Double = 45
+    private let earRest: Double = 35
 
     @State private var leftAngle: Double = 0
     @State private var rightAngle: Double = 0
