@@ -14,15 +14,17 @@ final class DogOverlayWindowController: NSWindowController {
     /// Called when the dog is right-clicked.
     var onDogRightClicked: (() -> Void)?
 
-    // Fetch: the dog runs off one edge and returns from the other (with a bone).
-    private enum FetchPhase { case idle, leaving, away, returning }
+    // Fetch: wander to a random spot, run off one edge, return from the other (with a bone).
+    private enum FetchPhase { case idle, wandering, leaving, away, returning }
     private var fetchPhase: FetchPhase = .idle
     private var fetchTimer: Timer?
     private var fetchHome: CGPoint = .zero
     private var fetchVisible: NSRect = .zero // home screen frame, fixed for the trip
     private var fetchAwayUntil: Date?
     private var fetchOnReturn: (() -> Void)?
-    private let fetchSpeed: CGFloat = 12
+    private var fetchWanderTarget: CGPoint = .zero
+    private let fetchSpeed: CGFloat = 5        // slower run off/on screen
+    private let fetchWanderSpeed: CGFloat = 2.5 // leisurely stroll speed
 
     var isFetching: Bool { fetchPhase != .idle }
 
@@ -191,7 +193,14 @@ final class DogOverlayWindowController: NSWindowController {
         fetchHome = window.frame.origin
         fetchVisible = (window.screen ?? NSScreen.main)?.visibleFrame ?? .zero
         fetchOnReturn = onReturn
-        fetchPhase = .leaving
+
+        // Pick a random spot on the visible screen to stroll to first.
+        let padding: CGFloat = 80
+        let tx = CGFloat.random(in: fetchVisible.minX + padding ... fetchVisible.maxX - padding - window.frame.width)
+        let ty = CGFloat.random(in: fetchVisible.minY + padding ... fetchVisible.maxY - padding - window.frame.height)
+        fetchWanderTarget = CGPoint(x: tx, y: ty)
+        fetchPhase = .wandering
+
         let timer = Timer(timeInterval: 1.0 / 60.0, repeats: true) { [weak self] _ in
             Task { @MainActor in self?.fetchStep() }
         }
@@ -205,19 +214,31 @@ final class DogOverlayWindowController: NSWindowController {
         var origin = window.frame.origin
 
         switch fetchPhase {
+        case .wandering:
+            // Stroll toward the random target, then leave once arrived.
+            let dx = fetchWanderTarget.x - origin.x
+            let dy = fetchWanderTarget.y - origin.y
+            let dist = (dx * dx + dy * dy).squareRoot()
+            if dist < fetchWanderSpeed * 2 {
+                fetchPhase = .leaving
+            } else {
+                origin.x += (dx / dist) * fetchWanderSpeed
+                origin.y += (dy / dist) * fetchWanderSpeed
+                window.setFrameOrigin(origin)
+            }
         case .leaving:
             origin.x += fetchSpeed
             window.setFrameOrigin(origin)
-            if origin.x > fetchVisible.maxX { // off the home screen's right edge
+            if origin.x > fetchVisible.maxX { // off the right edge
                 fetchPhase = .away
-                fetchAwayUntil = Date().addingTimeInterval(2.5)
+                fetchAwayUntil = Date().addingTimeInterval(2.0)
             }
         case .away:
             if let until = fetchAwayUntil, Date() >= until {
-                // Reappear just off the left edge and start running back in.
+                // Reappear just off the left edge and run back in.
                 window.setFrameOrigin(CGPoint(x: fetchVisible.minX - width, y: fetchHome.y))
                 fetchPhase = .returning
-                fetchOnReturn?() // bone appears as it returns
+                fetchOnReturn?() // bone appears as dog comes back
                 fetchOnReturn = nil
             }
         case .returning:
@@ -239,6 +260,7 @@ final class DogOverlayWindowController: NSWindowController {
         fetchPhase = .idle
         fetchAwayUntil = nil
         fetchOnReturn = nil
+        fetchWanderTarget = .zero
     }
 
     // MARK: - Dragging
