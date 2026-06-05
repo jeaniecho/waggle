@@ -11,7 +11,6 @@ enum DogState: Equatable {
     case sleeping
     case watchingCursor(direction: DogDirection)
     case excited
-    case petting
     case typing
     case dragging
     case stretching

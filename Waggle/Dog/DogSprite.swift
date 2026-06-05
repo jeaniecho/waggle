@@ -18,7 +18,6 @@ enum DogSprite {
         case .idle:      return ["dog_idle_0", "dog_idle_1"]
         case .drowsy:    return []
         case .sleeping:  return []
-        case .petting:   return []
         case .blink:     return ["dog_idle_0", "dog_blink_0"]
         case .tailWag:   return ["dog_tail_wag_0", "dog_tail_wag_1"]
         case .typing:    return ["dog_typing_0", "dog_typing_1"]

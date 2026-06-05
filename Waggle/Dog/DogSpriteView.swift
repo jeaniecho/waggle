@@ -140,10 +140,9 @@ private struct PlaceholderDog: View {
     private var isBreak: Bool     { animationState == .celebrate }
     private var isStretching: Bool { animationState == .stretch }
     private var isDragging: Bool  { isBeingDragged }
-    private var isPetting: Bool   { animationState == .petting }
     private var isDrowsy: Bool    { animationState == .drowsy }
     private var isSleeping: Bool  { animationState == .sleeping }
-    private var isWagging: Bool   { animationState == .tailWag || animationState == .celebrate || animationState == .petting }
+    private var isWagging: Bool   { animationState == .tailWag || animationState == .celebrate }
 
     private let towelColor = Color(white: 0.97)
 
@@ -375,7 +374,7 @@ private struct PlaceholderDog: View {
 
     @ViewBuilder
     private var eye: some View {
-        if isFocusing || blinking || isPetting || isSleeping {
+        if isFocusing || blinking || isSleeping {
             // closed: focus, blink, petting, sleeping
             Capsule().fill(Color.black).frame(width: 6, height: 1.5)
         } else if isDrowsy {

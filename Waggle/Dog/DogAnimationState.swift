@@ -6,7 +6,6 @@ enum DogAnimationState: Equatable {
     case idle
     case drowsy
     case sleeping
-    case petting
     case tailWag
     case blink
     case typing

@@ -21,7 +21,6 @@ final class DogViewModel: ObservableObject {
     private var isBreakTime = false
     private var isFocusing = false
     private var isTyping = false
-    private var isPetting = false
     private var isDrowsy = false
     private var isSleeping = false
     private var cursorDirection: DogDirection?
@@ -90,13 +89,6 @@ final class DogViewModel: ObservableObject {
         recompute()
     }
 
-    func setPetting(_ petting: Bool) {
-        if petting { resetIdleTimer() }
-        guard isPetting != petting else { return }
-        isPetting = petting
-        recompute()
-    }
-
     func registerKeystroke() {
         resetIdleTimer()
         keyPressCount &+= 1
@@ -144,7 +136,6 @@ final class DogViewModel: ObservableObject {
         if isStretching { return .stretching }
         if isBreakTime  { return .breakTime }
         if isFocusing   { return .focusing }
-        if isPetting    { return .petting }
         if isTyping     { return .typing }
         if let direction = cursorDirection {
             return cursorIsExcited ? .excited : .watchingCursor(direction: direction)
@@ -161,7 +152,6 @@ final class DogViewModel: ObservableObject {
         case .sleeping:         return .sleeping
         case .watchingCursor:   return .tailWag
         case .excited:          return .tailWag
-        case .petting:          return .petting
         case .typing:           return .typing
         case .dragging:         return .dragged
         case .stretching:       return .stretch
