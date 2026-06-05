@@ -293,7 +293,7 @@ private struct PlaceholderDog: View {
     private func tailShape(angle: Double) -> some View {
         TaperedTail()
             .fill(coat.tail)
-            .frame(width: 11, height: 15)
+            .frame(width: 8, height: 15)
             .rotationEffect(.degrees(angle), anchor: .bottom)
             .offset(x: 11, y: 6)
     }
