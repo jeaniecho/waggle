@@ -33,26 +33,40 @@ struct DopeyDog: View {
                 .frame(width: 36, height: 24).offset(y: 16)
 
             // Head
-            RoundedRectangle(cornerRadius: 12).fill(headC)
-                .frame(width: 42, height: 38).offset(y: -10)
+            RoundedRectangle(cornerRadius: 16).fill(headC)
+                .frame(width: 42, height: 36).offset(y: -9)
 
-            // Ears — slightly thicker (13 wide), flopped ±45, nudged down
-            earV.rotationEffect(.degrees(45), anchor: .top).offset(x: -14, y: -17)
-            earV.rotationEffect(.degrees(-45), anchor: .top).offset(x: 14, y: -17)
+            earV.rotationEffect(.degrees(45), anchor: .top).offset(x: -12, y: -14)
+            earV.rotationEffect(.degrees(-45), anchor: .top).offset(x: 12, y: -14)
 
-            // Eyes — smaller, set a touch farther apart
-            Circle().fill(.black).frame(width: 3, height: 3).offset(x: -12, y: -9)
-            Circle().fill(.black).frame(width: 3, height: 3).offset(x: 12, y: -9)
+            Circle().fill(.black).frame(width: 4, height: 4).offset(x: -12, y: -5)
+            Circle().fill(.black).frame(width: 4, height: 4).offset(x: 12, y: -5)
 
-            // Nose — rounded rectangle, flatter
             RoundedRectangle(cornerRadius: 2.5).fill(.black)
-                .frame(width: 10, height: 5).offset(y: 0)
+                .frame(width: 7, height: 4).offset(y: 0)
         }
         .frame(width: canvasW, height: canvasH)
-        .border(.red.opacity(0.7)) // canvas (window) edge
+        .border(.red.opacity(0.7))
     }
     var earV: some View {
-        RoundedRectangle(cornerRadius: 8).fill(earC).frame(width: 13, height: 22)
+        TaperedEar().fill(earC).frame(width: 13, height: 22)
+    }
+}
+
+struct TaperedEar: Shape {
+    func path(in r: CGRect) -> Path {
+        let w = r.width, h = r.height
+        let topInset: CGFloat = w * 0.25
+        let cr: CGFloat = 5
+        var p = Path()
+        p.move(to: CGPoint(x: topInset, y: 0))
+        p.addLine(to: CGPoint(x: w - topInset, y: 0))
+        p.addLine(to: CGPoint(x: w, y: h - cr))
+        p.addQuadCurve(to: CGPoint(x: w - cr, y: h), control: CGPoint(x: w, y: h))
+        p.addLine(to: CGPoint(x: cr, y: h))
+        p.addQuadCurve(to: CGPoint(x: 0, y: h - cr), control: CGPoint(x: 0, y: h))
+        p.closeSubpath()
+        return p
     }
 }
 

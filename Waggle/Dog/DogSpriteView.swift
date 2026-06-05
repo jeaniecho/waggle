@@ -172,11 +172,11 @@ private struct PlaceholderDog: View {
         ZStack {
             RoundedRectangle(cornerRadius: 16)
                 .fill(coat.head)
-                .frame(width: 42, height: 34)
-                .offset(y: -8)
+                .frame(width: 42, height: 36)
+                .offset(y: -9)
 
-            ear(angle: earRest + leftAngle).offset(x: -12, y: -13)
-            ear(angle: -earRest + rightAngle).offset(x: 12, y: -13)
+            ear(angle: earRest + leftAngle).offset(x: -12, y: -14)
+            ear(angle: -earRest + rightAngle).offset(x: 12, y: -14)
 
             eye.offset(x: -12, y: -5)
             eye.offset(x: 12, y: -5)
@@ -320,7 +320,7 @@ private struct PlaceholderDog: View {
 
     /// One ear, pivoting at its top so it swings like a flap.
     private func ear(angle: Double) -> some View {
-        RoundedRectangle(cornerRadius: 8)
+        TaperedEar()
             .fill(coat.ear)
             .frame(width: 13, height: 22)
             .rotationEffect(.degrees(angle), anchor: .top)
@@ -373,6 +373,24 @@ private struct PlaceholderDog: View {
             .frame(width: size, height: size)
             .blur(radius: 1.5)
             .offset(x: x + wiggle, y: y)
+    }
+}
+
+/// Ear shape: narrow at top (attachment), wider and rounded at bottom (tip).
+private struct TaperedEar: Shape {
+    func path(in r: CGRect) -> Path {
+        let w = r.width, h = r.height
+        let topInset: CGFloat = w * 0.25
+        let cr: CGFloat = 5
+        var p = Path()
+        p.move(to: CGPoint(x: topInset, y: 0))
+        p.addLine(to: CGPoint(x: w - topInset, y: 0))
+        p.addLine(to: CGPoint(x: w, y: h - cr))
+        p.addQuadCurve(to: CGPoint(x: w - cr, y: h), control: CGPoint(x: w, y: h))
+        p.addLine(to: CGPoint(x: cr, y: h))
+        p.addQuadCurve(to: CGPoint(x: 0, y: h - cr), control: CGPoint(x: 0, y: h))
+        p.closeSubpath()
+        return p
     }
 }
 
