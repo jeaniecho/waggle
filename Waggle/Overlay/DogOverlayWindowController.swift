@@ -61,7 +61,7 @@ final class DogOverlayWindowController: NSWindowController {
         let contentSize = DogSpriteView.size
         let window = DogOverlayWindow(contentSize: contentSize)
 
-        let hostingView = NSHostingView(
+        let hostingView = FirstMouseHostingView(
             rootView: DogOverlayView(
                 dogViewModel: dogViewModel,
                 permission: permissionManager,
@@ -327,4 +327,10 @@ final class DogOverlayWindowController: NSWindowController {
         }
         dogViewModel.setDragging(false)
     }
+}
+
+/// NSHostingView that accepts the first mouse click so the dog can be dragged
+/// immediately without needing a prior click to focus the window.
+private final class FirstMouseHostingView<Content: View>: NSHostingView<Content> {
+    override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
 }
