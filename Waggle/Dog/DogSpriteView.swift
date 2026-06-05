@@ -200,8 +200,8 @@ private struct PlaceholderDog: View {
                 .frame(width: 42, height: 38)
                 .offset(y: -5)
 
-            ear(angle: earRest + leftAngle).offset(x: -14, y: -10)
-            ear(angle: -earRest + rightAngle).offset(x: 14, y: -10)
+            ear(angle: earRest + leftAngle).offset(x: -14, y: -7)
+            ear(angle: -earRest + rightAngle).offset(x: 14, y: -7)
 
             // Blush
             Circle()
