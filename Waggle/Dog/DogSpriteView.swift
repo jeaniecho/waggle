@@ -164,18 +164,18 @@ private struct PlaceholderDog: View {
 
             // Ears — default flopped at the flap-max angle (±53°); a keystroke
             // perks the active ear up briefly (see flap()).
-            ear(angle: earRest + leftAngle).offset(x: -14, y: -19)
-            ear(angle: -earRest + rightAngle).offset(x: 14, y: -19)
+            ear(angle: earRest + leftAngle).offset(x: -14, y: -17)
+            ear(angle: -earRest + rightAngle).offset(x: 14, y: -17)
 
             // Eyes — plain dopey dots, set a little wide
-            eye.offset(x: -12, y: -13)
-            eye.offset(x: 12, y: -13)
+            eye.offset(x: -12, y: -9)
+            eye.offset(x: 12, y: -9)
 
             // Nose — flat rounded rectangle
             RoundedRectangle(cornerRadius: 2.5)
                 .fill(Color.black)
                 .frame(width: 10, height: 5)
-                .offset(y: -4)
+                .offset(y: 0)
 
             // Tongue (break: panting happily)
             if isBreak {
@@ -332,7 +332,7 @@ private struct PlaceholderDog: View {
             // relaxed/closed eyes (focus) or a quick blink
             Capsule().fill(Color.black).frame(width: 8, height: 2)
         } else {
-            Circle().fill(Color.black).frame(width: 5, height: 5)
+            Circle().fill(Color.black).frame(width: 3, height: 3)
         }
     }
 

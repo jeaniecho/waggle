@@ -37,16 +37,16 @@ struct DopeyDog: View {
                 .frame(width: 42, height: 38).offset(y: -10)
 
             // Ears — slightly thicker (13 wide), flopped ±45, nudged down
-            earV.rotationEffect(.degrees(45), anchor: .top).offset(x: -14, y: -19)
-            earV.rotationEffect(.degrees(-45), anchor: .top).offset(x: 14, y: -19)
+            earV.rotationEffect(.degrees(45), anchor: .top).offset(x: -14, y: -17)
+            earV.rotationEffect(.degrees(-45), anchor: .top).offset(x: 14, y: -17)
 
             // Eyes — smaller, set a touch farther apart
-            Circle().fill(.black).frame(width: 5, height: 5).offset(x: -12, y: -13)
-            Circle().fill(.black).frame(width: 5, height: 5).offset(x: 12, y: -13)
+            Circle().fill(.black).frame(width: 3, height: 3).offset(x: -12, y: -9)
+            Circle().fill(.black).frame(width: 3, height: 3).offset(x: 12, y: -9)
 
             // Nose — rounded rectangle, flatter
             RoundedRectangle(cornerRadius: 2.5).fill(.black)
-                .frame(width: 10, height: 5).offset(y: -4)
+                .frame(width: 10, height: 5).offset(y: 0)
         }
         .frame(width: canvasW, height: canvasH)
         .border(.red.opacity(0.7)) // canvas (window) edge
