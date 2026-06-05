@@ -160,12 +160,12 @@ private struct PlaceholderDog: View {
             RoundedRectangle(cornerRadius: 16)
                 .fill(coat.head)
                 .frame(width: 42, height: 38)
-                .offset(y: -14)
+                .offset(y: -10)
 
             // Ears — default flopped at the flap-max angle (±53°); a keystroke
             // perks the active ear up briefly (see flap()).
-            ear(angle: earRest + leftAngle).offset(x: -14, y: -23)
-            ear(angle: -earRest + rightAngle).offset(x: 14, y: -23)
+            ear(angle: earRest + leftAngle).offset(x: -14, y: -19)
+            ear(angle: -earRest + rightAngle).offset(x: 14, y: -19)
 
             // Eyes — plain dopey dots, set a little wide
             eye.offset(x: -12, y: -13)
@@ -293,7 +293,7 @@ private struct PlaceholderDog: View {
     private func tailShape(angle: Double) -> some View {
         RoundedRectangle(cornerRadius: 5)
             .fill(coat.tail)
-            .frame(width: 11, height: 26)
+            .frame(width: 11, height: 18)
             .rotationEffect(.degrees(angle), anchor: .bottom)
             .offset(x: 15, y: 6)
     }
@@ -320,7 +320,7 @@ private struct PlaceholderDog: View {
 
     /// One ear, pivoting at its top so it swings like a flap.
     private func ear(angle: Double) -> some View {
-        RoundedRectangle(cornerRadius: 5)
+        RoundedRectangle(cornerRadius: 8)
             .fill(coat.ear)
             .frame(width: 13, height: 22)
             .rotationEffect(.degrees(angle), anchor: .top)

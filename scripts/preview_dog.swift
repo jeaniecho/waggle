@@ -18,7 +18,7 @@ struct DopeyDog: View {
         ZStack {
             // Tail — rounded rectangle, thinner
             RoundedRectangle(cornerRadius: 5).fill(tailC)
-                .frame(width: 11, height: 26)
+                .frame(width: 11, height: 18)
                 .rotationEffect(.degrees(tailAngle), anchor: .bottom)
                 .offset(x: 15, y: 6)
 
@@ -33,12 +33,12 @@ struct DopeyDog: View {
                 .frame(width: 36, height: 24).offset(y: 16)
 
             // Head
-            RoundedRectangle(cornerRadius: 16).fill(headC)
-                .frame(width: 42, height: 38).offset(y: -14)
+            RoundedRectangle(cornerRadius: 12).fill(headC)
+                .frame(width: 42, height: 38).offset(y: -10)
 
             // Ears — slightly thicker (13 wide), flopped ±45, nudged down
-            earV.rotationEffect(.degrees(45), anchor: .top).offset(x: -14, y: -23)
-            earV.rotationEffect(.degrees(-45), anchor: .top).offset(x: 14, y: -23)
+            earV.rotationEffect(.degrees(45), anchor: .top).offset(x: -14, y: -19)
+            earV.rotationEffect(.degrees(-45), anchor: .top).offset(x: 14, y: -19)
 
             // Eyes — smaller, set a touch farther apart
             Circle().fill(.black).frame(width: 5, height: 5).offset(x: -12, y: -13)
@@ -52,7 +52,7 @@ struct DopeyDog: View {
         .border(.red.opacity(0.7)) // canvas (window) edge
     }
     var earV: some View {
-        RoundedRectangle(cornerRadius: 5).fill(earC).frame(width: 13, height: 22)
+        RoundedRectangle(cornerRadius: 8).fill(earC).frame(width: 13, height: 22)
     }
 }
 
