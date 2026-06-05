@@ -144,17 +144,17 @@ private struct PlaceholderDog: View {
             tail
 
             // Legs (short paws poking out below the body)
-            HStack(spacing: 18) {
-                RoundedRectangle(cornerRadius: 4).fill(coat.body).frame(width: 13, height: 16)
-                RoundedRectangle(cornerRadius: 4).fill(coat.body).frame(width: 13, height: 16)
+            HStack(spacing: 12) {
+                RoundedRectangle(cornerRadius: 4).fill(coat.body).frame(width: 12, height: 16)
+                RoundedRectangle(cornerRadius: 4).fill(coat.body).frame(width: 12, height: 16)
             }
             .offset(y: 29)
 
-            // Body
+            // Body — smaller than the head (cuter)
             RoundedRectangle(cornerRadius: 8)
                 .fill(coat.body)
-                .frame(width: 58, height: 32)
-                .offset(y: 14)
+                .frame(width: 38, height: 30)
+                .offset(y: 16)
 
             // Head
             RoundedRectangle(cornerRadius: 8)
@@ -295,7 +295,7 @@ private struct PlaceholderDog: View {
             .fill(coat.tail)
             .frame(width: 11, height: 26)
             .rotationEffect(.degrees(angle), anchor: .bottom)
-            .offset(x: 25, y: 3)
+            .offset(x: 19, y: 6)
     }
 
     // MARK: - Ear flap (typing)
