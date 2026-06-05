@@ -193,7 +193,7 @@ private struct PlaceholderDog: View {
             eye.offset(x: -12, y: 1)
             eye.offset(x: 12, y: 1)
 
-            RoundedRectangle(cornerRadius: 2.5)
+            Capsule()
                 .fill(Color.black)
                 .frame(width: 7, height: 4)
                 .offset(y: 6)
