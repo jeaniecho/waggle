@@ -309,7 +309,7 @@ private struct PlaceholderDog: View {
             Circle().fill(c).frame(width: 7, height: 7).offset(x: 8.5, y: -3)
             Circle().fill(c).frame(width: 7, height: 7).offset(x: 8.5, y: 3)
         }
-        .offset(y: 4)
+        .offset(y: 14)
     }
 
     private func tailShape(angle: Double) -> some View {
