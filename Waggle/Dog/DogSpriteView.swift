@@ -416,7 +416,7 @@ private struct PlaceholderDog: View {
         RoundedRectangle(cornerRadius: 4)
             .fill(towelColor)
             .frame(width: 31, height: 14)
-            .offset(y: -30)
+            .offset(y: -26)
     }
 
     // MARK: - Steam (focus)
