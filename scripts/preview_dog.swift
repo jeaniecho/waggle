@@ -20,7 +20,7 @@ struct DopeyDog: View {
             RoundedRectangle(cornerRadius: 5).fill(tailC)
                 .frame(width: 11, height: 26)
                 .rotationEffect(.degrees(tailAngle), anchor: .bottom)
-                .offset(x: 19, y: 6)
+                .offset(x: 15, y: 6)
 
             // Legs — rounded rectangles
             HStack(spacing: 12) {
@@ -30,7 +30,7 @@ struct DopeyDog: View {
 
             // Body — smaller than the head (cuter)
             RoundedRectangle(cornerRadius: 8).fill(bodyC)
-                .frame(width: 38, height: 30).offset(y: 16)
+                .frame(width: 36, height: 24).offset(y: 16)
 
             // Head
             RoundedRectangle(cornerRadius: 8).fill(headC)
