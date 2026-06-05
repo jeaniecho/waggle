@@ -46,7 +46,7 @@ struct DopeyDog: View {
 
             // Nose — rounded rectangle, flatter
             RoundedRectangle(cornerRadius: 2.5).fill(.black)
-                .frame(width: 12, height: 5).offset(y: -4)
+                .frame(width: 10, height: 5).offset(y: -4)
         }
         .frame(width: canvasW, height: canvasH)
         .border(.red.opacity(0.7)) // canvas (window) edge

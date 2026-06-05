@@ -174,7 +174,7 @@ private struct PlaceholderDog: View {
             // Nose — flat rounded rectangle
             RoundedRectangle(cornerRadius: 2.5)
                 .fill(Color.black)
-                .frame(width: 12, height: 5)
+                .frame(width: 10, height: 5)
                 .offset(y: -4)
 
             // Tongue (break: panting happily)
