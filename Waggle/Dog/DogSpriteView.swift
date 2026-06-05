@@ -293,9 +293,9 @@ private struct PlaceholderDog: View {
     private func tailShape(angle: Double) -> some View {
         RoundedRectangle(cornerRadius: 5)
             .fill(coat.tail)
-            .frame(width: 11, height: 18)
+            .frame(width: 9, height: 15)
             .rotationEffect(.degrees(angle), anchor: .bottom)
-            .offset(x: 15, y: 6)
+            .offset(x: 11, y: 6)
     }
 
     // MARK: - Ear flap (typing)
