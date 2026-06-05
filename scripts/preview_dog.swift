@@ -34,10 +34,10 @@ struct DopeyDog: View {
 
             // Head
             RoundedRectangle(cornerRadius: 16).fill(headC)
-                .frame(width: 42, height: 36).offset(y: -9)
+                .frame(width: 42, height: 38).offset(y: -5)
 
-            earV.rotationEffect(.degrees(45), anchor: .top).offset(x: -12, y: -14)
-            earV.rotationEffect(.degrees(-45), anchor: .top).offset(x: 12, y: -14)
+            earV.rotationEffect(.degrees(45), anchor: .top).offset(x: -12, y: -10)
+            earV.rotationEffect(.degrees(-45), anchor: .top).offset(x: 12, y: -10)
 
             Circle().fill(.black).frame(width: 4, height: 4).offset(x: -12, y: -5)
             Circle().fill(.black).frame(width: 4, height: 4).offset(x: 12, y: -5)
