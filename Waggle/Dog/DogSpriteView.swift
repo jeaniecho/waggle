@@ -216,9 +216,9 @@ private struct PlaceholderDog: View {
             eye.offset(x: -12, y: 1)
             eye.offset(x: 12, y: 1)
 
-            Circle()
+            Capsule()
                 .fill(Color.black)
-                .frame(width: 6, height: 6)
+                .frame(width: 7, height: 4)
                 .offset(y: 6)
 
             if isBreak {
