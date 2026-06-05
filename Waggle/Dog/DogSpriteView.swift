@@ -134,6 +134,7 @@ private struct PlaceholderDog: View {
     private var isFocusing: Bool { animationState == .sleep }
     private var isBreak: Bool { animationState == .celebrate }
     private var isStretching: Bool { animationState == .stretch }
+    private var isDragging: Bool { animationState == .dragged }
     /// Tail wags happily when watching the cursor or on break.
     private var isWagging: Bool { animationState == .tailWag || animationState == .celebrate }
 
@@ -268,7 +269,12 @@ private struct PlaceholderDog: View {
 
     @ViewBuilder
     private var tail: some View {
-        if cursorAngle == nil, isWagging {
+        if isDragging {
+            // Spin 360° continuously while being dragged.
+            TimelineView(.animation) { context in
+                tailShape(angle: context.date.timeIntervalSinceReferenceDate * 360 * 1.5)
+            }
+        } else if cursorAngle == nil, isWagging {
             // Break: happy wag.
             TimelineView(.animation) { context in
                 tailShape(angle: sin(context.date.timeIntervalSinceReferenceDate * 7) * 30)
