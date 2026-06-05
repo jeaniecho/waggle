@@ -178,13 +178,13 @@ private struct PlaceholderDog: View {
             ear(angle: earRest + leftAngle).offset(x: -12, y: -10)
             ear(angle: -earRest + rightAngle).offset(x: 12, y: -10)
 
-            eye.offset(x: -12, y: -5)
-            eye.offset(x: 12, y: -5)
+            eye.offset(x: -12, y: 1)
+            eye.offset(x: 12, y: 1)
 
             RoundedRectangle(cornerRadius: 2.5)
                 .fill(Color.black)
                 .frame(width: 7, height: 4)
-                .offset(y: 0)
+                .offset(y: 6)
 
             if isBreak {
                 RoundedRectangle(cornerRadius: 3)
