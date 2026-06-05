@@ -156,28 +156,36 @@ private struct PlaceholderDog: View {
                 .frame(width: 36, height: 24)
                 .offset(y: 16)
 
-            // Head
+            // Head group — only this part tilts on "?"
+            headGroup
+        }
+        .offset(y: jumpOffset)
+        .onChange(of: keyPulse) { _ in flap() }
+        .onChange(of: tiltPulse) { _ in headTilt() }
+        .onChange(of: jumpPulse) { _ in jump() }
+        .onChange(of: cursorAngle) { updateTailFollow($0) }
+        .onAppear { scheduleBlink() }
+    }
+
+    /// Head, ears, eyes, nose and accessories — isolated so only these tilt on "?".
+    private var headGroup: some View {
+        ZStack {
             RoundedRectangle(cornerRadius: 16)
                 .fill(coat.head)
                 .frame(width: 42, height: 38)
                 .offset(y: -10)
 
-            // Ears — default flopped at the flap-max angle (±53°); a keystroke
-            // perks the active ear up briefly (see flap()).
             ear(angle: earRest + leftAngle).offset(x: -14, y: -17)
             ear(angle: -earRest + rightAngle).offset(x: 14, y: -17)
 
-            // Eyes — plain dopey dots, set a little wide
             eye.offset(x: -12, y: -9)
             eye.offset(x: 12, y: -9)
 
-            // Nose — flat rounded rectangle
             RoundedRectangle(cornerRadius: 2.5)
                 .fill(Color.black)
-                .frame(width: 10, height: 5)
+                .frame(width: 9, height: 4)
                 .offset(y: 0)
 
-            // Tongue (break: panting happily)
             if isBreak {
                 RoundedRectangle(cornerRadius: 3)
                     .fill(Color(red: 0.93, green: 0.36, blue: 0.45))
@@ -185,24 +193,16 @@ private struct PlaceholderDog: View {
                     .offset(y: 3)
             }
 
-            // Fetched bone, carried at the mouth
-            if hasBone {
-                bone
-            }
+            if hasBone { bone }
 
-            // Sauna towel + steam (focus)
             if isFocusing {
                 saunaTowel
                 steam
             }
         }
-        .rotationEffect(.degrees(tilt), anchor: UnitPoint(x: 0.5, y: 0.72))
-        .offset(y: jumpOffset)
-        .onChange(of: keyPulse) { _ in flap() }
-        .onChange(of: tiltPulse) { _ in headTilt() }
-        .onChange(of: jumpPulse) { _ in jump() }
-        .onChange(of: cursorAngle) { updateTailFollow($0) }
-        .onAppear { scheduleBlink() }
+        // Pivot at the neck (bottom of head), canvas is 120pt tall, neck ≈ 69pt from top.
+        .frame(width: 128, height: 120)
+        .rotationEffect(.degrees(tilt), anchor: UnitPoint(x: 0.5, y: 0.575))
     }
 
     /// Blink occasionally so the resting dog feels alive. Reschedules itself —
@@ -332,7 +332,7 @@ private struct PlaceholderDog: View {
             // relaxed/closed eyes (focus) or a quick blink
             Capsule().fill(Color.black).frame(width: 8, height: 2)
         } else {
-            Circle().fill(Color.black).frame(width: 3, height: 3)
+            Circle().fill(Color.black).frame(width: 4, height: 4)
         }
     }
 
