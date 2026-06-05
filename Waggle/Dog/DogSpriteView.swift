@@ -172,11 +172,11 @@ private struct PlaceholderDog: View {
         ZStack {
             RoundedRectangle(cornerRadius: 16)
                 .fill(coat.head)
-                .frame(width: 42, height: 38)
-                .offset(y: -10)
+                .frame(width: 42, height: 34)
+                .offset(y: -8)
 
-            ear(angle: earRest + leftAngle).offset(x: -14, y: -17)
-            ear(angle: -earRest + rightAngle).offset(x: 14, y: -17)
+            ear(angle: earRest + leftAngle).offset(x: -12, y: -13)
+            ear(angle: -earRest + rightAngle).offset(x: 12, y: -13)
 
             eye.offset(x: -12, y: -5)
             eye.offset(x: 12, y: -5)
