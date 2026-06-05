@@ -192,13 +192,13 @@ private struct PlaceholderDog: View {
 
             // Blush
             Ellipse()
-                .fill(Color(red: 1.0, green: 0.55, blue: 0.60).opacity(0.38))
+                .fill(Color(red: 1.0, green: 0.55, blue: 0.60).opacity(0.20))
                 .frame(width: 10, height: 6)
-                .offset(x: -14, y: 4)
+                .offset(x: -14, y: 10)
             Ellipse()
-                .fill(Color(red: 1.0, green: 0.55, blue: 0.60).opacity(0.38))
+                .fill(Color(red: 1.0, green: 0.55, blue: 0.60).opacity(0.20))
                 .frame(width: 10, height: 6)
-                .offset(x: 14, y: 4)
+                .offset(x: 14, y: 10)
 
             eye.offset(x: -12, y: 1)
             eye.offset(x: 12, y: 1)
