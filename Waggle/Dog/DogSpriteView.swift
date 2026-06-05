@@ -30,6 +30,8 @@ struct DogSpriteView: View {
     var leftEarPulse: Int = 0
     /// Increments on right-click; flaps the right ear.
     var rightEarPulse: Int = 0
+    /// True while the user is dragging the dog.
+    var isBeingDragged: Bool = false
 
     var body: some View {
         content
@@ -49,7 +51,8 @@ struct DogSpriteView: View {
                 hasBone: hasBone,
                 coat: coat,
                 leftEarPulse: leftEarPulse,
-                rightEarPulse: rightEarPulse
+                rightEarPulse: rightEarPulse,
+                isBeingDragged: isBeingDragged
             )
         } else if frames.count == 1 {
             sprite(frames[0])
@@ -107,6 +110,8 @@ private struct PlaceholderDog: View {
     let leftEarPulse: Int
     /// Increments on right-click; forces right ear to flap.
     let rightEarPulse: Int
+    /// True while the user is actively dragging the dog.
+    let isBeingDragged: Bool
 
     /// Peak ear flap swing, in degrees.
     private let earSwing: Double = 45
@@ -134,7 +139,8 @@ private struct PlaceholderDog: View {
     private var isFocusing: Bool { animationState == .sleep }
     private var isBreak: Bool { animationState == .celebrate }
     private var isStretching: Bool { animationState == .stretch }
-    private var isDragging: Bool { animationState == .dragged }
+    // Use the directly-passed flag so the spin works even if animationState lags.
+    private var isDragging: Bool { isBeingDragged }
     /// Tail wags happily when watching the cursor or on break.
     private var isWagging: Bool { animationState == .tailWag || animationState == .celebrate }
 
@@ -288,6 +294,7 @@ private struct PlaceholderDog: View {
     /// Point the tail toward the cursor (any direction, taking the short way), or
     /// ease back to rest when far.
     private func updateTailFollow(_ angle: Double?) {
+        guard !isDragging else { return } // spinning during drag; ignore cursor
         if let angle {
             let target = 90 - angle // clockwise rotation from "up" toward the cursor
             withAnimation(.easeOut(duration: 0.18)) { tailBase = unwrapped(target) }

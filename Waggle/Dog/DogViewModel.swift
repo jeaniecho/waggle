@@ -35,6 +35,8 @@ final class DogViewModel: ObservableObject {
 
     // MARK: - Input signals
 
+    /// Published so views can directly suppress cursor-follow during drag.
+    @Published private(set) var isDraggingPublished: Bool = false
     private var isDragging = false
     private var isStretching = false
     private var isBreakTime = false
@@ -51,6 +53,7 @@ final class DogViewModel: ObservableObject {
     func setDragging(_ dragging: Bool) {
         guard isDragging != dragging else { return }
         isDragging = dragging
+        isDraggingPublished = dragging
         recompute()
     }
 
