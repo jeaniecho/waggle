@@ -23,8 +23,11 @@ final class DogOverlayWindowController: NSWindowController {
     private var fetchAwayUntil: Date?
     private var fetchOnReturn: (() -> Void)?
     private var fetchWanderTarget: CGPoint = .zero
-    private let fetchSpeed: CGFloat = 5        // slower run off/on screen
-    private let fetchWanderSpeed: CGFloat = 2.5 // leisurely stroll speed
+    private var fetchWanderPos: CGPoint = .zero  // base position (without hop)
+    private var fetchWanderPhase: CGFloat = 0
+    private let fetchSpeed: CGFloat = 5          // slower run off/on screen
+    private let fetchWanderSpeed: CGFloat = 2.5  // leisurely stroll speed
+    private let fetchWanderHop: CGFloat = 10     // same gentle bob as roaming
 
     var isFetching: Bool { fetchPhase != .idle }
 
@@ -199,6 +202,8 @@ final class DogOverlayWindowController: NSWindowController {
         let tx = CGFloat.random(in: fetchVisible.minX + padding ... fetchVisible.maxX - padding - window.frame.width)
         let ty = CGFloat.random(in: fetchVisible.minY + padding ... fetchVisible.maxY - padding - window.frame.height)
         fetchWanderTarget = CGPoint(x: tx, y: ty)
+        fetchWanderPos = window.frame.origin
+        fetchWanderPhase = 0
         fetchPhase = .wandering
 
         let timer = Timer(timeInterval: 1.0 / 60.0, repeats: true) { [weak self] _ in
@@ -215,17 +220,20 @@ final class DogOverlayWindowController: NSWindowController {
 
         switch fetchPhase {
         case .wandering:
-            // Stroll toward the random target, then leave once arrived.
-            let dx = fetchWanderTarget.x - origin.x
-            let dy = fetchWanderTarget.y - origin.y
+            // Stroll toward the random target with a walking hop, then leave once arrived.
+            let dx = fetchWanderTarget.x - fetchWanderPos.x
+            let dy = fetchWanderTarget.y - fetchWanderPos.y
             let dist = (dx * dx + dy * dy).squareRoot()
             if dist < fetchWanderSpeed * 2 {
+                fetchWanderPos = fetchWanderTarget
                 fetchPhase = .leaving
             } else {
-                origin.x += (dx / dist) * fetchWanderSpeed
-                origin.y += (dy / dist) * fetchWanderSpeed
-                window.setFrameOrigin(origin)
+                fetchWanderPos.x += (dx / dist) * fetchWanderSpeed
+                fetchWanderPos.y += (dy / dist) * fetchWanderSpeed
             }
+            fetchWanderPhase += roamHopRate
+            let hop = abs(sin(fetchWanderPhase)) * fetchWanderHop
+            window.setFrameOrigin(CGPoint(x: fetchWanderPos.x, y: fetchWanderPos.y + hop))
         case .leaving:
             origin.x += fetchSpeed
             window.setFrameOrigin(origin)
@@ -261,6 +269,8 @@ final class DogOverlayWindowController: NSWindowController {
         fetchAwayUntil = nil
         fetchOnReturn = nil
         fetchWanderTarget = .zero
+        fetchWanderPos = .zero
+        fetchWanderPhase = 0
     }
 
     // MARK: - Dragging
