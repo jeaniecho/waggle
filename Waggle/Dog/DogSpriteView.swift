@@ -193,11 +193,11 @@ private struct PlaceholderDog: View {
             // Blush
             Circle()
                 .fill(Color(red: 1.0, green: 0.55, blue: 0.60).opacity(0.20))
-                .frame(width: 8, height: 8)
+                .frame(width: 6, height: 6)
                 .offset(x: -14, y: 6)
             Circle()
                 .fill(Color(red: 1.0, green: 0.55, blue: 0.60).opacity(0.20))
-                .frame(width: 8, height: 8)
+                .frame(width: 6, height: 6)
                 .offset(x: 14, y: 6)
 
             eye.offset(x: -12, y: 1)
