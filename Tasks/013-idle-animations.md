@@ -1,5 +1,8 @@
 # Task 013 — Idle Animations
 
+**Status: Partial** — blink, drowsy, and sleep are implemented; subtle idle
+breathing remains.
+
 ## Goal
 Make the resting dog feel alive (keeps the current placeholder design — no real
 sprite art).

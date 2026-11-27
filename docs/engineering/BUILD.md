@@ -3,53 +3,56 @@
 ## Requirements
 
 - macOS 12+
-- Xcode (project generated/verified with Xcode 26)
-- Swift
-- [XcodeGen](https://github.com/yonatan/XcodeGen) — `brew install xcodegen` (only needed to regenerate the project)
+- A recent Xcode release with the macOS SDK
+- [XcodeGen](https://github.com/yonaskolb/XcodeGen) when changing `project.yml`
 
-## Project Generation
+Waggle has no third-party runtime dependencies.
 
-The Xcode project is generated from `project.yml` (the source of truth) using
-XcodeGen. `Waggle.xcodeproj` is committed for convenience, but if it is missing
-or `project.yml` changes, regenerate it:
+## Generate, test, and build
 
-```bash
-xcodegen generate
-```
-
-## Local Development
-
-Open the Xcode project:
+`project.yml` is the source of truth. The generated project is committed so a
+contributor can build without installing XcodeGen.
 
 ```bash
+xcodegen generate       # when project.yml changes
+./scripts/verify.sh      # unit tests + Debug build
 open Waggle.xcodeproj
 ```
 
-Select the `Waggle` scheme and run the macOS target from Xcode.
-
-## Command-Line Build
+Equivalent direct commands:
 
 ```bash
-xcodebuild -project Waggle.xcodeproj -scheme Waggle -destination 'platform=macOS' -configuration Debug build
+xcodebuild -project Waggle.xcodeproj -scheme Waggle \
+  -destination 'platform=macOS' -configuration Debug test
+
+xcodebuild -project Waggle.xcodeproj -scheme Waggle \
+  -destination 'platform=macOS' -configuration Debug build
 ```
 
-## Run from Command Line
+Run the `Waggle` scheme from Xcode, or open the built application from Xcode's
+Products group. Quit with Cmd-Q.
+
+## Signing
+
+`Config/Signing.xcconfig` contains public ad-hoc defaults and intentionally has
+no developer team or certificate identity. For a stable local signature:
 
 ```bash
-open ~/Library/Developer/Xcode/DerivedData/Waggle-*/Build/Products/Debug/Waggle.app
+cp Config/LocalSigning.xcconfig.example Config/LocalSigning.xcconfig
 ```
 
-(Or just Run from Xcode.) Quit with Cmd-Q.
+Fill the ignored copy with your own Apple Development team and identity. A
+stable signature is useful because macOS associates Accessibility grants with
+the signed application. Release packaging is separate: `scripts/package.sh`
+accepts a Developer ID identity from the local keychain or `DEVID` environment
+variable and never requires committing it.
 
-## Manual Verification
+## Manual verification
 
-After each milestone, verify:
-
-1. App launches.
-2. No unexpected standard window appears.
-3. Dog overlay appears (placeholder pixel dog, bottom-right by default).
-4. Overlay is transparent and floats above other windows.
-5. Dog can be dragged (click-and-drag the dog to move it).
-6. Dog position persists: drag the dog, quit (Cmd-Q), relaunch — it reappears
-   where it was left.
-7. Quit works from the app menu (Cmd-Q).
+1. Launch the app; the dog and menu-bar item appear without a standard document window.
+2. Drag the dog, relaunch, and confirm its position is restored.
+3. Move the cursor near/far and confirm the dog reacts and settles.
+4. Enable Accessibility, type, and confirm generic ear/typing reactions.
+5. Disable typing reactions and confirm typing no longer changes the dog.
+6. Trigger a short Pomodoro configuration and confirm focus/break visuals.
+7. Confirm stretch, pause-all-reactions, notification, and show/hide controls.

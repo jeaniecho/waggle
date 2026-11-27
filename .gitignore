@@ -8,5 +8,9 @@ dist/
 *.xcuserstate
 xcuserdata/
 
+# Optional developer-specific signing override. Copy the example and keep the
+# real team/certificate values local.
+Config/LocalSigning.xcconfig
+
 # Xcode project is generated from project.yml via XcodeGen, but is committed
 # for convenience. Per-user state inside it is ignored above.

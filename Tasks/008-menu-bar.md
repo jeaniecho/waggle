@@ -1,5 +1,7 @@
 # Task 008 — Menu Bar Controls
 
+**Status: Complete**
+
 ## Goal
 
 Add menu bar controls for Waggle.

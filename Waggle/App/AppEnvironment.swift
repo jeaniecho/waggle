@@ -2,10 +2,8 @@ import AppKit
 import Combine
 import SwiftUI
 
-/// Composition root: constructs and retains the shared objects the app needs
-/// and wires them to the overlay window. Later tasks add input and
-/// productivity managers here; for the MVP scaffold it owns the dog view model,
-/// settings store, and overlay controller.
+/// Composition root: constructs and retains the shared objects the app needs,
+/// wires them to the overlay, and routes menu/settings actions to their owners.
 @MainActor
 final class AppEnvironment: ObservableObject {
     let settingsStore: SettingsStore
@@ -70,8 +68,8 @@ final class AppEnvironment: ObservableObject {
             self.stretchManager.reset()
         }
         overlayController.showOverlay()
-        inputMonitor.start()
         applyInputReactions()
+        inputMonitor.start()
         if settingsStore.reactionsPaused {
             stretchManager.suspend()
         } else {
@@ -173,8 +171,9 @@ final class AppEnvironment: ObservableObject {
     private func applyInputReactions() {
         let paused = settingsStore.reactionsPaused
         inputMonitor.setReactions(
-            cursor: settingsStore.reactCursor && !paused,
-            typing: settingsStore.reactTyping && !paused
+            cursor: settingsStore.reactCursor,
+            typing: settingsStore.reactTyping,
+            paused: paused
         )
     }
 

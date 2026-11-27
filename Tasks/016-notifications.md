@@ -1,5 +1,7 @@
 # Task 016 — System Notifications
 
+**Status: Complete**
+
 ## Goal
 Notify on stretch + Pomodoro transitions so the user notices off-screen.
 

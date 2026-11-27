@@ -20,21 +20,14 @@ settings:
     MARKETING_VERSION: "0.1.0"
     CURRENT_PROJECT_VERSION: "1"
     ENABLE_HARDENED_RUNTIME: YES
-    # Pin a specific Apple Development identity (manual signing) so the code
-    # signature — and therefore the Accessibility grant — is identical on every
-    # build, from Xcode and the command line alike. Ad-hoc signing changed the
-    # signature each build, and automatic signing non-deterministically picked
-    # different certs/teams; both silently revoked the permission. macOS apps run
-    # locally with a development cert and need no provisioning profile.
-    CODE_SIGN_STYLE: Manual
-    DEVELOPMENT_TEAM: V2PH44NVAY
-    CODE_SIGN_IDENTITY: "Apple Development: Yeajean Cho (Z3BFP9266U)"
-    PROVISIONING_PROFILE_SPECIFIER: ""
 
 targets:
   Waggle:
     type: application
     platform: macOS
+    configFiles:
+      Debug: Config/Signing.xcconfig
+      Release: Config/Signing.xcconfig
     sources:
       - path: Waggle
     settings:
@@ -43,9 +36,19 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: dev.jeanie.waggle
         GENERATE_INFOPLIST_FILE: YES
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-        # Overlay app: keep a standard app menu (so Cmd-Q quits cleanly) but
-        # do not open a document window at launch. A future menu-bar task may
-        # switch this to an accessory (LSUIElement) app.
+        # Keep a standard app menu (so Cmd-Q quits cleanly) while the menu-bar
+        # controller provides the primary controls.
         INFOPLIST_KEY_LSUIElement: NO
         INFOPLIST_KEY_NSHumanReadableCopyright: ""
         INFOPLIST_KEY_NSPrincipalClass: NSApplication
+
+  WaggleTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: WaggleTests
+    dependencies:
+      - target: Waggle
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES

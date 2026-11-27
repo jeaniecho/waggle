@@ -166,7 +166,8 @@ When multiple states compete:
 4. Pomodoro focus
 5. Typing
 6. Cursor nearby
-7. Idle
+7. Sleeping / drowsy
+8. Idle
 
 ## Window Design
 
@@ -187,10 +188,10 @@ Use UserDefaults for MVP.
 
 Persist:
 - Dog x/y position
-- Stretch reminder enabled
-- Stretch interval minutes
-- Pomodoro focus minutes
-- Pomodoro break minutes
+- Appearance and reaction preferences
+- Stretch reminder settings
+- Pomodoro focus, short-break, long-break, and session-count settings
+- Onboarding completion
 
 Do not persist:
 - Keystrokes
@@ -199,13 +200,10 @@ Do not persist:
 - App/window names
 - Behavior history
 
-## Future Architecture Extensions
+## Possible Extensions
 
 Possible later additions:
-- Sprite asset pipeline
-- Launch at login
 - Auto-update
-- Notarization
 - Multiple pets
 - Sound effects
 - Local-only customization

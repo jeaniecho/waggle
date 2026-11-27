@@ -7,7 +7,8 @@ Support focus and break cycles with dog state changes.
 ## Defaults
 
 - Focus: 25 minutes
-- Break: 5 minutes
+- Short break: 5 minutes
+- Long break: 15 minutes after 4 completed focus sessions
 
 ## States
 
@@ -31,7 +32,8 @@ Focus complete:
 - Dog celebrates/wags.
 
 Break complete:
-- Return to idle or offer next focus cycle.
+- Start the next focus cycle after a short break.
+- Return to idle after the long break completes the set.
 
 Stop:
 - Return Pomodoro to idle.
@@ -42,6 +44,9 @@ Stop:
 - Start Pomodoro
 - Stop Pomodoro
 - Reset Pomodoro
+
+The right-click overlay menu also supports pause/resume. Durations and the
+long-break session count are configurable in Settings.
 
 ## Acceptance Criteria
 

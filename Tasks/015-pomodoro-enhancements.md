@@ -1,5 +1,8 @@
 # Task 015 — Pomodoro Enhancements
 
+**Status: Partial** — long-break cycles and in-set counting work; a persisted
+"today" count is not yet displayed.
+
 ## Goal
 Make Pomodoro feel complete.
 

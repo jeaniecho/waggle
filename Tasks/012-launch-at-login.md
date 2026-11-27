@@ -1,5 +1,7 @@
 # Task 012 — Launch at Login
 
+**Status: Complete**
+
 ## Goal
 Option to start Waggle automatically at login.
 

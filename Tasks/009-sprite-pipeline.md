@@ -1,5 +1,7 @@
 # Task 009 — Sprite Pipeline
 
+**Status: Complete**
+
 ## Goal
 
 Prepare the app to use pixel-art dog sprites.

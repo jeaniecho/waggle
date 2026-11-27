@@ -5,6 +5,8 @@
 ```swift
 enum DogState: Equatable {
     case idle
+    case drowsy
+    case sleeping
     case watchingCursor(direction: DogDirection)
     case excited
     case typing
@@ -20,6 +22,8 @@ enum DogState: Equatable {
 ```swift
 enum DogAnimationState: Equatable {
     case idle
+    case drowsy
+    case sleeping
     case tailWag
     case blink
     case typing
@@ -54,13 +58,17 @@ enum DogDirection: Equatable {
 4. Focusing
 5. Typing
 6. Watching cursor
-7. Idle
+7. Sleeping
+8. Drowsy
+9. Idle
 
 ## Mapping
 
 | Dog State | Animation |
 |---|---|
 | idle | idle/blink |
+| drowsy | drowsy |
+| sleeping | sleeping |
 | watchingCursor | tailWag |
 | excited | tailWag |
 | typing | typing |

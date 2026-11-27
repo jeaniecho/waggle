@@ -1,5 +1,7 @@
 # Task 002 — Draggable Dog
 
+**Status: Complete**
+
 ## Goal
 
 Allow the user to drag the dog around the screen.

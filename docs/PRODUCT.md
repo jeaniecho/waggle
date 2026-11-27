@@ -55,8 +55,9 @@ Preferred:
 - Limited animation frames
 - Small scale, like a desktop companion
 
-Temporary MVP:
-- SwiftUI placeholder shapes are acceptable.
+Current implementation:
+- A SwiftUI-drawn dog is the production fallback.
+- Optional PNG sprite frames can replace individual animation states.
 
 ## Core Features
 
@@ -87,7 +88,7 @@ The dog behaves differently during focus and break sessions.
 - Marketplace
 - App Store distribution
 - Cross-platform support
-- Final polished art
+- Final sprite art
 - Monetization
 
 ## Success Criteria

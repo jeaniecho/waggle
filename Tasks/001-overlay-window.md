@@ -1,5 +1,7 @@
 # Task 001 — Transparent Overlay Window
 
+**Status: Complete**
+
 ## Goal
 
 Create a transparent always-on-top window that hosts SwiftUI content.

@@ -2,7 +2,7 @@ import Foundation
 
 /// Centralized UserDefaults key strings so they are defined exactly once.
 /// Only keys needed by the current milestone are populated; the rest are
-/// declared so later tasks reference a single source of truth.
+/// declared so every settings owner references a single source of truth.
 enum UserDefaultsKeys {
     static let dogPositionX = "dog.position.x"
     static let dogPositionY = "dog.position.y"

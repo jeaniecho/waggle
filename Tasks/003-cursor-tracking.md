@@ -1,5 +1,7 @@
 # Task 003 — Cursor Tracking
 
+**Status: Complete**
+
 ## Goal
 
 Make the dog react to cursor movement.

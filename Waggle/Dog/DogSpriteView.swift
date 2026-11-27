@@ -16,10 +16,6 @@ struct DogSpriteView: View {
     var animationState: DogAnimationState = .idle
     /// Increments once per keystroke; the placeholder flaps an ear on each change.
     var keyPulse: Int = 0
-    /// Increments when "?" is typed; the placeholder tilts its head.
-    var tiltPulse: Int = 0
-    /// Increments when "!" is typed; the placeholder jumps.
-    var jumpPulse: Int = 0
     /// Angle to the cursor (degrees) for the tail to follow; nil if far.
     var cursorAngle: Double?
     /// Whether the dog is carrying a fetched bone.
@@ -45,8 +41,6 @@ struct DogSpriteView: View {
             PlaceholderDog(
                 keyPulse: keyPulse,
                 animationState: animationState,
-                tiltPulse: tiltPulse,
-                jumpPulse: jumpPulse,
                 cursorAngle: cursorAngle,
                 hasBone: hasBone,
                 coat: coat,
@@ -96,10 +90,6 @@ private struct PlaceholderDog: View {
     let keyPulse: Int
     /// Current visual state, used for the Pomodoro flavour.
     let animationState: DogAnimationState
-    /// Increments when a "?" is typed; each change makes the dog tilt its head.
-    let tiltPulse: Int
-    /// Increments when a "!" is typed; each change makes the dog jump once.
-    let jumpPulse: Int
     /// Angle to the cursor (degrees) the tail follows; nil if far.
     let cursorAngle: Double?
     /// Whether the dog is carrying a fetched bone (drawn at its mouth).
@@ -123,12 +113,6 @@ private struct PlaceholderDog: View {
     /// Which ear flaps on the next keystroke (ears alternate).
     @State private var flapLeftNext = true
 
-    /// Head-tilt angle (degrees) for the "?" reaction.
-    @State private var tilt: Double = 0
-    @State private var tiltLeftNext = true
-
-    /// Vertical offset for the "!" jump reaction.
-    @State private var jumpOffset: Double = 0
     /// Brief eye-close for the occasional blink.
     @State private var blinking = false
     /// Animated tail base angle (follows the cursor in full 360°, eases to rest).
@@ -173,15 +157,12 @@ private struct PlaceholderDog: View {
                 .frame(width: 36, height: 24)
                 .offset(y: 16)
 
-            // Head group — only this part tilts on "?"
+            // Head group
             headGroup
         }
-        .offset(y: jumpOffset)
         .onChange(of: keyPulse)      { _ in flapAlternating() }
         .onChange(of: leftEarPulse)  { _ in flapEar(isLeft: true) }
         .onChange(of: rightEarPulse) { _ in flapEar(isLeft: false) }
-        .onChange(of: tiltPulse) { _ in headTilt() }
-        .onChange(of: jumpPulse) { _ in jump() }
         .onChange(of: cursorAngle) { updateTailFollow($0) }
         .onChange(of: isBeingDragged) { dragging in
             if !dragging {
@@ -239,9 +220,7 @@ private struct PlaceholderDog: View {
         }
         // Drowsy: head droops slightly; sleeping: more.
         .offset(y: isSleeping ? 4 : (isDrowsy ? 2 : 0))
-        // Pivot at the neck (bottom of head), canvas is 120pt tall, neck ≈ 69pt from top.
         .frame(width: 128, height: 120)
-        .rotationEffect(.degrees(tilt), anchor: UnitPoint(x: 0.5, y: 0.575))
     }
 
     /// Blink occasionally so the resting dog feels alive. Reschedules itself —
@@ -261,24 +240,6 @@ private struct PlaceholderDog: View {
         guard isStretching else { return CGSize(width: 1, height: 1) }
         let s = 0.5 - 0.5 * cos(date.timeIntervalSinceReferenceDate * 2.6) // 0…1
         return CGSize(width: 1 - 0.18 * s, height: 1 + 0.42 * s)
-    }
-
-    /// A "!" was typed: hop up and land with a little bounce.
-    private func jump() {
-        withAnimation(.easeOut(duration: 0.15)) { jumpOffset = -22 }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) { jumpOffset = 0 }
-        }
-    }
-
-    /// A "?" was typed: quickly cock the head to one side, hold briefly, snap back.
-    private func headTilt() {
-        let dir = tiltLeftNext ? 1.0 : -1.0
-        tiltLeftNext.toggle()
-        withAnimation(.easeOut(duration: 0.08)) { tilt = 10 * dir }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-            withAnimation(.easeInOut(duration: 0.28)) { tilt = 0 }
-        }
     }
 
     // MARK: - Tail

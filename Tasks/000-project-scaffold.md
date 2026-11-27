@@ -1,5 +1,7 @@
 # Task 000 — Create Project Scaffold
 
+**Status: Complete**
+
 ## Goal
 
 Create the initial macOS SwiftUI + AppKit project structure for Waggle.
@@ -19,6 +21,7 @@ Create the initial macOS SwiftUI + AppKit project structure for Waggle.
 - Folder structure exists.
 - No feature implementation beyond what is needed to compile.
 
-## Claude Instruction
+## Historical implementation constraint
 
-Do not implement all MVP features yet. Create a clean scaffold that supports later tasks.
+This task originally created only the scaffold; subsequent completed tasks now
+provide the full native MVP.

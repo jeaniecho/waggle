@@ -6,6 +6,14 @@ Waggle is a local-first macOS desktop pet app built with SwiftUI + AppKit.
 
 The MVP is a tiny pixel-art dog that appears in a transparent always-on-top desktop overlay. It can be dragged, reacts to cursor movement and typing, reminds the user to stretch, and supports Pomodoro focus/break sessions.
 
+## Current Status
+
+The native MVP is implemented. The checked-in SwiftUI dog is the production
+fallback, and the optional PNG sprite pipeline can replace individual states.
+Tasks 000–017 are implementation records/specifications rather than an unstarted
+backlog; Tasks 018–019 remain deferred. Preserve existing behavior and add tests
+when changing state resolution or timers.
+
 ## Product Direction
 
 ### MVP Platform
@@ -28,9 +36,8 @@ The MVP is a tiny pixel-art dog that appears in a transparent always-on-top desk
 ### Visual Direction
 Use pixel-art dog visuals.
 
-Implementation should start with placeholder SwiftUI shapes or a simple placeholder sprite view. Do not block architecture or behavior implementation on final art assets.
-
-Pixel-art assets can be added later as transparent PNG sprite frames.
+The current SwiftUI-drawn dog must remain functional when sprite frames are
+missing. Pixel-art assets may be added as transparent PNG sprite frames.
 
 ## Development Philosophy
 
@@ -78,20 +85,11 @@ For every non-trivial task, follow:
    - Update task status or docs when behavior changes.
    - Add concise comments only where they clarify non-obvious AppKit behavior.
 
-## Architecture First Requirement
+## Architecture Baseline
 
-Before implementing full features, create the architecture scaffold.
-
-The first runnable milestone must:
-- Build in Xcode.
-- Launch as a macOS app.
-- Create a transparent always-on-top AppKit overlay window.
-- Host a SwiftUI dog view.
-- Show a placeholder dog.
-- Allow dragging the dog.
-- Persist the dog position locally.
-
-Do not implement all features in one large pass.
+The app already builds around an AppKit overlay, SwiftUI rendering, explicit dog
+state resolution, input managers, productivity managers, and UserDefaults
+persistence. Keep those ownership boundaries intact and make incremental changes.
 
 ## Recommended Source Structure
 
@@ -206,6 +204,8 @@ Use explicit dog states:
 ```swift
 enum DogState: Equatable {
     case idle
+    case drowsy
+    case sleeping
     case watchingCursor(direction: DogDirection)
     case excited
     case typing
@@ -221,6 +221,8 @@ Use separate animation states:
 ```swift
 enum DogAnimationState: Equatable {
     case idle
+    case drowsy
+    case sleeping
     case tailWag
     case blink
     case typing
@@ -243,7 +245,8 @@ When multiple events happen, use this priority:
 4. Pomodoro focus
 5. Typing
 6. Cursor nearby
-7. Idle
+7. Sleeping / drowsy
+8. Idle
 
 This prevents flickering and makes behavior predictable.
 

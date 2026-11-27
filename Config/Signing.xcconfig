@@ -1,0 +1,11 @@
+// Public, machine-independent signing defaults. Ad-hoc signing is enough to
+// build and run locally without publishing a developer identity in the repo.
+CODE_SIGN_STYLE = Manual
+CODE_SIGN_IDENTITY = -
+DEVELOPMENT_TEAM =
+PROVISIONING_PROFILE_SPECIFIER =
+
+// Developers who need a stable Apple Development signature (for example, to
+// preserve an Accessibility grant across rebuilds) may create this ignored
+// file from LocalSigning.xcconfig.example.
+#include? "LocalSigning.xcconfig"

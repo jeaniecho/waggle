@@ -1,5 +1,7 @@
 # Task 004 — Accessibility Permission Flow
 
+**Status: Complete**
+
 ## Goal
 
 Add a clear Accessibility permission manager.

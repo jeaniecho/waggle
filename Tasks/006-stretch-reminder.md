@@ -1,5 +1,7 @@
 # Task 006 — Stretch Reminder
 
+**Status: Complete**
+
 ## Goal
 
 Add stretch reminder timer.

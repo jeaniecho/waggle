@@ -2,9 +2,15 @@
 set -euo pipefail
 
 echo "Waggle bootstrap"
-echo "1. Open the project in Xcode once it exists:"
-echo "   open Waggle.xcodeproj"
+if command -v xcodegen >/dev/null 2>&1; then
+  echo "Regenerating Waggle.xcodeproj from project.yml..."
+  xcodegen generate
+else
+  echo "xcodegen not found; using the committed Waggle.xcodeproj."
+fi
 echo ""
-echo "2. Build the macOS target from Xcode."
+echo "Next:"
+echo "  ./scripts/verify.sh"
+echo "  open Waggle.xcodeproj"
 echo ""
-echo "No external dependencies are required for the MVP."
+echo "No runtime dependencies are required."

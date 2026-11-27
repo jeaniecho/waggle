@@ -7,8 +7,8 @@ Developer ID Application certificate and notarized** by Apple.
 ## One-time setup
 
 ### 1. Create a "Developer ID Application" certificate
-You currently only have *Apple Development* certificates (fine for local dev,
-not for distribution). Create the Developer ID one:
+Create a Developer ID certificate if the release account does not already have
+one:
 
 - Xcode ▸ **Settings ▸ Accounts** ▸ select your team ▸ **Manage Certificates…**
   ▸ **＋** ▸ **Developer ID Application**.
@@ -60,6 +60,7 @@ stapled notarization and opens it normally.
 - **No entitlements file needed:** Waggle isn't sandboxed and uses no
   capabilities that require entitlements; global event monitoring is gated by
   the user's Accessibility grant at runtime.
-- **Local dev signing is unchanged:** `project.yml` keeps the Apple Development
-  identity so the Accessibility grant persists across local rebuilds. The
-  packaging script overrides signing to Developer ID only for distribution.
+- **Local dev signing is separate:** the repository uses ad-hoc defaults.
+  Developers may put an Apple Development identity in the ignored
+  `Config/LocalSigning.xcconfig`; the packaging script uses Developer ID only
+  for distribution.

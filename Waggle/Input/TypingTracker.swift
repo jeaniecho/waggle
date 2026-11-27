@@ -15,10 +15,6 @@ final class TypingTracker {
     var onTypingChanged: ((Bool) -> Void)?
     /// Called once per keystroke (no key content) to drive per-key reactions.
     var onKeyDown: (() -> Void)?
-    /// Called when a "?" is pressed, for the head-tilt reaction.
-    var onQuestionMark: (() -> Void)?
-    /// Called when a "!" is pressed, for the jump reaction.
-    var onExclamation: (() -> Void)?
 
     private var monitor: Any?
     private var isTyping = false
@@ -42,15 +38,9 @@ final class TypingTracker {
         setTyping(false)
     }
 
-    private func handleKeyDown(_ event: NSEvent) {
-        // Privacy: the character is inspected only transiently to detect "?"/"!"
-        // for the head-tilt / jump reactions. It is never stored, logged, or
-        // forwarded.
-        switch event.characters {
-        case "?": onQuestionMark?()
-        case "!": onExclamation?()
-        default: break
-        }
+    private func handleKeyDown(_: NSEvent) {
+        // Privacy: intentionally do not inspect the event. The only signal that
+        // leaves this type is that an unspecified key-down happened.
         onKeyDown?()
         setTyping(true)
         // Each keystroke pushes the "stopped typing" moment further out, so

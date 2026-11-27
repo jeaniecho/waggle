@@ -21,6 +21,8 @@ Typing tracker should:
 - Publish generic "typing activity" event.
 - Never store key value, character, modifier combination, app name, or text content.
 - Debounce typing state.
+- Install the global monitor only while typing reactions are enabled and
+  Accessibility permission is present.
 
 Suggested debounce:
 - Keypress triggers typing state.
@@ -42,3 +44,4 @@ Permission manager should:
 - Typing triggers generic dog reaction.
 - Missing permission is handled gracefully.
 - No sensitive input data is persisted.
+- Disabling typing reactions removes the global keyboard monitor immediately.

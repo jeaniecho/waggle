@@ -1,5 +1,7 @@
 # Task 007 — Pomodoro Mode
 
+**Status: Complete**
+
 ## Goal
 
 Add Pomodoro focus/break mode.

@@ -7,8 +7,6 @@ final class DogViewModel: ObservableObject {
     @Published private(set) var keyPressCount: Int = 0
     @Published private(set) var leftEarPulse: Int = 0
     @Published private(set) var rightEarPulse: Int = 0
-    @Published private(set) var headTiltCount: Int = 0
-    @Published private(set) var jumpCount: Int = 0
     @Published var coat: DogCoat = .default
     @Published private(set) var cursorAngle: Double?
     @Published var hasBone: Bool = false
@@ -96,16 +94,6 @@ final class DogViewModel: ObservableObject {
 
     func flapLeftEar()  { leftEarPulse  &+= 1 }
     func flapRightEar() { rightEarPulse &+= 1 }
-
-    func registerQuestionMark() {
-        resetIdleTimer()
-        headTiltCount &+= 1
-    }
-
-    func registerExclamation() {
-        resetIdleTimer()
-        jumpCount &+= 1
-    }
 
     func setTyping(_ typing: Bool) {
         if typing { resetIdleTimer() }

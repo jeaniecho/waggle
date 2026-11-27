@@ -1,5 +1,7 @@
 # Task 010 — Settings Window
 
+**Status: Complete**
+
 ## Goal
 A proper SwiftUI Settings window (Cmd-,) so config isn't only in the menu bar.
 

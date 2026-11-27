@@ -1,15 +1,17 @@
 # Task 011 — Per-Reaction Toggles
 
+**Status: Complete**
+
 ## Goal
 Let the user enable/disable individual reactions.
 
 ## Toggles
 - Cursor reaction (watch/excited)
-- Typing reaction (ear flaps, "?" tilt, "!" jump)
+- Generic typing reaction (alternating ear flaps and typing state)
 
 ## Requirements
 - Persisted settings (default on).
-- When off, the relevant tracker stops feeding the dog (and the dog rests).
+- When off, the relevant tracker stops; the global typing monitor is removed.
 - Typing toggle independent of the Accessibility permission gate.
 
 ## Acceptance Criteria

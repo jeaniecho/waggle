@@ -5,7 +5,7 @@ import ApplicationServices
 /// ways to request it / open the relevant System Settings pane.
 ///
 /// Accessibility permission is only needed for global keyboard monitoring
-/// (Task 005); the app stays fully usable without it (dragging and cursor
+/// for typing reactions; the app stays usable without it (dragging and cursor
 /// reactions work regardless). macOS does not notify us when the grant changes,
 /// so we poll while untrusted and stop once granted.
 @MainActor

@@ -16,6 +16,7 @@
 		2A346880F19D8E12424211F7 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9057DC0DDA539C621CE2CCBF /* Logger.swift */; };
 		5070B264DDAB83A5471ACC0C /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309B7E330CF7F83EB728FE8C /* AppEnvironment.swift */; };
 		6524967C25D84935A7113341 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F3E973553C984AD503D31E /* OnboardingView.swift */; };
+		7183CE70206AC361929767E4 /* PomodoroManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1CEED690D3C3C9CDDBB3C0 /* PomodoroManagerTests.swift */; };
 		71C63C5CC2B723E52193C55A /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E121029A55867416BE5A8682 /* SettingsStore.swift */; };
 		75371F0987435F975694AB63 /* GlobalInputMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6920D1BB340C3F12D9C53E1F /* GlobalInputMonitor.swift */; };
 		77DC89753FF6F5992F300338 /* MenuBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7E9B66831090F7C5DED04C1 /* MenuBarController.swift */; };
@@ -32,6 +33,7 @@
 		AB979832BD22BDB58F87D94D /* OverlayPositionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B524278CD8BA04A93FCBD4 /* OverlayPositionStore.swift */; };
 		AF2C50934FB13567566AA0F0 /* DogSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2C22C1184CCE8045E7DAC3 /* DogSprite.swift */; };
 		B2294BADFA518A1BC98496F2 /* InputEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F019903288FB8FAB3385FE /* InputEvent.swift */; };
+		B3653BA991120055E4C11437 /* DogViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA6A9B1A467A6A4F079D8D2 /* DogViewModelTests.swift */; };
 		B78C5376E42B9085D69CAB93 /* StretchReminderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D0FBD74374D5B7018E608E /* StretchReminderManager.swift */; };
 		B949A399A81BBF405187BBB9 /* TimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EB25B7B0F82EACD27474325 /* TimerState.swift */; };
 		CB9B76A3FB8C677A552BF426 /* DogDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1050720011042C60C57FAF19 /* DogDirection.swift */; };
@@ -46,9 +48,20 @@
 		F9C09B46A8397D5F36A00A9A /* TypingTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F512B388760CACB38CFD31F /* TypingTracker.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		5D6576054B766D29E2A31A7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 01A391C017F7808648C002CB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 471C21FA1D3E8F787B09F4DA;
+			remoteInfo = Waggle;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		02F019903288FB8FAB3385FE /* InputEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputEvent.swift; sourceTree = "<group>"; };
 		0791ABB6ABA89D6526A5A656 /* DogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogViewModel.swift; sourceTree = "<group>"; };
+		0953DAE780112CC1817ABFDB /* WaggleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WaggleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		09F3E973553C984AD503D31E /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		1050720011042C60C57FAF19 /* DogDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogDirection.swift; sourceTree = "<group>"; };
 		188E2D0A6DA1EBCC166E9EF4 /* TimeProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeProvider.swift; sourceTree = "<group>"; };
@@ -65,10 +78,12 @@
 		4F512B388760CACB38CFD31F /* TypingTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingTracker.swift; sourceTree = "<group>"; };
 		53454C9AFB2400C1004361A7 /* DogOverlayWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogOverlayWindowController.swift; sourceTree = "<group>"; };
 		5D38D2BF6335CF39EA09F40E /* DogState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogState.swift; sourceTree = "<group>"; };
+		6152CE13A2671CB9F740CE0A /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
 		6920D1BB340C3F12D9C53E1F /* GlobalInputMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalInputMonitor.swift; sourceTree = "<group>"; };
 		6F2C22C1184CCE8045E7DAC3 /* DogSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogSprite.swift; sourceTree = "<group>"; };
 		751346DE08E562EBB3148CC2 /* DogSpriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogSpriteView.swift; sourceTree = "<group>"; };
 		79D0FBD74374D5B7018E608E /* StretchReminderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StretchReminderManager.swift; sourceTree = "<group>"; };
+		7D1CEED690D3C3C9CDDBB3C0 /* PomodoroManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroManagerTests.swift; sourceTree = "<group>"; };
 		8020286ABADA5A6D7D4AFFA3 /* CursorTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CursorTracker.swift; sourceTree = "<group>"; };
 		89D98C25E11767E99118185E /* AccessibilityPermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityPermissionManager.swift; sourceTree = "<group>"; };
 		9057DC0DDA539C621CE2CCBF /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
@@ -85,9 +100,27 @@
 		EB9CEE664521FB8AF7D97896 /* DogCoat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogCoat.swift; sourceTree = "<group>"; };
 		EBE4C321F526EAA2C1D3850C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F85C193ED90D38EF7572738B /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		FBA6A9B1A467A6A4F079D8D2 /* DogViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		05F5A1C6C907A56EBB954C3F /* WaggleTests */ = {
+			isa = PBXGroup;
+			children = (
+				FBA6A9B1A467A6A4F079D8D2 /* DogViewModelTests.swift */,
+				7D1CEED690D3C3C9CDDBB3C0 /* PomodoroManagerTests.swift */,
+			);
+			path = WaggleTests;
+			sourceTree = "<group>";
+		};
+		067911C16C2A06F75AB2B52F /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				6152CE13A2671CB9F740CE0A /* Signing.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 		0A9E8054C0544B1767C0B96F /* Waggle */ = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				C4FE3AFA9AD9D7FBD5911A55 /* Waggle.app */,
+				0953DAE780112CC1817ABFDB /* WaggleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -201,7 +235,9 @@
 		96E1934883BF46B5A8F16911 = {
 			isa = PBXGroup;
 			children = (
+				067911C16C2A06F75AB2B52F /* Config */,
 				0A9E8054C0544B1767C0B96F /* Waggle */,
+				05F5A1C6C907A56EBB954C3F /* WaggleTests */,
 				1B9C38B6A98C2EDC60EBCF71 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -249,6 +285,24 @@
 			productReference = C4FE3AFA9AD9D7FBD5911A55 /* Waggle.app */;
 			productType = "com.apple.product-type.application";
 		};
+		B6477B459889B82CA69C5AB5 /* WaggleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 154AF8F7E7AE41372E07F47B /* Build configuration list for PBXNativeTarget "WaggleTests" */;
+			buildPhases = (
+				6D27BE6EEC1BA37D20978D10 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0E6F56FADF9F58FA93936DCC /* PBXTargetDependency */,
+			);
+			name = WaggleTests;
+			packageProductDependencies = (
+			);
+			productName = WaggleTests;
+			productReference = 0953DAE780112CC1817ABFDB /* WaggleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -259,7 +313,7 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					471C21FA1D3E8F787B09F4DA = {
-						DevelopmentTeam = V2PH44NVAY;
+						DevelopmentTeam = "";
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -279,6 +333,7 @@
 			projectRoot = "";
 			targets = (
 				471C21FA1D3E8F787B09F4DA /* Waggle */,
+				B6477B459889B82CA69C5AB5 /* WaggleTests */,
 			);
 		};
 /* End PBXProject section */
@@ -338,11 +393,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6D27BE6EEC1BA37D20978D10 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B3653BA991120055E4C11437 /* DogViewModelTests.swift in Sources */,
+				7183CE70206AC361929767E4 /* PomodoroManagerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0E6F56FADF9F58FA93936DCC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 471C21FA1D3E8F787B09F4DA /* Waggle */;
+			targetProxy = 5D6576054B766D29E2A31A7B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0C80EF4FC952E8327684C231 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6152CE13A2671CB9F740CE0A /* Signing.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -393,12 +466,9 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Apple Development: Yeajean Cho (Z3BFP9266U)";
-				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = V2PH44NVAY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -415,7 +485,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -423,8 +492,43 @@
 			};
 			name = Release;
 		};
+		63206166E63527D31BE6879E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.jeanie.WaggleTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Waggle.app/Contents/MacOS/Waggle";
+			};
+			name = Release;
+		};
+		6865758B7A06F4B89C2FA033 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.jeanie.WaggleTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Waggle.app/Contents/MacOS/Waggle";
+			};
+			name = Debug;
+		};
 		BAA3BA1E22EAF6B8267A3053 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6152CE13A2671CB9F740CE0A /* Signing.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -475,12 +579,9 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Apple Development: Yeajean Cho (Z3BFP9266U)";
-				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = V2PH44NVAY;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -504,7 +605,6 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -515,6 +615,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		154AF8F7E7AE41372E07F47B /* Build configuration list for PBXNativeTarget "WaggleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6865758B7A06F4B89C2FA033 /* Debug */,
+				63206166E63527D31BE6879E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		599D4C87839DEAD73D7B565E /* Build configuration list for PBXProject "Waggle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

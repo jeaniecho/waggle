@@ -1,5 +1,7 @@
 # Task 017 — First-Run Onboarding
 
+**Status: Complete**
+
 ## Goal
 A short welcome on first launch.
 

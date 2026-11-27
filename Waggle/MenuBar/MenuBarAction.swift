@@ -1,6 +1,6 @@
 import Foundation
 
-/// Actions the menu bar will expose (Task 008). Declared now so the menu-bar
+/// Actions exposed by the menu bar. Kept separate so the menu-bar
 /// task only needs to wire them up.
 enum MenuBarAction: Equatable {
     case startPomodoro

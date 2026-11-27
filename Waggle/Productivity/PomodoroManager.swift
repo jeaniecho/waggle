@@ -1,7 +1,7 @@
 import Foundation
 
 /// A notable Pomodoro transition, for notifications etc.
-enum PomodoroEvent {
+enum PomodoroEvent: Equatable {
     case breakStarted(isLong: Bool)
     case focusStarted
     case finished // a full set completed (after the long break)
@@ -103,7 +103,9 @@ final class PomodoroManager: ObservableObject {
         startTicker()
     }
 
-    private func tick() {
+    /// Advance the state machine by one second. Kept internal so unit tests can
+    /// verify transitions without waiting for wall-clock minutes.
+    func advanceOneSecond() {
         remaining -= 1
 
         if remaining <= 0 {
@@ -139,7 +141,7 @@ final class PomodoroManager: ObservableObject {
     private func startTicker() {
         stopTicker()
         ticker = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            Task { @MainActor in self?.tick() }
+            Task { @MainActor in self?.advanceOneSecond() }
         }
     }
 
