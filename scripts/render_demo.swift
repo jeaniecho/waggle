@@ -19,7 +19,11 @@ struct RenderReadmeDemo {
         let preview = HStack(spacing: 16) {
             ForEach(Array(states.enumerated()), id: \.offset) { _, item in
                 VStack(spacing: 4) {
-                    DogSpriteView(animationState: item.1, coat: .default)
+                    DogSpriteView(
+                        animationState: item.1,
+                        previewRaisedEar: item.1 == .typing,
+                        coat: .default
+                    )
                     Text(item.0)
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundColor(.white.opacity(0.9))

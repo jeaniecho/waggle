@@ -16,6 +16,8 @@ struct DogSpriteView: View {
     var animationState: DogAnimationState = .idle
     /// Increments once per keystroke; the placeholder flaps an ear on each change.
     var keyPulse: Int = 0
+    /// Holds one ear up for a still image of the typing reaction.
+    var previewRaisedEar: Bool = false
     /// Angle to the cursor (degrees) for the tail to follow; nil if far.
     var cursorAngle: Double?
     /// Whether the dog is carrying a fetched bone.
@@ -40,6 +42,7 @@ struct DogSpriteView: View {
         if frames.isEmpty {
             PlaceholderDog(
                 keyPulse: keyPulse,
+                previewRaisedEar: previewRaisedEar,
                 animationState: animationState,
                 cursorAngle: cursorAngle,
                 hasBone: hasBone,
@@ -88,6 +91,8 @@ struct DogSpriteView: View {
 private struct PlaceholderDog: View {
     /// Increments once per keystroke; each change flaps one ear (alternating).
     let keyPulse: Int
+    /// Static version of the first typing flap for documentation images.
+    let previewRaisedEar: Bool
     /// Current visual state, used for the Pomodoro flavour.
     let animationState: DogAnimationState
     /// Angle to the cursor (degrees) the tail follows; nil if far.
@@ -181,7 +186,8 @@ private struct PlaceholderDog: View {
                 .frame(width: 42, height: 38)
                 .offset(y: -5)
 
-            ear(angle: earRest + leftAngle).offset(x: -14, y: -9)
+            ear(angle: earRest + (previewRaisedEar ? 95 : leftAngle))
+                .offset(x: -14, y: -9)
             ear(angle: -earRest + rightAngle).offset(x: 14, y: -9)
 
             // Blush
