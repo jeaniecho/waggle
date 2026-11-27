@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/waggle-cover.png" alt="Illustration of Waggle, a small tan desktop dog, on a dark background" width="100%" />
+  <img src="Waggle/Resources/Assets.xcassets/AppIcon.appiconset/icon_256.png" alt="Waggle app icon, a brown bone on a white background" width="144" />
 </p>
 
 <h1 align="center">Waggle 🐶</h1>
@@ -32,8 +32,8 @@ without taking over your screen.
 
 ![Four states rendered from the app's SwiftUI dog view: Idle, Typing, Focus, and Break](docs/assets/waggle-states.png)
 
-The four-state image comes from the production `DogSpriteView`. The cover is an
-illustration inspired by that view. For live reactions, run the app and try the
+The four-state image comes from the production `DogSpriteView`. For live
+reactions, run the app and try the
 cursor, typing, and Pomodoro controls.
 
 ## Run it locally
