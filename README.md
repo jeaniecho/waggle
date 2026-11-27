@@ -1,34 +1,45 @@
-# Waggle
+<p align="center">
+  <img src="docs/assets/waggle-cover.png" alt="Illustration of Waggle, a small tan desktop dog, on a dark background" width="100%" />
+</p>
 
-A tiny, local-first macOS desktop dog that reacts while you work and gently
-helps with focus and stretch breaks.
+<h1 align="center">Waggle 🐶</h1>
 
-![Waggle states rendered from the production SwiftUI view](docs/assets/waggle-states.png)
+<p align="center">
+  A tiny desktop companion for focus, breaks, and the moments in between.
+  <br />
+  Native macOS · SwiftUI + AppKit · Local-first
+</p>
 
-## What works
+<p align="center">
+  <a href="#meet-waggle">Meet Waggle</a> ·
+  <a href="#run-it-locally">Run it locally</a> ·
+  <a href="#how-it-works">How it works</a> ·
+  <a href="#privacy">Privacy</a>
+</p>
 
-- Transparent, always-on-top `NSPanel` overlay with drag-and-drop positioning
-- Cursor direction, proximity, and idle/sleep reactions
-- Privacy-preserving typing activity reaction with an 800 ms debounce
-- Stretch reminders, system notifications, and configurable intervals
-- Pomodoro focus, short break, long break, pause/resume, and session counting
-- Menu bar controls, Settings, first-run onboarding, coat colours, and launch at login
-- Local persistence with `UserDefaults`; no account, backend, analytics, or telemetry
+## Meet Waggle
 
-The preview above is generated directly from `DogSpriteView` with
-`scripts/render_demo.swift`. For the live behavior, run the app and move the
-cursor near the dog, type with the optional permission enabled, or start a
-Pomodoro from the menu bar.
+Waggle lives in a small, transparent panel above your desktop. Drag the dog to
+your favorite spot, move the pointer nearby to get its attention, and start a
+focus session when it's time to work. Stretch reminders bring a gentle nudge
+without taking over your screen.
 
-## Requirements
+| Companion | Focus and breaks | Your space |
+|:--|:--|:--|
+| Watches the cursor, perks up when it's close, and flaps an ear while you type. | Runs Pomodoro focus, short and long breaks, plus stretch reminders. | Remembers its position and coat; lives in the menu bar when you need controls. |
 
-- macOS 12 or later
-- A recent Xcode release with the macOS SDK
-- [XcodeGen](https://github.com/yonaskolb/XcodeGen) only when regenerating the project (`brew install xcodegen`)
+### Four little moods
 
-There are no runtime package dependencies.
+![Four states rendered from the app's SwiftUI dog view: Idle, Typing, Focus, and Break](docs/assets/waggle-states.png)
 
-## Build and test
+The four-state image comes from the production `DogSpriteView`. The cover is an
+illustration inspired by that view. For live reactions, run the app and try the
+cursor, typing, and Pomodoro controls.
+
+## Run it locally
+
+You need macOS 12+ and Xcode with a macOS SDK. No third-party runtime packages
+are required.
 
 ```bash
 git clone https://github.com/jeaniecho/waggle.git
@@ -37,62 +48,55 @@ cd waggle
 open Waggle.xcodeproj
 ```
 
-`project.yml` is the source of truth and `Waggle.xcodeproj` is committed for
-convenience. The verification script regenerates it when XcodeGen is available,
-then runs the unit tests and a Debug build.
+Select the `Waggle` scheme and press Run in Xcode. The verification script runs
+unit tests and a Debug build. `project.yml` is the source of truth; the Xcode
+project is committed for convenience. Install
+[XcodeGen](https://github.com/yonaskolb/XcodeGen) only if you need to regenerate
+it after editing `project.yml`.
 
-By default, development builds use repository-safe ad-hoc signing. If you want
-a stable Apple Development signature so macOS keeps the Accessibility grant
-across rebuilds, copy `Config/LocalSigning.xcconfig.example` to
-`Config/LocalSigning.xcconfig` and fill in your own values. That local file is
-ignored by Git.
+Development builds use ad-hoc signing by default. For a stable local Apple
+Development signature, copy `Config/LocalSigning.xcconfig.example` to the
+Git-ignored `Config/LocalSigning.xcconfig` and add your own team and certificate
+details. See the [build guide](docs/engineering/BUILD.md).
 
-## Optional Accessibility permission
+## How it works
 
-Only the global typing reaction needs Accessibility access:
+AppKit owns the floating `NSPanel`, input monitors, and menu bar. SwiftUI draws
+the dog and settings. Input and timer managers feed signals to `DogViewModel`,
+which chooses one behavior at a time:
 
 ```text
-System Settings > Privacy & Security > Accessibility
+dragging → stretching → break → focus → typing → cursor → drowsy/sleep/idle
 ```
 
-Waggle remains usable without it. Disabling a reaction removes its event
-monitor immediately; Pause All Reactions also removes the click monitors.
+That priority keeps reactions predictable when events overlap. The dog is drawn
+with SwiftUI today; the sprite pipeline can replace individual animation states
+with PNG frames. Read the [architecture notes](docs/ARCHITECTURE.md) for the
+component boundaries.
 
 ## Privacy
 
-Typing events are treated as content-free activity signals: Waggle does not
-read `characters`, key codes, modifiers, application names, or window titles.
-It never stores keystrokes, cursor history, documents, screenshots, or behavior
-analytics. Cursor coordinates are used in memory only to face the dog toward
-the current pointer position. All preferences stay in `UserDefaults`, and the
-app makes no network requests.
+Waggle has no account, backend, analytics, or telemetry. Preferences such as dog
+position, coat, and timer settings stay in `UserDefaults`. It does not make
+network requests.
 
-See [the privacy design](docs/engineering/PRIVACY.md) for the exact data boundary.
+Typing reactions are optional and require macOS Accessibility access. The
+global key-down handler ignores the event contents; it does not inspect text,
+key codes, modifiers, app names, or window titles. It only signals that typing
+is active, then settles after 800 ms without a key press. Turning the reaction
+off removes its event monitor immediately. Cursor coordinates are used in
+memory to face the dog and are not stored as history.
 
-## Design
-
-AppKit owns the transparent floating panel and global event monitors. SwiftUI
-renders the dog and settings. `DogViewModel` resolves competing signals in this
-order:
-
-```text
-dragging > stretching > Pomodoro break > Pomodoro focus > typing > cursor > sleep/idle
-```
-
-Timer and input managers publish semantic signals; the view model selects one
-state and maps it to a visual animation. See [the architecture](docs/ARCHITECTURE.md).
+Enable the optional permission at **System Settings → Privacy & Security →
+Accessibility**. Waggle's overlay, timers, and cursor reaction still work
+without it. See the [privacy design](docs/engineering/PRIVACY.md) for details.
 
 ## Project status
 
-The native MVP is implemented and builds locally. Remaining public-release work
-includes a license decision, release signing/notarization, a recorded live demo,
-localization, and final distribution choices. The repository is currently
-private; visibility is intentionally managed outside this codebase.
+The native MVP is implemented. The first public release still needs a license
+decision, a recorded live demo, manual permission and multi-display checks,
+release signing, and notarization. See the
+[public release checklist](docs/PUBLIC_RELEASE_CHECKLIST.md).
 
-See [the public release checklist](docs/PUBLIC_RELEASE_CHECKLIST.md) for the
-history findings and remaining branch transition steps.
-
-## License
-
-No open-source license has been selected yet. Until a license file is added,
+No open-source license has been selected yet. Until a `LICENSE` file is added,
 the source is not granted for reuse, modification, or redistribution.
