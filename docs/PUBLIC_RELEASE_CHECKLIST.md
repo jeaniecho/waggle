@@ -12,13 +12,16 @@ remote default branch, or history without an explicit approval step.
 - The generated Xcode project matches `project.yml`.
 - Tasks, roadmap, privacy, build, release, and development guidance reflect current behavior.
 - A static preview rendered from the production SwiftUI view is included.
+- `main` was created from the reviewed preparation commit and pushed while the
+  repository remained private. The remote default is still `feat/dog-overlay`.
 
 ## History and privacy decision
 
-A value-redacting heuristic scan covered all 112 commits. It found no private
+A value-redacting heuristic scan covered the original 112 commits. It found no private
 key blocks or recognizable AWS, GitHub, OpenAI, Slack, Stripe, Google, or bearer
 tokens. It did find historical personal code-signing identifiers in project
-configuration and one non-noreply author identity in commit metadata.
+configuration and a non-noreply author identity in commit metadata. The new
+preparation commits also use a personal author email.
 
 Removing those historical identifiers would require a history rewrite (or a
 fresh sanitized repository). Neither has been performed. Repeat the scan with a
@@ -29,11 +32,9 @@ guarantee.
 
 ### Preserve history
 
-1. Commit the reviewed changes on `feat/dog-overlay`.
-2. Create `main` at that reviewed commit and push it.
-3. Add CI and branch protection, then verify a clean clone.
-4. With explicit approval, change the remote default branch to `main`.
-5. With separate explicit approval, change repository visibility.
+1. Add CI and branch protection, then verify a clean clone of `main`.
+2. With explicit approval, change the remote default branch to `main`.
+3. With separate explicit approval, change repository visibility.
 
 This is the simplest route, but it publishes the historical signing identifiers
 and author metadata described above.

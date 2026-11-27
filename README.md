@@ -90,7 +90,7 @@ localization, and final distribution choices. The repository is currently
 private; visibility is intentionally managed outside this codebase.
 
 See [the public release checklist](docs/PUBLIC_RELEASE_CHECKLIST.md) for the
-history findings and `main` transition options.
+history findings and remaining branch transition steps.
 
 ## License
 
